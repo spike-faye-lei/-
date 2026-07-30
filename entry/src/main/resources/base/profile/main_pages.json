@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/NutritionPage",
+    "pages/HistoryPage",
+    "pages/RecipesPage",
+    "pages/GuidelinesPage",
+    "pages/MembersPage",
+    "pages/FacePage"
+  ]
+}

@@ -1,0 +1,16 @@
+# HarmonyOS build
+build/
+.cxx/
+.hvigor/
+
+# IDE
+.idea/
+local.properties
+
+# Modules
+oh_modules/
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
