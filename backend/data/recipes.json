@@ -1,0 +1,149 @@
+{
+  "tomato_egg_rice": {
+    "name": "西红柿鸡蛋盖饭",
+    "name_en": "Tomato Egg Rice Bowl",
+    "meal_type": "lunch",
+    "cook_time": 15,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "tomato", "grams": 150},
+      {"food": "egg", "grams": 100},
+      {"food": "rice", "grams": 200}
+    ]
+  },
+  "chicken_broccoli": {
+    "name": "西兰花炒鸡胸肉",
+    "name_en": "Chicken & Broccoli Stir-fry",
+    "meal_type": "lunch",
+    "cook_time": 20,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "chicken_breast", "grams": 150},
+      {"food": "broccoli", "grams": 200},
+      {"food": "rice", "grams": 150}
+    ]
+  },
+  "tofu_veg_rice": {
+    "name": "家常豆腐饭",
+    "name_en": "Home-style Tofu Rice",
+    "meal_type": "lunch",
+    "cook_time": 20,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "tofu", "grams": 200},
+      {"food": "carrot", "grams": 80},
+      {"food": "broccoli", "grams": 100},
+      {"food": "rice", "grams": 150}
+    ]
+  },
+  "egg_noodles": {
+    "name": "鸡蛋面",
+    "name_en": "Egg Noodle Soup",
+    "meal_type": "breakfast",
+    "cook_time": 10,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "noodles", "grams": 150},
+      {"food": "egg", "grams": 50},
+      {"food": "tomato", "grams": 100}
+    ]
+  },
+  "milk_bread_egg": {
+    "name": "牛奶面包鸡蛋早餐",
+    "name_en": "Milk Bread & Egg Breakfast",
+    "meal_type": "breakfast",
+    "cook_time": 5,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "milk", "grams": 250},
+      {"food": "bread", "grams": 80},
+      {"food": "egg", "grams": 50}
+    ]
+  },
+  "fruit_bowl": {
+    "name": "水果拼盘",
+    "name_en": "Fruit Bowl",
+    "meal_type": "breakfast",
+    "cook_time": 5,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "apple", "grams": 150},
+      {"food": "banana", "grams": 100},
+      {"food": "orange", "grams": 150}
+    ]
+  },
+  "cucumber_salad_chicken": {
+    "name": "凉拌黄瓜鸡丝",
+    "name_en": "Cucumber Chicken Salad",
+    "meal_type": "dinner",
+    "cook_time": 15,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "cucumber", "grams": 200},
+      {"food": "chicken_breast", "grams": 100},
+      {"food": "bread", "grams": 60}
+    ]
+  },
+  "tomato_tofu_soup": {
+    "name": "番茄豆腐汤",
+    "name_en": "Tomato Tofu Soup",
+    "meal_type": "dinner",
+    "cook_time": 15,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "tomato", "grams": 200},
+      {"food": "tofu", "grams": 150},
+      {"food": "egg", "grams": 50}
+    ]
+  },
+  "potato_carrot_chicken": {
+    "name": "土豆胡萝卜炖鸡",
+    "name_en": "Potato Carrot Chicken Stew",
+    "meal_type": "lunch",
+    "cook_time": 30,
+    "difficulty": "medium",
+    "ingredients": [
+      {"food": "potato", "grams": 200},
+      {"food": "carrot", "grams": 100},
+      {"food": "chicken_breast", "grams": 150},
+      {"food": "rice", "grams": 150}
+    ]
+  },
+  "veggie_noodles": {
+    "name": "素菜拌面",
+    "name_en": "Vegetable Noodles",
+    "meal_type": "dinner",
+    "cook_time": 15,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "noodles", "grams": 150},
+      {"food": "cucumber", "grams": 100},
+      {"food": "carrot", "grams": 80},
+      {"food": "egg", "grams": 50}
+    ]
+  },
+  "rice_tofu_veg": {
+    "name": "清淡素食餐",
+    "name_en": "Light Vegan Bowl",
+    "meal_type": "dinner",
+    "cook_time": 20,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "rice", "grams": 120},
+      {"food": "tofu", "grams": 150},
+      {"food": "broccoli", "grams": 150}
+    ]
+  },
+  "banana_milk": {
+    "name": "香蕉牛奶",
+    "name_en": "Banana Milk",
+    "meal_type": "breakfast",
+    "cook_time": 3,
+    "difficulty": "easy",
+    "ingredients": [
+      {"food": "milk", "grams": 200},
+      {"food": "banana", "grams": 100},
+      {"food": "bread", "grams": 60}
+    ]
+  }
+}

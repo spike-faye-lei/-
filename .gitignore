@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Model checkpoints (too large for GitHub)
+# Uncomment if you don't want to upload models:
+# backend/models/*.pth
+# backend/models/*.pt
+
+# The CLIP student model is 6MB, OK for GitHub.
+# CLIP ViT-B/32 is 578MB - too big, use Git LFS or external download.
+
+# Training artifacts
+runs/
+lightning_logs/
+*.ckpt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kaggle cache
+.cache/
+
+# Large data archives
+*.zip
+*.tar.gz
+*.archive
+
+# Logs
+*.log
+
+# Temp
+temp/
+tmp/
+*.temp
+
+# HarmonyOS build artifacts
+A11451411/build/
+A11451411/.idea/
+A11451411/local.properties
+A11451411/**/node_modules/
+
+# Large model files (download separately)
+backend/models/clip_vit_b32.pth
+backend/models/clip_finetuned.pth
+backend/models/dinov2_small.pth
+backend/models/vit-base-food101/
+backend/models/food_vit/
+backend/cache/
+
+# 训练数据 (太大，请通过 download 脚本获取)
+data_train_final/
+data_val_final/
+torch_cuda.whl
