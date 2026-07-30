@@ -1,0 +1,129 @@
+/**
+ * iOS Design System — 全局暗黑主题
+ */
+
+/* ── 根变量 ────────────────────────────── */
+:root {
+  --ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  --ios-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+  --ios-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+
+  --ios-radius-sm: 8px;
+  --ios-radius-md: 14px;
+  --ios-radius-lg: 22px;
+  --ios-radius-xl: 28px;
+
+  --ios-blur-bg: rgba(28, 28, 30, 0.72);
+  --ios-blur-sat: saturate(180%);
+}
+
+/* ── 深色主题 ──────────────────────────── */
+[data-theme="dark"] {
+  --ios-bg-primary: #000000;
+  --ios-bg-secondary: #1c1c1e;
+  --ios-bg-tertiary: #2c2c2e;
+  --ios-bg-elevated: #3a3a3c;
+  --ios-fill-primary: rgba(120, 120, 128, 0.20);
+  --ios-fill-secondary: rgba(120, 120, 128, 0.16);
+  --ios-fill-tertiary: rgba(120, 120, 128, 0.12);
+
+  --ios-text-primary: #ffffff;
+  --ios-text-secondary: rgba(255, 255, 255, 0.60);
+  --ios-text-tertiary: rgba(255, 255, 255, 0.30);
+  --ios-text-quaternary: rgba(255, 255, 255, 0.18);
+
+  --ios-separator: rgba(84, 84, 88, 0.65);
+  --ios-separator-opaque: #38383a;
+
+  --ios-blue: #0a84ff;
+  --ios-blue-hover: #409cff;
+  --ios-green: #30d158;
+  --ios-orange: #ff9f0a;
+  --ios-red: #ff453a;
+  --ios-purple: #bf5af2;
+
+  --ios-tabbar-bg: rgba(28, 28, 30, 0.82);
+  --ios-navbar-bg: rgba(28, 28, 30, 0.82);
+}
+
+/* ── 浅色主题 ──────────────────────────── */
+[data-theme="light"] {
+  --ios-bg-primary: #f2f2f7;
+  --ios-bg-secondary: #ffffff;
+  --ios-bg-tertiary: #f2f2f7;
+  --ios-bg-elevated: #ffffff;
+  --ios-fill-primary: rgba(120, 120, 128, 0.12);
+  --ios-fill-secondary: rgba(120, 120, 128, 0.08);
+  --ios-fill-tertiary: rgba(120, 120, 128, 0.04);
+
+  --ios-text-primary: #000000;
+  --ios-text-secondary: rgba(60, 60, 67, 0.60);
+  --ios-text-tertiary: rgba(60, 60, 67, 0.30);
+  --ios-text-quaternary: rgba(60, 60, 67, 0.18);
+
+  --ios-separator: rgba(60, 60, 67, 0.29);
+  --ios-separator-opaque: #c6c6c8;
+
+  --ios-blue: #007aff;
+  --ios-green: #34c759;
+  --ios-orange: #ff9500;
+  --ios-red: #ff3b30;
+  --ios-purple: #af52de;
+
+  --ios-tabbar-bg: rgba(242, 242, 247, 0.82);
+  --ios-navbar-bg: rgba(242, 242, 247, 0.82);
+}
+
+/* ── 全局重置 ──────────────────────────── */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: var(--ios-font);
+  background: var(--ios-bg-primary);
+  color: var(--ios-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ── 毛玻璃效果 ────────────────────────── */
+@supports (backdrop-filter: blur(20px)) {
+  .ios-glass {
+    background: var(--ios-blur-bg);
+    backdrop-filter: var(--ios-blur-sat) blur(20px);
+    -webkit-backdrop-filter: var(--ios-blur-sat) blur(20px);
+  }
+}
+
+@supports not (backdrop-filter: blur(20px)) {
+  .ios-glass {
+    background: var(--ios-bg-secondary);
+  }
+}
+
+/* ── 动画 ──────────────────────────────── */
+@keyframes ios-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ios-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.ios-animate-in {
+  animation: ios-fade-in 0.3s ease-out;
+}
+
+.ios-animate-scale {
+  animation: ios-scale-in 0.25s ease-out;
+}
