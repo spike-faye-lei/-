@@ -1,60 +1,45 @@
-export class ThemeColors {
-  bg: string = '#F5F5F5'
-  card: string = '#FFFFFF'
-  text: string = '#1A1A1A'
-  textSecondary: string = '#5C5C5C'
-  textHint: string = '#999999'
-  accent: string = '#1565C0'
-  accentLight: string = '#E3F2FD'
-  success: string = '#2E7D32'
-  warning: string = '#E65100'
-  danger: string = '#C62828'
-  border: string = '#D5D5D5'
-  tabBar: string = '#FFFFFF'
-  tabBarBg: string = '#FFFFFF'
-  fontSizeXs: number = 10
-  fontSizeSm: number = 12
-  fontSizeMd: number = 14
-  fontSizeLg: number = 16
-  fontSizeXl: number = 18
-  fontSizeXxl: number = 24
-  radiusSm: number = 6
-  radiusMd: number = 10
-  radiusLg: number = 16
-  spacingXs: number = 4
-  spacingSm: number = 8
-  spacingMd: number = 12
-  spacingLg: number = 16
-  spacingXl: number = 20
-  spacingXxl: number = 24
-  shadowSm: string = 'rgba(0,0,0,0.06)'
-  shadowMd: string = 'rgba(0,0,0,0.10)'
-}
+// ============================================
+// SmartKitchen Design System (Material 3 + HarmonyOS)
+// 统一设计变量：颜色 / 圆角 / 间距 / 字体
+// ============================================
 
-export const Light: ThemeColors = {
-  bg: '#F5F5F5', card: '#FFFFFF', text: '#1A1A1A',
-  textSecondary: '#5C5C5C', textHint: '#999999',
-  accent: '#1565C0', accentLight: '#E3F2FD',
-  success: '#2E7D32', warning: '#E65100', danger: '#C62828',
-  border: '#D5D5D5', tabBar: '#FFFFFF', tabBarBg: '#FFFFFF',
-  fontSizeXs: 10, fontSizeSm: 12, fontSizeMd: 14, fontSizeLg: 16,
-  fontSizeXl: 18, fontSizeXxl: 24,
-  radiusSm: 6, radiusMd: 10, radiusLg: 16,
-  spacingXs: 4, spacingSm: 8, spacingMd: 12, spacingLg: 16,
-  spacingXl: 20, spacingXxl: 24,
-  shadowSm: 'rgba(0,0,0,0.06)', shadowMd: 'rgba(0,0,0,0.10)',
-}
+export class Theme {
+  // —— 颜色 ——
+  static readonly BG: string = '#F7F8FA'          // 页面背景（浅灰，纸面感）
+  static readonly SURFACE: string = '#FFFFFF'     // 卡片表面
+  static readonly PRIMARY: string = '#6366F1'     // 强调色 Indigo
+  static readonly PRIMARY_DARK: string = '#4F46E5'
+  static readonly PRIMARY_LIGHT: string = '#EEF2FF' // 强调色浅底
+  static readonly TEXT: string = '#111827'        // 主文字
+  static readonly TEXT_SECONDARY: string = '#6B7280' // 次文字
+  static readonly TEXT_TERTIARY: string = '#9CA3AF' // 弱文字
+  static readonly BORDER: string = '#F0F1F3'      // 极浅描边
+  static readonly SUCCESS: string = '#10B981'
+  static readonly DANGER: string = '#EF4444'
+  static readonly WARNING: string = '#F59E0B'
+  static readonly SHADOW: number = 8              // 卡片阴影模糊半径
 
-export const Dark: ThemeColors = {
-  bg: '#0D0D0D', card: '#1A1A1A', text: '#EDEDED',
-  textSecondary: '#A0A0A0', textHint: '#6A6A6A',
-  accent: '#64B5F6', accentLight: '#1A2D3D',
-  success: '#66BB6A', warning: '#FFA726', danger: '#EF5350',
-  border: '#2A2A2A', tabBar: '#1A1A1A', tabBarBg: '#1A1A1A',
-  fontSizeXs: 10, fontSizeSm: 12, fontSizeMd: 14, fontSizeLg: 16,
-  fontSizeXl: 18, fontSizeXxl: 24,
-  radiusSm: 6, radiusMd: 10, radiusLg: 16,
-  spacingXs: 4, spacingSm: 8, spacingMd: 12, spacingLg: 16,
-  spacingXl: 20, spacingXxl: 24,
-  shadowSm: 'rgba(255,255,255,0.04)', shadowMd: 'rgba(255,255,255,0.06)',
+  // —— 圆角 ——
+  static readonly RADIUS_SM: number = 10
+  static readonly RADIUS_MD: number = 14
+  static readonly RADIUS_LG: number = 18
+  static readonly RADIUS_FULL: number = 999
+
+  // —— 间距（8pt 网格）——
+  static readonly SPACE_XS: number = 4
+  static readonly SPACE_SM: number = 8
+  static readonly SPACE_MD: number = 16
+  static readonly SPACE_LG: number = 24
+  static readonly SPACE_XL: number = 32
+
+  // —— 字号 ——
+  static readonly FONT_TITLE: number = 28          // 大标题
+  static readonly FONT_HEADING: number = 20        // 页面标题
+  static readonly FONT_SUB: number = 16            // 卡片标题
+  static readonly FONT_BODY: number = 14           // 正文
+  static readonly FONT_CAPTION: number = 12        // 辅助文字
+  static readonly FONT_MICRO: number = 10          // 标签
+
+  // —— 卡片样式快捷方法（返回 border 参数）——
+  // 注意：ArkTS 中 border/shadow 需在组件上单独链式调用
 }

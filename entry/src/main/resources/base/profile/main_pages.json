@@ -6,6 +6,7 @@
     "pages/RecipesPage",
     "pages/GuidelinesPage",
     "pages/MembersPage",
-    "pages/FacePage"
+    "pages/FacePage",
+    "pages/ChatPage"
   ]
 }

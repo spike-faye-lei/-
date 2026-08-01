@@ -394,6 +394,108 @@ export class HttpUtil {
       })
     })
   }
+
+  // ====== 整餐分析 ======
+
+  async recognizeMeal(imagePath: string): Promise<MealResponse> {
+    let httpReq = http.createHttp()
+    let file = fs.openSync(imagePath, fs.OpenMode.READ_ONLY)
+    let stat = fs.statSync(file.fd)
+    let buf = new ArrayBuffer(stat.size)
+    file.readSync(buf)
+    fs.closeSync(file)
+
+    let bytes = new Uint8Array(buf)
+    let boundary = '----Meal' + Date.now().toString(36)
+    let header = '--' + boundary + '\r\n' +
+      'Content-Disposition: form-data; name="file"; filename="meal.jpg"\r\n' +
+      'Content-Type: image/jpeg\r\n\r\n'
+    let footer = '\r\n--' + boundary + '--\r\n'
+    let totalLen = header.length + buf.byteLength + footer.length
+    let fullBody = new ArrayBuffer(totalLen)
+    let fullView = new Uint8Array(fullBody)
+    for (let i = 0; i < header.length; i++) fullView[i] = header.charCodeAt(i)
+    fullView.set(bytes, header.length)
+    for (let i = 0; i < footer.length; i++) fullView[header.length + bytes.length + i] = footer.charCodeAt(i)
+
+    return new Promise<MealResponse>((resolve, reject) => {
+      httpReq.request(this.baseUrl + '/api/recognize/meal', {
+        method: http.RequestMethod.POST,
+        header: { 'Content-Type': 'multipart/form-data; boundary=' + boundary },
+        extraData: fullBody,
+        connectTimeout: 10000,
+        readTimeout: 30000,
+      }).then(data => {
+        let resp = JSON.parse(data.result as string) as MealResponse
+        httpReq.destroy()
+        resolve(resp)
+      }).catch((err: Error) => {
+        httpReq.destroy()
+        reject(err)
+      })
+    })
+  }
+
+  // ====== 健康评分 ======
+
+  async getHealthScore(member: string): Promise<HealthScoreResponse> {
+    let httpReq = http.createHttp()
+    return new Promise<HealthScoreResponse>((resolve, reject) => {
+      httpReq.request(this.baseUrl + '/api/health-score?member=' + member, {
+        method: http.RequestMethod.GET,
+        connectTimeout: 10000,
+        readTimeout: 15000,
+      }).then(data => {
+        let resp = JSON.parse(data.result as string) as HealthScoreResponse
+        httpReq.destroy()
+        resolve(resp)
+      }).catch((err: Error) => {
+        httpReq.destroy()
+        reject(err)
+      })
+    })
+  }
+
+  async getLeaderboard(): Promise<LeaderboardResponse> {
+    let httpReq = http.createHttp()
+    return new Promise<LeaderboardResponse>((resolve, reject) => {
+      httpReq.request(this.baseUrl + '/api/leaderboard', {
+        method: http.RequestMethod.GET,
+        connectTimeout: 10000,
+        readTimeout: 15000,
+      }).then(data => {
+        let resp = JSON.parse(data.result as string) as LeaderboardResponse
+        httpReq.destroy()
+        resolve(resp)
+      }).catch((err: Error) => {
+        httpReq.destroy()
+        reject(err)
+      })
+    })
+  }
+
+  // ====== AI 营养师对话 ======
+
+  async chat(message: string, member: string): Promise<ChatResponse> {
+    let httpReq = http.createHttp()
+    let body = JSON.stringify({ message: message, member: member })
+    return new Promise<ChatResponse>((resolve, reject) => {
+      httpReq.request(this.baseUrl + '/api/chat', {
+        method: http.RequestMethod.POST,
+        header: { 'Content-Type': 'application/json' },
+        extraData: body,
+        connectTimeout: 10000,
+        readTimeout: 30000,
+      }).then(data => {
+        let resp = JSON.parse(data.result as string) as ChatResponse
+        httpReq.destroy()
+        resolve(resp)
+      }).catch((err: Error) => {
+        httpReq.destroy()
+        reject(err)
+      })
+    })
+  }
 }
 
 export const httpUtil = new HttpUtil()

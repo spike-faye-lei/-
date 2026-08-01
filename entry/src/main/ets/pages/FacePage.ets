@@ -5,6 +5,7 @@ import fs from '@ohos.file.fs'
 import common from '@ohos.app.ability.common'
 import { httpUtil } from '../utils/HttpUtil'
 import { AppStorage } from '../utils/DataModels'
+import { Theme } from '../utils/Theme'
 
 @Entry
 @Component
@@ -118,101 +119,124 @@ struct FacePage {
 
   build() {
     Column() {
-      // 顶部
+      // 大标题区
       Row() {
-        Button() { Text('← 返回').fontSize(15).fontColor('#2a5f8f') }
-          .type(ButtonType.Capsule).backgroundColor('transparent')
+        Text('← 返回').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY)
           .onClick(() => this.goBack())
-
-        Text('人脸识别').fontSize(20).fontWeight(700).fontColor('#1a1a2e')
-          .layoutWeight(1).textAlign(TextAlign.Center)
+        Blank()
       }
-      .width('100%').padding({ top: 16, bottom: 8, left: 12, right: 12 })
+      .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
+
+      Text('人脸识别').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT)
+        .width('100%').margin({ top: Theme.SPACE_SM })
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 状态
       Text(this.statusText)
-        .fontSize(14).fontColor('#5a6a7e').width('100%').padding({ left: 20, right: 20, bottom: 12 })
+        .fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY)
+        .width('100%').margin({ top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 预览区
       Stack() {
         if (this.photoPixelMap) {
           Image(this.photoPixelMap).width('100%').height(240).objectFit(ImageFit.Contain)
-            .borderRadius(12)
+            .borderRadius(Theme.RADIUS_LG)
         } else {
           Column() {
-            Text('👤').fontSize(48).opacity(0.3)
-            Text('点击拍照进行人脸识别').fontSize(14).fontColor('#b0b8c8').margin({ top: 8 })
+            SymbolGlyph($r('sys.symbol.camera')).fontSize(56).fontColor([Theme.TEXT_TERTIARY])
+            Text('点击拍照进行人脸识别').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+              .margin({ top: Theme.SPACE_SM })
           }
           .justifyContent(FlexAlign.Center).width('100%').height(240)
-          .backgroundColor('#f4f6f9').borderRadius(12)
+          .backgroundColor(Theme.BG).borderRadius(Theme.RADIUS_LG)
         }
       }
-      .width('100%').padding({ left: 20, right: 20 })
+      .width('100%').margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 按钮区
       Row() {
-        Button() { Text('📸 拍照').fontSize(16).fontColor('#fff').fontWeight(600) }
-          .type(ButtonType.Capsule).backgroundColor('#2a5f8f').width(150).height(48)
-          .onClick(() => this.takePhoto())
+        Button() {
+          Row() {
+            SymbolGlyph($r('sys.symbol.camera')).fontSize(20).fontColor([Theme.PRIMARY])
+            Text('拍照').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY).fontWeight(600)
+              .margin({ left: Theme.SPACE_XS })
+          }
+        }
+        .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).width(150).height(48)
+        .onClick(() => this.takePhoto())
 
         Button() {
           if (this.isProcessing) {
-            LoadingProgress().width(20).height(20).color('#fff')
+            LoadingProgress().width(20).height(20).color(Theme.SURFACE)
           } else {
-            Text('🔍 识别').fontSize(16).fontColor('#fff').fontWeight(600)
+            Row() {
+              SymbolGlyph($r('sys.symbol.magnifyingglass')).fontSize(20).fontColor([Theme.SURFACE])
+              Text('识别').fontSize(Theme.FONT_SUB).fontColor(Theme.SURFACE).fontWeight(600)
+                .margin({ left: Theme.SPACE_XS })
+            }
           }
         }
-        .type(ButtonType.Capsule).backgroundColor('#2d8a4e').width(150).height(48)
+        .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).width(150).height(48)
         .enabled(!!this.photoPath && !this.isProcessing)
         .onClick(() => this.verifyFace())
       }
-      .justifyContent(FlexAlign.SpaceEvenly).width('100%').padding({ top: 16, bottom: 12 })
+      .justifyContent(FlexAlign.SpaceEvenly).width('100%').padding({ top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
 
       // 识别结果
       if (this.showResult) {
         Column() {
           Row() {
-            Text('识别结果').fontSize(13).fontColor('#7a8a9e')
+            Text('识别结果').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
           }.width('100%')
 
           Row() {
-            Text(this.identifiedUser).fontSize(24).fontWeight(700).fontColor('#1a1a2e')
+            Text(this.identifiedUser).fontSize(Theme.FONT_HEADING).fontWeight(700).fontColor(Theme.TEXT)
             Text((this.confidence * 100).toFixed(1) + '%')
-              .fontSize(14).fontColor('#2d8a4e').margin({ left: 8 })
-          }.margin({ top: 4 })
+              .fontSize(Theme.FONT_SUB).fontColor(Theme.SUCCESS).margin({ left: Theme.SPACE_SM })
+          }.margin({ top: Theme.SPACE_XS })
 
           Row() {
-            Button() { Text('📝 注册此人').fontSize(14).fontColor('#fff') }
-              .type(ButtonType.Capsule).backgroundColor('#4a7cbf').height(40)
+            Button() { Text('注册此人').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY) }
+              .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).height(40)
               .onClick(() => this.enrollFace(this.identifiedUser))
           }
-          .margin({ top: 12 })
+          .margin({ top: Theme.SPACE_MD })
         }
-        .width('100%').padding({ left: 20, right: 20, top: 12 })
-        .backgroundColor('#f8faff').borderRadius(12).padding(16)
+        .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+        .borderRadius(Theme.RADIUS_LG)
+        .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
+        .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
       }
 
       // 已注册用户
       if (this.enrolledUsers.length > 0) {
-        Text('已注册成员').fontSize(14).fontWeight(600).fontColor('#1a1a2e')
-          .width('100%').padding({ left: 20, top: 20, bottom: 8 })
+        Text('已注册成员').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
+          .width('100%').padding({ left: Theme.SPACE_MD, top: Theme.SPACE_LG, bottom: Theme.SPACE_SM })
 
         Column() {
           ForEach(this.enrolledUsers, (user: string) => {
             Row() {
-              Text('👤').fontSize(20)
-              Text(user).fontSize(16).fontColor('#1a1a2e').layoutWeight(1).margin({ left: 12 })
-              Text('已注册').fontSize(12).fontColor('#2d8a4e')
-                .padding({ left: 8, right: 8, top: 2, bottom: 2 })
-                .backgroundColor('#e8f5e9').borderRadius(8)
+              Text(user.charAt(0)).fontSize(Theme.FONT_BODY).fontWeight(600).fontColor(Theme.PRIMARY)
+                .width(36).height(36).textAlign(TextAlign.Center)
+                .backgroundColor(Theme.PRIMARY_LIGHT).borderRadius(Theme.RADIUS_FULL)
+
+              Text(user).fontSize(Theme.FONT_SUB).fontColor(Theme.TEXT).layoutWeight(1)
+                .margin({ left: Theme.SPACE_MD })
+
+              Text('已注册').fontSize(Theme.FONT_MICRO).fontColor(Theme.SURFACE)
+                .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
+                .backgroundColor(Theme.SUCCESS).borderRadius(Theme.RADIUS_FULL)
             }
-            .width('100%').padding(12).backgroundColor('#ffffff').borderRadius(8)
-            .margin({ top: 4 })
+            .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+            .borderRadius(Theme.RADIUS_MD)
+            .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
+            .margin({ top: Theme.SPACE_XS })
           })
         }
-        .width('100%').padding({ left: 20, right: 20 })
+        .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
       }
     }
-    .width('100%').height('100%').backgroundColor('#ffffff')
+    .width('100%').height('100%').backgroundColor(Theme.BG).padding({ top: Theme.SPACE_MD })
   }
 }

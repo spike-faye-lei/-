@@ -2,6 +2,7 @@ import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
 import { httpUtil } from '../utils/HttpUtil'
 import { AppStorage, MemberItem } from '../utils/DataModels'
+import { Theme } from '../utils/Theme'
 
 @Entry
 @Component
@@ -92,82 +93,85 @@ struct MembersPage {
 
   getGoalColor(goal: string): string {
     switch (goal) {
-      case 'maintain': return '#2a5f8f'
-      case 'lose': return '#c96f2e'
-      case 'gain': return '#2d8a4e'
-      default: return '#8a9aaa'
+      case 'maintain': return Theme.PRIMARY
+      case 'lose': return Theme.WARNING
+      case 'gain': return Theme.SUCCESS
+      default: return Theme.TEXT_TERTIARY
     }
   }
 
   build() {
     Column() {
-      // 顶部
+      // 大标题区
       Row() {
-        Button() { Text('← 返回').fontSize(15).fontColor('#2a5f8f') }
-          .type(ButtonType.Capsule).backgroundColor('transparent')
+        Text('← 返回').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY)
           .onClick(() => this.goBack())
 
-        Text('家庭成员').fontSize(20).fontWeight(700).fontColor('#1a1a2e')
-          .layoutWeight(1).textAlign(TextAlign.Center)
+        Blank()
 
-        Button() { Text('+ 添加').fontSize(14).fontColor('#2a5f8f').fontWeight(600) }
-          .type(ButtonType.Capsule).backgroundColor('#e8edf5').height(34)
+        Button() { Text('+ 添加').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY).fontWeight(600) }
+          .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).height(34)
           .onClick(() => { this.showAdd = !this.showAdd })
       }
-      .width('100%').padding({ top: 16, bottom: 8, left: 12, right: 12 })
+      .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
+
+      Text('家庭成员').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT)
+        .width('100%').margin({ top: Theme.SPACE_SM })
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 添加成员表单
       if (this.showAdd) {
         Column() {
-          Text('添加新成员').fontSize(15).fontWeight(600).fontColor('#1a1a2e')
+          Text('添加新成员').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
             .width('100%')
 
-          Row() {
-            TextInput({ placeholder: '成员名称', text: this.newName })
-              .width('100%').height(44)
-              .onChange((v) => { this.newName = v })
-              .backgroundColor('#f0f2f5').borderRadius(8)
-              .padding({ left: 12 })
-          }
-          .width('100%').margin({ top: 12 })
+          TextInput({ placeholder: '成员名称', text: this.newName })
+            .width('100%').height(44)
+            .onChange((v: string) => { this.newName = v })
+            .backgroundColor(Theme.BG).borderRadius(Theme.RADIUS_MD)
+            .padding({ left: Theme.SPACE_MD })
+            .margin({ top: Theme.SPACE_MD })
 
           Row() {
             ForEach(['maintain', 'lose', 'gain'], (goal: string) => {
-              Button() { Text(this.getGoalLabel(goal)).fontSize(13) }
+              Button() { Text(this.getGoalLabel(goal)).fontSize(Theme.FONT_CAPTION) }
                 .type(ButtonType.Capsule)
-                .backgroundColor(this.newGoal === goal ? this.getGoalColor(goal) : '#f0f2f5')
-                .fontColor(this.newGoal === goal ? '#fff' : '#8a9aaa')
-                .height(34).margin({ right: 8 })
+                .backgroundColor(this.newGoal === goal ? Theme.PRIMARY : Theme.BG)
+                .fontColor(this.newGoal === goal ? '#FFFFFF' : Theme.TEXT_SECONDARY)
+                .height(34).margin({ right: Theme.SPACE_SM })
                 .onClick(() => { this.newGoal = goal })
             })
           }
-          .width('100%').margin({ top: 12 })
+          .width('100%').margin({ top: Theme.SPACE_MD })
 
           Row() {
-            Button() { Text('取消').fontSize(14).fontColor('#8a9aaa') }
-              .type(ButtonType.Capsule).backgroundColor('#f0f2f5').height(38)
-              .layoutWeight(1).margin({ right: 8 })
+            Button() { Text('取消').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY) }
+              .type(ButtonType.Capsule).backgroundColor(Theme.BG).height(38)
+              .layoutWeight(1).margin({ right: Theme.SPACE_SM })
               .onClick(() => { this.showAdd = false })
-            Button() { Text('确认添加').fontSize(14).fontColor('#fff').fontWeight(600) }
-              .type(ButtonType.Capsule).backgroundColor('#2a5f8f').height(38)
-              .layoutWeight(1).margin({ left: 8 })
+            Button() { Text('确认添加').fontSize(Theme.FONT_BODY).fontColor('#FFFFFF').fontWeight(600) }
+              .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).height(38)
+              .layoutWeight(1).margin({ left: Theme.SPACE_SM })
               .onClick(() => this.addMember())
           }
-          .width('100%').margin({ top: 12 })
+          .width('100%').margin({ top: Theme.SPACE_MD })
         }
-        .width('100%').padding(16).backgroundColor('#ffffff').borderRadius(12)
-        .margin({ left: 20, right: 20, top: 12 })
+        .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+        .borderRadius(Theme.RADIUS_LG)
+        .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
+        .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
       }
 
       // 成员列表
       if (this.isLoading) {
         Column() {
-          LoadingProgress().width(32).height(32)
-          Text('加载成员...').fontSize(14).fontColor('#8a9aaa').margin({ top: 12 })
+          LoadingProgress().width(32).height(32).color(Theme.PRIMARY)
+          Text('加载成员...').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+            .margin({ top: Theme.SPACE_MD })
         }.justifyContent(FlexAlign.Center).width('100%').layoutWeight(1)
       } else if (this.members.length > 0) {
-        Text('选择当前记录人').fontSize(13).fontColor('#8a9aaa')
-          .width('100%').padding({ left: 20, top: 16, bottom: 4 })
+        Text('选择当前记录人').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY)
+          .width('100%').padding({ left: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_XS })
 
         List() {
           ForEach(this.members, (item: MemberItem) => {
@@ -176,53 +180,58 @@ struct MembersPage {
                 // 选中指示
                 Row()
                   .width(this.selectedMember === item.name ? 4 : 0)
-                  .height(40).backgroundColor('#2a5f8f').borderRadius(2)
-                  .margin({ right: 12 })
+                  .height(40).backgroundColor(Theme.PRIMARY).borderRadius(Theme.RADIUS_FULL)
+                  .margin({ right: Theme.SPACE_MD })
 
                 Column() {
                   Row() {
-                    Text(item.name).fontSize(16).fontWeight(600).fontColor('#1a1a2e')
+                    Text(item.name).fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
                     Text(this.getGoalLabel(item.health_goal))
-                      .fontSize(11).fontColor('#fff')
-                      .padding({ left: 8, right: 8, top: 2, bottom: 2 })
+                      .fontSize(Theme.FONT_MICRO).fontColor('#FFFFFF')
+                      .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
                       .backgroundColor(this.getGoalColor(item.health_goal))
-                      .borderRadius(8).margin({ left: 8 })
+                      .borderRadius(Theme.RADIUS_FULL).margin({ left: Theme.SPACE_SM })
                   }
 
                   if (item.created_at) {
-                    Text('加入于 ' + item.created_at).fontSize(11).fontColor('#b0b8c8')
-                      .margin({ top: 2 })
+                    Text('加入于 ' + item.created_at).fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_TERTIARY)
+                      .margin({ top: Theme.SPACE_XS })
                   }
                 }
                 .alignItems(HorizontalAlign.Start).layoutWeight(1)
 
-                Button() { Text('删除').fontSize(12).fontColor('#e05555') }
-                  .type(ButtonType.Capsule).backgroundColor('#fef0f0')
+                Button() { Text('删除').fontSize(Theme.FONT_CAPTION).fontColor('#FFFFFF') }
+                  .type(ButtonType.Capsule).backgroundColor(Theme.DANGER)
                   .height(30)
                   .onClick(() => this.deleteMember(item))
               }
-              .width('100%').padding(16).backgroundColor('#ffffff')
-              .borderRadius(12).border({
+              .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+              .borderRadius(Theme.RADIUS_MD)
+              .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
+              .border({
                 width: this.selectedMember === item.name ? 1.5 : 0,
-                color: '#2a5f8f'
+                color: Theme.PRIMARY
               })
               .onClick(() => this.selectMember(item.name))
             }
-            .margin({ top: 6, left: 20, right: 20 })
+            .margin({ top: Theme.SPACE_SM, left: Theme.SPACE_MD, right: Theme.SPACE_MD })
           })
         }
-        .width('100%').layoutWeight(1).margin({ top: 8 })
+        .width('100%').layoutWeight(1).margin({ top: Theme.SPACE_SM })
       } else {
-        Text(this.statusMsg).fontSize(14).fontColor('#8a9aaa').margin({ top: 100 })
-          .width('100%').textAlign(TextAlign.Center)
+        Column() {
+          Text(this.statusMsg).fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+            .width('100%').textAlign(TextAlign.Center)
+        }
+        .width('100%').layoutWeight(1).justifyContent(FlexAlign.Center)
       }
 
       // 提示
       Text('选择的成员将关联后续的饮食记录')
-        .fontSize(12).fontColor('#b0b8c8')
-        .width('100%').padding({ left: 20, right: 20, top: 12, bottom: 16 })
+        .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
+        .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
         .textAlign(TextAlign.Center)
     }
-    .width('100%').height('100%').backgroundColor('#f4f6f9')
+    .width('100%').height('100%').backgroundColor(Theme.BG)
   }
 }

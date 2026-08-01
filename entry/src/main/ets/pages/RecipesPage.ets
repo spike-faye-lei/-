@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import { httpUtil } from '../utils/HttpUtil'
 import { RecipeItem, RecipeIngredient } from '../utils/DataModels'
+import { Theme } from '../utils/Theme'
 
 @Entry
 @Component
@@ -60,10 +61,10 @@ struct RecipesPage {
 
   getMealColor(mealType: string): string {
     switch (mealType) {
-      case 'breakfast': return '#f0a040'
-      case 'lunch': return '#2a5f8f'
-      case 'dinner': return '#2d8a4e'
-      default: return '#8a9aaa'
+      case 'breakfast': return Theme.WARNING
+      case 'lunch': return Theme.PRIMARY
+      case 'dinner': return Theme.SUCCESS
+      default: return Theme.TEXT_TERTIARY
     }
   }
 
@@ -80,59 +81,85 @@ struct RecipesPage {
 
   build() {
     Column() {
-      // 顶部
-      Row() {
-        Button() { Text('← 返回').fontSize(15).fontColor('#2a5f8f') }
-          .type(ButtonType.Capsule).backgroundColor('transparent')
-          .onClick(() => this.goBack())
+      // 顶部导航 + 大标题
+      Column() {
+        Row() {
+          Button() { Text('←').fontSize(18).fontColor(Theme.TEXT).fontWeight(600) }
+            .type(ButtonType.Circle)
+            .width(40).height(40)
+            .backgroundColor(Theme.SURFACE)
+            .border({ width: 1, color: Theme.BORDER })
+            .onClick(() => this.goBack())
+          Blank()
+        }.width('100%')
 
-        Text('菜谱推荐').fontSize(20).fontWeight(700).fontColor('#1a1a2e')
-          .layoutWeight(1).textAlign(TextAlign.Center)
+        Text('菜谱推荐')
+          .fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT)
+          .margin({ top: Theme.SPACE_SM })
       }
-      .width('100%').padding({ top: 16, bottom: 8, left: 12, right: 12 })
+      .width('100%')
+      .padding({ top: Theme.SPACE_MD, bottom: Theme.SPACE_XS, left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 模式切换
       Row() {
         Button() {
-          Text(this.isRecommend ? '🌟 智能推荐' : '📖 全部菜谱')
-            .fontSize(14).fontColor('#fff').fontWeight(600)
+          Text(this.isRecommend ? '智能推荐' : '全部菜谱')
+            .fontSize(Theme.FONT_BODY)
+            .fontColor(this.isRecommend ? Theme.SURFACE : Theme.TEXT_SECONDARY)
+            .fontWeight(600)
         }
-        .type(ButtonType.Capsule).backgroundColor(this.isRecommend ? '#2a5f8f' : '#5a6a7e')
-        .height(36).onClick(() => this.toggleMode())
+        .type(ButtonType.Capsule)
+        .height(36)
+        .backgroundColor(this.isRecommend ? Theme.PRIMARY : Theme.SURFACE)
+        .border({ width: 1, color: this.isRecommend ? Theme.PRIMARY : Theme.BORDER })
+        .onClick(() => this.toggleMode())
 
         if (this.isRecommend) {
           Button() {
-            Text(this.activeGoal === 'maintain' ? '⚖ 保持' :
-              this.activeGoal === 'lose' ? '🔥 减重' : '💪 增重')
-              .fontSize(14).fontColor('#2a5f8f').fontWeight(600)
+            Text(this.activeGoal === 'maintain' ? '保持' :
+              this.activeGoal === 'lose' ? '减重' : '增重')
+              .fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY).fontWeight(600)
           }
-          .type(ButtonType.Capsule).backgroundColor('#e8edf5').height(36)
-          .margin({ left: 8 }).onClick(() => {
-            let goals = ['maintain', 'lose', 'gain']
-            let idx = goals.indexOf(this.activeGoal)
+          .type(ButtonType.Capsule)
+          .backgroundColor(Theme.PRIMARY_LIGHT)
+          .height(36)
+          .margin({ left: Theme.SPACE_SM })
+          .onClick(() => {
+            let goals: string[] = ['maintain', 'lose', 'gain']
+            let idx: number = goals.indexOf(this.activeGoal)
             this.setGoal(goals[(idx + 1) % 3])
           })
         }
       }
-      .width('100%').padding({ left: 20, right: 20, top: 12 }).justifyContent(FlexAlign.Start)
+      .width('100%')
+      .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_SM })
+      .justifyContent(FlexAlign.Start)
 
       // 餐类筛选
       Row() {
         ForEach(['全部', '早餐', '午餐', '晚餐'], (label: string, idx: number) => {
-          Button() { Text(label).fontSize(13).fontColor(this.mealKeys[idx] === this.activeMeal ? '#fff' : '#5a6a7e').fontWeight(this.mealKeys[idx] === this.activeMeal ? 600 : 400) }
-            .type(ButtonType.Capsule)
-            .backgroundColor(this.mealKeys[idx] === this.activeMeal ? '#2a5f8f' : '#f0f2f5')
-            .height(34).margin({ right: 8 })
-            .onClick(() => this.setMealFilter(this.mealKeys[idx]))
+          Button() {
+            Text(label)
+              .fontSize(Theme.FONT_BODY)
+              .fontColor(this.mealKeys[idx] === this.activeMeal ? Theme.SURFACE : Theme.TEXT_SECONDARY)
+              .fontWeight(this.mealKeys[idx] === this.activeMeal ? 600 : 400)
+          }
+          .type(ButtonType.Capsule)
+          .height(34)
+          .backgroundColor(this.mealKeys[idx] === this.activeMeal ? Theme.PRIMARY : Theme.SURFACE)
+          .border({ width: 1, color: this.mealKeys[idx] === this.activeMeal ? Theme.PRIMARY : Theme.BORDER })
+          .margin({ right: Theme.SPACE_SM })
+          .onClick(() => this.setMealFilter(this.mealKeys[idx]))
         })
       }
-      .width('100%').padding({ left: 20, right: 20, top: 12 })
+      .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_SM })
 
       // 内容区
       if (this.isLoading) {
         Column() {
-          LoadingProgress().width(32).height(32)
-          Text('加载菜谱...').fontSize(14).fontColor('#8a9aaa').margin({ top: 12 })
+          LoadingProgress().width(32).height(32).color(Theme.PRIMARY)
+          Text('加载菜谱...').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+            .margin({ top: Theme.SPACE_SM })
         }.justifyContent(FlexAlign.Center).width('100%').height(300)
       } else if (this.recipes.length > 0) {
         List() {
@@ -141,63 +168,72 @@ struct RecipesPage {
               Column() {
                 // 标题行
                 Row() {
-                  Text(item.name).fontSize(17).fontWeight(600).fontColor('#1a1a2e')
+                  Text(item.name)
+                    .fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
                     .layoutWeight(1)
                   Text(this.getMealLabel(item.meal_type))
-                    .fontSize(11).fontColor('#fff')
-                    .padding({ left: 8, right: 8, top: 2, bottom: 2 })
+                    .fontSize(Theme.FONT_MICRO).fontColor(Theme.SURFACE)
+                    .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
                     .backgroundColor(this.getMealColor(item.meal_type))
-                    .borderRadius(8)
+                    .borderRadius(Theme.RADIUS_SM)
                 }.width('100%')
 
                 // 英文名 + 标签
                 Row() {
-                  Text(item.name_en).fontSize(12).fontColor('#8a9aaa')
-                  Text(' · ' + item.cook_time + 'min').fontSize(12).fontColor('#8a9aaa')
+                  Text(item.name_en).fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
+                  Text(' · ' + item.cook_time + 'min').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
                   Text(' · ' + this.getDifficultyLabel(item.difficulty))
-                    .fontSize(12).fontColor('#8a9aaa')
-                }.margin({ top: 4 })
+                    .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
+                }.margin({ top: Theme.SPACE_XS })
 
                 // 营养条
                 Row() {
-                  Text('🔥 ' + item.nutrition.calories.toFixed(0) + 'kcal')
-                    .fontSize(14).fontWeight(600).fontColor('#c96f2e')
+                  Text(item.nutrition.calories.toFixed(0) + 'kcal')
+                    .fontSize(Theme.FONT_BODY).fontWeight(600).fontColor(Theme.WARNING)
                   Text('P:' + item.nutrition.protein.toFixed(0) + 'g')
-                    .fontSize(13).fontColor('#5a6a7e').margin({ left: 12 })
+                    .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SECONDARY).margin({ left: Theme.SPACE_MD })
                   Text('F:' + item.nutrition.fat.toFixed(0) + 'g')
-                    .fontSize(13).fontColor('#5a6a7e').margin({ left: 8 })
+                    .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SECONDARY).margin({ left: Theme.SPACE_SM })
                   Text('C:' + item.nutrition.carbs.toFixed(0) + 'g')
-                    .fontSize(13).fontColor('#5a6a7e').margin({ left: 8 })
-                }.margin({ top: 8 })
+                    .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SECONDARY).margin({ left: Theme.SPACE_SM })
+                }.margin({ top: Theme.SPACE_SM })
 
                 // 食材标签
                 Row() {
                   ForEach(item.ingredients, (ing: RecipeIngredient) => {
-                    Text(ing.food).fontSize(11).fontColor('#8a9aaa')
-                      .padding({ left: 8, right: 8, top: 2, bottom: 2 })
-                      .backgroundColor('#f0f2f5').borderRadius(6)
-                      .margin({ right: 6 })
+                    Text(ing.food)
+                      .fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SECONDARY)
+                      .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
+                      .backgroundColor(Theme.BORDER).borderRadius(Theme.RADIUS_SM)
+                      .margin({ right: Theme.SPACE_XS })
                   })
-                }.margin({ top: 8 })
+                }.margin({ top: Theme.SPACE_SM })
 
                 // 推荐分数
                 if (item.score !== undefined) {
                   Text('匹配度 ' + item.score.toFixed(0) + '%')
-                    .fontSize(12).fontColor('#2d8a4e').margin({ top: 4 })
+                    .fontSize(Theme.FONT_CAPTION).fontColor(Theme.SUCCESS)
+                    .margin({ top: Theme.SPACE_XS })
                 }
               }
-              .width('100%').padding(16).backgroundColor('#ffffff').borderRadius(12)
-              .shadow({ radius: 4, color: '#10000000', offsetY: 2 })
+              .width('100%')
+              .padding(Theme.SPACE_MD)
+              .backgroundColor(Theme.SURFACE)
+              .borderRadius(Theme.RADIUS_MD)
+              .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             }
-            .margin({ top: 8, left: 20, right: 20 })
+            .margin({ top: Theme.SPACE_SM, left: Theme.SPACE_MD, right: Theme.SPACE_MD })
           })
         }
-        .width('100%').layoutWeight(1).margin({ top: 8 })
+        .width('100%').layoutWeight(1).margin({ top: Theme.SPACE_SM })
       } else {
-        Text(this.statusMsg).fontSize(14).fontColor('#8a9aaa').margin({ top: 80 })
-          .width('100%').textAlign(TextAlign.Center)
+        Column() {
+          Text(this.statusMsg).fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+            .width('100%').textAlign(TextAlign.Center)
+        }
+        .width('100%').layoutWeight(1).justifyContent(FlexAlign.Center)
       }
     }
-    .width('100%').height('100%').backgroundColor('#f4f6f9')
+    .width('100%').height('100%').backgroundColor(Theme.BG)
   }
 }

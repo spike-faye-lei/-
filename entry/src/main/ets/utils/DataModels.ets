@@ -219,6 +219,67 @@ export interface HistoryResponse {
   records: HistoryRecord[]
 }
 
+// ====== 整餐分析 ======
+
+export interface MealFood {
+  name: string
+  confidence: number
+  cells: number
+}
+
+export interface MealSummary {
+  calories: number
+  protein_g: number
+  fat_g: number
+  carbs_g: number
+}
+
+export interface MealResponse {
+  success: boolean
+  message: string
+  foods: MealFood[]
+  summary: MealSummary | null
+}
+
+// ====== 健康评分 ======
+
+export interface ScoreDimension {
+  score: number
+  value: number
+  target: number
+  full: number
+}
+
+export interface HealthScoreResponse {
+  success: boolean
+  member: string
+  score: number | null
+  level: string
+  dimensions: Record<string, ScoreDimension>
+  message: string
+}
+
+export interface RankItem {
+  member: string
+  score: number
+  days: number
+  rank: number
+}
+
+export interface LeaderboardResponse {
+  success: boolean
+  days: number
+  ranking: RankItem[]
+}
+
+// ====== AI 对话 ======
+
+export interface ChatResponse {
+  success: boolean
+  reply: string
+  configured: boolean
+}
+
 export class AppStorage {
   static lastRecognizeResult: RecognizeResult | null = null
   static lastNutrition: NutritionInfo | null = null
