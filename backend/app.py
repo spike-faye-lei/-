@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import uvicorn
 from backend.api import recognize, nutrition, history, members, guidelines, recipes
+from backend.api import meal, health, chat as chat_api
 from backend.modules.face_auth.router import router as face_router
 from backend.database import init_db
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -30,6 +31,9 @@ app.include_router(members.router)
 app.include_router(guidelines.router)
 app.include_router(recipes.router)
 app.include_router(face_router)
+app.include_router(meal.router)
+app.include_router(health.router)
+app.include_router(chat_api.router)
 @app.get("/")
 async def root():
     return {"service": "SmartKitchen", "version": "1.0.0", "status": "running",
