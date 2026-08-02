@@ -19,8 +19,8 @@ export class Theme {
     if (mode === 'dark') return '#1F1E1D'
     // minimal = Claude 简约：暖米白
     if (style === 'minimal') return '#F7F5F0'
-    // glass = 液态玻璃：略深一点的暖底，让半透明白卡片透出层次
-    return '#EDEAE2'
+    // glass = 液态玻璃：更深的暖底，让半透明白卡片透出层次（玻璃感）
+    return '#E7E1D5'
   }
 
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
@@ -42,7 +42,7 @@ export class Theme {
       // 深色简约：与背景同色，卡片完全融入（极简扁平）
       return Theme.isDark() ? '#1F1E1D' : '#FFFFFF'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.60)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.65)'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24
@@ -53,7 +53,7 @@ export class Theme {
       // 深色简约：无边框，与背景融为一体
       return Theme.isDark() ? 'rgba(255,255,255,0)' : 'rgba(0,0,0,0.06)'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.70)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.80)'
   }
 
   // —— 文字色（系统资源，渲染引擎按 App 颜色模式自动解析，深浅色自动切换）——
@@ -82,12 +82,13 @@ export class Theme {
   static get WARNING(): string { return Theme.isDark() ? '#FBBF24' : '#F59E0B' }
   // 主色底上的文字颜色（深色模式下 Theme.SURFACE 是深灰，配浅紫主色会看不清）
   static get ON_PRIMARY(): string { return '#FFFFFF' }
-  // 卡片阴影：glass 柔影（浅色可见）/ minimal 无阴影（Claude 简约扁平）
+  // 卡片阴影：glass 柔影（深浅色都可见）/ minimal 无阴影（Claude 简约扁平）
+  // 深色背景上黑色投影必须明显加深+加大半径，否则看不见
   static get SHADOW_COLOR(): string {
     if (Theme.isMinimal()) return 'rgba(0,0,0,0)'
-    return Theme.isDark() ? '#40000000' : '#33000000'
+    return Theme.isDark() ? '#66000000' : '#40000000'
   }
-  static get SHADOW(): number { return Theme.isMinimal() ? 0 : 6 }
+  static get SHADOW(): number { return Theme.isMinimal() ? 0 : (Theme.isDark() ? 10 : 8) }
 
   // —— 圆角 ——
   static readonly RADIUS_SM: number = 10
