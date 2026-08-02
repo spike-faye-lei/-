@@ -1,9 +1,9 @@
 {
   "app": {
-    "bundleName": "com.example.a11451411",
-    "vendor": "example",
-    "versionCode": 1000000,
-    "versionName": "1.0.0",
+    "bundleName": "com.hulei.shiguangji",
+    "vendor": "hulei",
+    "versionCode": 1000004,
+    "versionName": "1.4.0",
     "buildVersion": "1",
     "icon": "$media:layered_image",
     "label": "$string:app_name"

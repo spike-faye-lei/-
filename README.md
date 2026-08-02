@@ -38,3 +38,4 @@ DevEco Studio 打开 `A11451411/`，Sync → Build → 部署到设备。
 
 - [MIT License](LICENSE)
 - [免责声明](DISCLAIMER.md) — 学习用途，AI 内容仅供参考，不构成医疗建议
+- [隐私政策](PRIVACY.md) — 人脸/健康/AI 数据收集与保护说明（上架用）
