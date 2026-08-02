@@ -12,6 +12,7 @@ import { LocalData } from '../utils/LocalData'
 @Component
 struct RecipesPage {
   @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('styleMode') styleMode: string = 'glass'
   @StorageLink('fontScale') fontScale: number = 1
   @StorageLink('language') language: string = 'zh'
   // 页面每次显示时自增，强制整页重绘
@@ -368,7 +369,7 @@ struct RecipesPage {
         .width('100%').layoutWeight(1).justifyContent(FlexAlign.Center)
       }
     }
-    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

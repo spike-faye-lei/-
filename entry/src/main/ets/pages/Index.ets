@@ -24,6 +24,7 @@ import { en } from '../utils/i18n/en';
 @Component
 struct Index {
   @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('styleMode') styleMode: string = 'glass'
   @StorageLink('fontScale') fontScale: number = 1
   @StorageLink('language') language: string = 'zh'
   // 页面每次显示时自增，强制整页/所有 @Builder 重绘（绕开页面冻结时通知丢失）
@@ -403,11 +404,11 @@ Scroll() {
           }
           .padding({ top: Theme.SPACE_MD })
           .alignItems(HorizontalAlign.Start)
-          .backgroundColor(Theme.bg(this.themeMode))
+          .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
         .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
         }
         .width('100%').height('100%').scrollBar(BarState.Off)
-        .backgroundColor(Theme.bg(this.themeMode))
+        .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
         .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
         // Tab2 营养
 TabNutrition({
@@ -561,7 +562,7 @@ TabMe({
       .border({ width: { top: 0.5 }, color: Theme.BORDER })
     }
     .width('100%').height('100%')
-    .backgroundColor(Theme.bg(this.themeMode))
+    .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

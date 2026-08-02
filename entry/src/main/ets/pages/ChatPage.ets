@@ -18,6 +18,7 @@ interface ChatMessage {
 @Component
 struct ChatPage {
   @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('styleMode') styleMode: string = 'glass'
   @StorageLink('fontScale') fontScale: number = 1
   @StorageLink('language') language: string = 'zh'
   // 页面每次显示时自增，强制整页重绘
@@ -185,7 +186,7 @@ struct ChatPage {
       .padding({ left: Theme.SPACE_LG, right: Theme.SPACE_LG, top: 8, bottom: 14 })
       .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER })
     }
-    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

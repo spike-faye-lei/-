@@ -8,6 +8,7 @@ import { Theme } from '../utils/Theme'
 @Component
 struct MembersPage {
   @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('styleMode') styleMode: string = 'glass'
   @StorageLink('fontScale') fontScale: number = 1
   @StorageLink('language') language: string = 'zh'
   // 页面每次显示时自增，强制整页重绘
@@ -250,7 +251,7 @@ struct MembersPage {
         .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
         .textAlign(TextAlign.Center)
     }
-    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

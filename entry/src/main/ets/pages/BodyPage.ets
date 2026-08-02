@@ -13,6 +13,7 @@ import common from '@ohos.app.ability.common';
 @Component
 struct BodyPage {
   @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('styleMode') styleMode: string = 'glass'
   @StorageLink('fontScale') fontScale: number = 1
   @StorageLink('language') language: string = 'zh'
   @State themeTick: number = 0
@@ -300,7 +301,7 @@ struct BodyPage {
       }
       .width('100%').layoutWeight(1).scrollBar(BarState.Off)
     }
-    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

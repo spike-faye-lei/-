@@ -14,9 +14,13 @@ export class Theme {
     return AppStorage.get<boolean>('systemDark') || false
   }
 
-  // —— 页面背景（传 themeMode 参数，让 build() 建立响应式依赖：切主题 → 组件重绘）——
-  static bg(mode: string): string {
-    return mode === 'dark' ? '#1F1E1D' : '#F7F5F0'
+  // —— 页面背景（传 themeMode + styleMode，让 build() 建立响应式依赖：切主题/切风格 → 组件重绘）——
+  static bg(mode: string, style: string): string {
+    if (mode === 'dark') return '#1F1E1D'
+    // minimal = Claude 简约：暖米白
+    if (style === 'minimal') return '#F7F5F0'
+    // glass = 液态玻璃：略深一点的暖底，让半透明白卡片透出层次
+    return '#EDEAE2'
   }
 
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
@@ -24,25 +28,26 @@ export class Theme {
     return scale > 0 ? 1 : 1
   }
 
-  // —— 液态玻璃卡片（半透明白 + 背景模糊）：背景深色时卡片自动变深灰、浅色时自动变白，
-  //    不依赖主题刷新机制，随页面背景自动适配 ——
+  // —— 液态玻璃卡片（半透明白 + 背景模糊）—— 参考 Claude 设计双风格：
+  //    glass   液态玻璃（Apple Liquid Glass 风）：半透明白 + 模糊 + 高光白边
+  //    minimal Claude 简约风：纯白卡片 + 无模糊 + 细灰边
   // 风格：glass 液态玻璃（半透明+模糊）/ minimal Claude 简约（纯色无模糊）
   static get GLASS_BG(): string {
     if ((AppStorage.get<string>('styleMode') || 'glass') === 'minimal') {
       return Theme.isDark() ? '#2A2928' : '#FFFFFF'
     }
-    return 'rgba(255,255,255,0.08)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.50)'
   }
   static get GLASS_BLUR(): number {
     return (AppStorage.get<string>('styleMode') || 'glass') === 'minimal' ? 0 : 24
   }
-  // 玻璃卡片描边（浅色深灰细线 / 深色半透明白线，提升玻璃质感）
+  // 玻璃卡片描边：glass 高光白边 / minimal 细灰边（Claude 风）
   static get GLASS_BORDER(): string {
     let style = AppStorage.get<string>('styleMode') || 'glass'
     if (style === 'minimal') {
-      return Theme.isDark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
+      return Theme.isDark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.06)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.60)'
   }
 
   // —— 文字色（系统资源，渲染引擎按 App 颜色模式自动解析，深浅色自动切换）——
