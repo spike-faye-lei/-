@@ -39,9 +39,10 @@ export class Theme {
   // 风格：glass 液态玻璃（半透明+模糊）/ minimal Claude 简约（纯色无模糊）
   static get GLASS_BG(): string {
     if (Theme.isMinimal()) {
-      return Theme.isDark() ? '#2A2928' : '#FFFFFF'
+      // 深色简约：与背景同色，卡片完全融入（极简扁平）
+      return Theme.isDark() ? '#1F1E1D' : '#FFFFFF'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.50)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.60)'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24
@@ -49,9 +50,10 @@ export class Theme {
   // 玻璃卡片描边：glass 高光白边 / minimal 细灰边（Claude 风）
   static get GLASS_BORDER(): string {
     if (Theme.isMinimal()) {
-      return Theme.isDark() ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.06)'
+      // 深色简约：无边框，与背景融为一体
+      return Theme.isDark() ? 'rgba(255,255,255,0)' : 'rgba(0,0,0,0.06)'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.60)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.70)'
   }
 
   // —— 文字色（系统资源，渲染引擎按 App 颜色模式自动解析，深浅色自动切换）——
@@ -83,7 +85,7 @@ export class Theme {
   // 卡片阴影：glass 柔影（浅色可见）/ minimal 无阴影（Claude 简约扁平）
   static get SHADOW_COLOR(): string {
     if (Theme.isMinimal()) return 'rgba(0,0,0,0)'
-    return Theme.isDark() ? '#40000000' : '#26000000'
+    return Theme.isDark() ? '#40000000' : '#33000000'
   }
   static get SHADOW(): number { return Theme.isMinimal() ? 0 : 6 }
 
