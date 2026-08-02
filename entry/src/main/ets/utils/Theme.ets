@@ -53,19 +53,19 @@ export class Theme {
   // 风格：glass 液态玻璃（半透明+模糊）/ minimal Claude 简约（纯色无模糊）
   static get GLASS_BG(): string {
     if (Theme.isMinimal()) {
-      // 深色简约：与背景同色，卡片完全融入（极简扁平）
-      return Theme.isDark() ? '#1F1E1D' : '#FFFFFF'
+      // 简约卡片可见（学浅色简约：白卡片 / 暗色：深灰卡片），扁平无阴影
+      return Theme.isDark() ? '#2A2928' : '#FFFFFF'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.50)'
+    // 玻璃：低透明度让背景渐变透出（暗色 0.16 通透效果好，浅色对齐到 0.42）
+    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.42)'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24
   }
-  // 玻璃卡片描边：glass 高光白边 / minimal 细灰边（Claude 风）
+  // 玻璃卡片描边：glass 高光白边 / minimal 细边框（学浅色简约：白卡配细边，暗色配细白边）
   static get GLASS_BORDER(): string {
     if (Theme.isMinimal()) {
-      // 深色简约：无边框，与背景融为一体
-      return Theme.isDark() ? 'rgba(255,255,255,0)' : 'rgba(0,0,0,0.06)'
+      return Theme.isDark() ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.06)'
     }
     return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.80)'
   }
