@@ -338,7 +338,7 @@ Scroll() {
             }
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
           .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
           .padding({ left: Theme.SPACE_LG, right: Theme.SPACE_LG })
 
@@ -380,7 +380,7 @@ Scroll() {
                 .onClick((): void => this.goToNutrition())
             }
             .padding(Theme.SPACE_MD)
-            .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+            .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_MD })
           }
@@ -399,7 +399,7 @@ Scroll() {
                 .onClick((): void => this.goToChat())
             }
             .padding(Theme.SPACE_MD)
-            .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+            .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_MD })
           }
@@ -560,7 +560,7 @@ TabMe({
               })
       }
       .width('100%').height(64)
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
       .border({ width: { top: 0.5 }, color: Theme.BORDER })
     }
     .width('100%').height('100%')

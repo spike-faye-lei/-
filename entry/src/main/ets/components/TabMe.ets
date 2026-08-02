@@ -143,7 +143,7 @@ export struct TabMe {
             .onClick(() => this.onLeaderboard())
       }
       .width('100%')
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
 
       // 关于
@@ -153,7 +153,7 @@ export struct TabMe {
           .fontFamily('Inter').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SYS_TERTIARY).margin({ top: 4 })
       }
       .width('100%').padding(Theme.SPACE_LG)
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
     }
     .width('100%').height('100%').padding(Theme.SPACE_LG)

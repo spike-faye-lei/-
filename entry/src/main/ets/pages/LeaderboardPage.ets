@@ -105,7 +105,7 @@ struct LeaderboardPage {
                 .alignItems(HorizontalAlign.End)
               }
               .width('100%').padding(Theme.SPACE_MD)
-              .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+              .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
               .borderRadius(Theme.RADIUS_MD)
               .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
               .margin({ bottom: Theme.SPACE_SM, left: Theme.SPACE_MD, right: Theme.SPACE_MD })

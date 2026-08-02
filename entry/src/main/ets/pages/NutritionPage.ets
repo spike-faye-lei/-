@@ -162,7 +162,7 @@ struct NutritionPage {
             })
             .width('100%')
             .height(40)
-            .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_SM)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
@@ -331,7 +331,7 @@ struct NutritionPage {
             }
           }
           .padding(Theme.SPACE_MD)
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
           .borderRadius(Theme.RADIUS_LG)
           .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
           .margin({ bottom: Theme.SPACE_MD })

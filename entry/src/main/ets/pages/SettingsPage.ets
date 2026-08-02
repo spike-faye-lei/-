@@ -223,7 +223,7 @@ struct SettingsPage {
             })
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 字体大小分组 =====
@@ -259,7 +259,7 @@ struct SettingsPage {
             .width('100%').alignItems(HorizontalAlign.Start).padding(Theme.SPACE_MD)
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 语言分组 =====
@@ -288,7 +288,7 @@ struct SettingsPage {
             })
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 关于分组 =====
@@ -306,7 +306,7 @@ struct SettingsPage {
               .width('100%').textAlign(TextAlign.Start)
           }
           .padding(Theme.SPACE_MD)
-          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           Text(this.i18n().settingsAutoSave).fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SYS_TERTIARY)

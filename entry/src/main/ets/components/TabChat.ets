@@ -44,7 +44,7 @@ export struct TabChat {
         .onClick(() => this.onChat())
       }
       .width('100%').padding(Theme.SPACE_LG)
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
 
       // 示例问题
@@ -57,7 +57,7 @@ export struct TabChat {
           Text('›').fontFamily('Inter').fontSize(18).fontColor(Theme.TEXT_SYS_TERTIARY)
         }
         .width('100%').padding(Theme.SPACE_MD)
-        .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+        .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
         .shadow({ radius: 4, color: '#08000000', offsetY: 1 })
         .onClick(() => this.onChat())
       })

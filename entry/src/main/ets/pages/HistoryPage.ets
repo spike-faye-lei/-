@@ -127,7 +127,7 @@ struct HistoryPage {
           .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, bottom: Theme.SPACE_SM })
         }
         .width('100%')
-        .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+        .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
         .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
         .padding({ top: Theme.SPACE_SM })
         .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
@@ -205,7 +205,7 @@ struct HistoryPage {
                   .margin({ top: Theme.SPACE_SM })
               }
                             .padding(Theme.SPACE_MD)
-              .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+              .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
               .borderRadius(Theme.RADIUS_MD)
               .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
               .opacity(this.fontScale > 0 ? 1 : 1)

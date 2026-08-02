@@ -39,7 +39,7 @@ export struct TabRecipes {
       }
       .alignItems(HorizontalAlign.Start).layoutWeight(1)
       .padding(Theme.SPACE_MD)
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
       .onClick(() => this.onRecipes())
 
@@ -51,7 +51,7 @@ export struct TabRecipes {
       }
       .alignItems(HorizontalAlign.Start).layoutWeight(1)
       .padding(Theme.SPACE_MD)
-      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
       .onClick(() => this.onGuidelines())
 

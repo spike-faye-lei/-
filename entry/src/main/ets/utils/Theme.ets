@@ -28,12 +28,11 @@ export class Theme {
   static bgGradient(mode: string, style: string): LinearGradientOptions {
     if (mode === 'dark') {
       if (style === 'minimal') {
-        // 简约暗色：纯色炭黑，对标 Claude 桌面暗色背景 #262624（与 glass 渐变背景区分）
-        return { angle: 135, colors: [['#262624', 0.0], ['#262624', 1.0]] }
+        // 简约暗色：纯色，对标 ChatGPT 桌面暗色背景 #212121
+        return { angle: 135, colors: [['#212121', 0.0], ['#212121', 1.0]] }
       }
-      // 玻璃暗色：带暖橙层次的多彩渐变（毛玻璃需要背景有色彩变化才透得出质感，
-      // 纯灰背景上玻璃和实心卡片没区别）
-      return { angle: 135, colors: [['#1B1712', 0.0], ['#3D2F1F', 1.0]] }
+      // 玻璃暗色：ChatGPT 基调的深灰渐变（保留色彩层次，玻璃卡片才透得出质感）
+      return { angle: 135, colors: [['#1F1E1C', 0.0], ['#2C2925', 1.0]] }
     }
     if (style === 'minimal') {
       // 简约：两端同色 = 纯色，浅色对标 Claude 米白 #FAF9F5
@@ -49,25 +48,13 @@ export class Theme {
   //    与简约的本质差异：玻璃 = 有光的渐变（透）↔ 简约 = 纯色实心（平）
   static get GLASS_GRADIENT(): LinearGradientOptions {
     if (Theme.isMinimal()) {
-      // 简约：纯色实心卡片
-      return { angle: 180, colors: [[Theme.isDark() ? '#353533' : '#FFFFFF', 0.0], [Theme.isDark() ? '#353533' : '#FFFFFF', 1.0]] }
+      // 简约：纯色实心卡片（浅色 Claude 白卡 / 暗色 ChatGPT 深灰卡 #2D2D2D）
+      return { angle: 180, colors: [[Theme.isDark() ? '#2D2D2D' : '#FFFFFF', 0.0], [Theme.isDark() ? '#2D2D2D' : '#FFFFFF', 1.0]] }
     }
-    // 玻璃：顶部亮白反光 → 底部透出背景（#AARRGGBB 保证 alpha 可靠）
+    // 玻璃（文字卡片）：顶部亮白反光 → 底部透出背景（#AARRGGBB 保证 alpha 可靠）
     return Theme.isDark()
       ? { angle: 180, colors: [['#3DFFFFFF', 0.0], ['#0DFFFFFF', 1.0]] }
       : { angle: 180, colors: [['#8CFFFFFF', 0.0], ['#1FFFFFFF', 1.0]] }
-  }
-
-  // —— 玻璃背景效果（官方 backgroundEffect API 11+：模糊+饱和度+亮度，
-  //    真机才有模糊；模拟器不渲染，视觉由 GLASS_GRADIENT 渐变提供）——
-  static get GLASS_EFFECT(): BackgroundEffectOptions {
-    if (Theme.isMinimal()) {
-      return { radius: 0, saturation: 1, brightness: 1 }
-    }
-    // Apple Liquid Glass：模糊 22 + 高饱和（背后色彩更艳）+ 适度提亮
-    return Theme.isDark()
-      ? { radius: 22, saturation: 1.4, brightness: 1.28 }
-      : { radius: 22, saturation: 1.5, brightness: 1.15 }
   }
 
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
@@ -86,8 +73,8 @@ export class Theme {
   // 风格：glass 液态玻璃（半透明+模糊）/ minimal Claude 简约（纯色无模糊）
   static get GLASS_BG(): string {
     if (Theme.isMinimal()) {
-      // 简约卡片可见（学浅色简约：白卡片 / 暗色：深灰卡片），扁平无阴影
-      return Theme.isDark() ? '#353533' : '#FFFFFF'
+      // 简约卡片可见（浅色 Claude 白卡片 / 暗色 ChatGPT 深灰卡片），扁平无阴影
+      return Theme.isDark() ? '#2D2D2D' : '#FFFFFF'
     }
     // 玻璃：半透明白（胶囊按钮等小元素用单色，卡片主体用 GLASS_GRADIENT）
     return Theme.isDark() ? '#1FFFFFFF' : '#33FFFFFF'
@@ -100,8 +87,8 @@ export class Theme {
   // minimal 细边框（对标 Claude：浅色细灰边，暗色 8% 白细边）
   static get GLASS_BORDER(): string {
     if (Theme.isMinimal()) {
-      // #AARRGGBB：暗色 8% 白细边 / 浅色 6% 黑细边
-      return Theme.isDark() ? '#14FFFFFF' : '#0F000000'
+      // 简约细边：暗色 ChatGPT 实色边框 #3E3E3E / 浅色 Claude 6% 黑细边
+      return Theme.isDark() ? '#3E3E3E' : '#0F000000'
     }
     // 玻璃高光白边：#AARRGGBB，暗色 50% 白 / 浅色 90% 白
     return Theme.isDark() ? '#80FFFFFF' : '#E6FFFFFF'

@@ -175,7 +175,7 @@ struct MembersPage {
           }
           .width('100%').margin({ top: Theme.SPACE_MD })
         }
-          .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
           .borderRadius(Theme.RADIUS_LG)
           .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
           }
@@ -225,7 +225,7 @@ struct MembersPage {
                   .height(30)
                   .onClick(() => this.deleteMember(item))
               }
-              .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+              .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
               .borderRadius(Theme.RADIUS_MD)
               .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
               .border({

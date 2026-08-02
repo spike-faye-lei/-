@@ -208,7 +208,7 @@ struct GuidelinesPage {
           Button() { Text('←').fontFamily('Inter').fontSize(18).fontColor(Theme.TEXT_SYS).fontWeight(600) }
             .type(ButtonType.Circle)
             .width(40).height(40)
-            .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .border({ width: 1, color: Theme.BORDER })
             .onClick(() => this.goBack())
           Blank()
@@ -280,7 +280,7 @@ struct GuidelinesPage {
               }
             }
             .width('100%').padding(Theme.SPACE_MD)
-            .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_MD })
@@ -380,7 +380,7 @@ struct GuidelinesPage {
               }
               .width('100%').padding({ top: Theme.SPACE_SM, bottom: Theme.SPACE_SM })
             }
-            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_SM })
@@ -412,7 +412,7 @@ struct GuidelinesPage {
               }
               .alignItems(HorizontalAlign.Center).layoutWeight(1)
             }
-            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_SM })
@@ -473,7 +473,7 @@ struct GuidelinesPage {
               }
               .width('100%').padding({ top: Theme.SPACE_SM, bottom: Theme.SPACE_SM })
             }
-            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_SM })
@@ -495,7 +495,7 @@ struct GuidelinesPage {
                 .padding({ top: Theme.SPACE_SM, bottom: Theme.SPACE_SM })
               })
             }
-            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .padding(Theme.SPACE_MD).backgroundBlurStyle(BlurStyle.Thin, { colorMode: Theme.isDark() ? ThemeColorMode.DARK : ThemeColorMode.LIGHT }).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_SM })
