@@ -1,6 +1,6 @@
 # SmartKitchen — 鸿蒙端智能厨房助手
 
-基于 HarmonyOS NEXT（API 11）开发的智能厨房食材识别 APP，与 [SmartKitchen 后端](https://github.com/spike-faye-lei/SmartKitchen) 配合使用。
+基于 HarmonyOS NEXT（API 24）开发的智能厨房食材识别 APP，与 [SmartKitchen 后端](https://github.com/spike-faye-lei/-) 配合使用。
 
 ## 📱 功能
 
@@ -31,9 +31,10 @@ DevEco Studio 打开 `A11451411/`，Sync → Build → 部署到设备。
 ## 🙏 致谢
 
 - [HarmonyOS](https://developer.huawei.com) — ArkTS/ArkUI 框架
-- [SmartKitchen](https://github.com/spike-faye-lei/SmartKitchen) — 后端 AI 服务（CLIP 92.69%）
+- [SmartKitchen](https://github.com/spike-faye-lei/-) — 后端 AI 服务（CLIP 92.69%）
 - [CountBot](https://github.com/countbot-ai/CountBot) — 人脸识别模块参考
 
-## 📄 许可证
+## 📄 许可证与免责声明
 
-MIT License
+- [MIT License](LICENSE)
+- [免责声明](DISCLAIMER.md) — 学习用途，AI 内容仅供参考，不构成医疗建议

@@ -7,6 +7,10 @@
     "pages/GuidelinesPage",
     "pages/MembersPage",
     "pages/FacePage",
-    "pages/ChatPage"
+    "pages/ChatPage",
+    "pages/BoardPage",
+    "pages/SettingsPage",
+    "pages/BodyPage",
+    "pages/LeaderboardPage"
   ]
 }

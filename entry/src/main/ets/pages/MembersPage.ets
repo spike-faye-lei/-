@@ -1,22 +1,40 @@
-import router from '@ohos.router'
-import promptAction from '@ohos.promptAction'
 import { httpUtil } from '../utils/HttpUtil'
-import { AppStorage, MemberItem } from '../utils/DataModels'
+import { AppStorage as DataStore, MemberItem, I18nDict } from '../utils/DataModels'
+import { zh } from '../utils/i18n/zh'
+import { en } from '../utils/i18n/en'
 import { Theme } from '../utils/Theme'
 
 @Entry
 @Component
 struct MembersPage {
+  @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('fontScale') fontScale: number = 1
+  @StorageLink('language') language: string = 'zh'
+  // 页面每次显示时自增，强制整页重绘
+  @State themeTick: number = 0
   @State members: MemberItem[] = []
   @State isLoading: boolean = true
   @State statusMsg: string = '加载中...'
   @State newName: string = ''
   @State newGoal: string = 'maintain'
   @State showAdd: boolean = false
-  @State selectedMember: string = AppStorage.currentMember
+  @State selectedMember: string = DataStore.currentMember
 
   aboutToAppear() {
     this.loadMembers()
+  }
+
+  i18n(): I18nDict {
+    return this.language === 'zh' ? zh : en
+  }
+
+  onPageShow() {
+    // 页面被压栈时收不到 AppStorage 通知，回到前台强制同步最新设置
+    let mode = AppStorage.get<string>('themeMode') || 'system'
+    let scale = AppStorage.get<number>('fontScale') || 1
+    if (mode !== this.themeMode) this.themeMode = mode
+    if (scale !== this.fontScale) this.fontScale = scale
+    this.themeTick++
   }
 
   async loadMembers() {
@@ -24,12 +42,12 @@ struct MembersPage {
     try {
       let resp = await httpUtil.getMembers()
       this.members = resp.members
-      this.statusMsg = resp.members.length > 0 ? '' : '暂无成员'
+      this.statusMsg = resp.members.length > 0 ? '' : this.i18n().noMembers
       // 同步当前选中
       let current = this.members.find(m => m.name === this.selectedMember)
       if (!current && this.members.length > 0) {
         this.selectedMember = this.members[0].name
-        AppStorage.currentMember = this.selectedMember
+        DataStore.currentMember = this.selectedMember
       }
     } catch (e) {
       this.statusMsg = '加载失败: ' + JSON.stringify(e)
@@ -40,53 +58,53 @@ struct MembersPage {
   async addMember() {
     let name = this.newName.trim()
     if (!name) {
-      promptAction.showToast({ message: '请输入成员名称', duration: 2000 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().enterMemberName, duration: 2000 })
       return
     }
     try {
       await httpUtil.addMember(name, this.newGoal)
-      promptAction.showToast({ message: '已添加 ' + name, duration: 1500 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().addSuccess + ' ' + name, duration: 1500 })
       this.newName = ''
       this.showAdd = false
       await this.loadMembers()
     } catch (e) {
-      promptAction.showToast({ message: '添加失败', duration: 2000 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().addFailed, duration: 2000 })
     }
   }
 
   async deleteMember(item: MemberItem) {
     if (item.name === 'default') {
-      promptAction.showToast({ message: '默认成员不可删除', duration: 1500 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().defaultNotDeletable, duration: 1500 })
       return
     }
     try {
       await httpUtil.deleteMember(item.id)
-      promptAction.showToast({ message: '已删除 ' + item.name, duration: 1500 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().deleteSuccess + ' ' + item.name, duration: 1500 })
       if (this.selectedMember === item.name) {
         this.selectedMember = 'default'
-        AppStorage.currentMember = 'default'
+        DataStore.currentMember = 'default'
       }
       await this.loadMembers()
     } catch (e) {
-      promptAction.showToast({ message: '删除失败', duration: 2000 })
+      this.getUIContext().getPromptAction().showToast({ message: this.i18n().deleteFailed, duration: 2000 })
     }
   }
 
   selectMember(name: string) {
     this.selectedMember = name
-    AppStorage.currentMember = name
-    promptAction.showToast({ message: '当前成员: ' + name, duration: 1500 })
+    DataStore.currentMember = name
+    this.getUIContext().getPromptAction().showToast({ message: this.i18n().currentMember + ': ' + name, duration: 1500 })
   }
 
   goBack() {
-    router.back()
+    this.getUIContext().getRouter().back()
   }
 
   getGoalLabel(goal: string): string {
     switch (goal) {
-      case 'maintain': return '保持体重'
-      case 'lose': return '减重'
-      case 'gain': return '增重'
+      case 'maintain': return this.i18n().goalMaintain
+      case 'lose': return this.i18n().goalLose
+      case 'gain': return this.i18n().goalGain
       default: return goal
     }
   }
@@ -104,28 +122,26 @@ struct MembersPage {
     Column() {
       // 大标题区
       Row() {
-        Text('← 返回').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY)
-          .onClick(() => this.goBack())
-
         Blank()
 
-        Button() { Text('+ 添加').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY).fontWeight(600) }
+        Button() { Text('+ ' + this.i18n().addMember).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY).fontWeight(600) }
           .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).height(34)
           .onClick(() => { this.showAdd = !this.showAdd })
       }
-      .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
+      .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
-      Text('家庭成员').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT)
+      Text(this.i18n().memberTitle).fontFamily('Inter').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT_SYS)
         .width('100%').margin({ top: Theme.SPACE_SM })
         .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 添加成员表单
       if (this.showAdd) {
         Column() {
-          Text('添加新成员').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
+          Column() {
+          Text(this.i18n().addMember).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT_SYS)
             .width('100%')
 
-          TextInput({ placeholder: '成员名称', text: this.newName })
+          TextInput({ placeholder: this.i18n().memberName, text: this.newName })
             .width('100%').height(44)
             .onChange((v: string) => { this.newName = v })
             .backgroundColor(Theme.BG).borderRadius(Theme.RADIUS_MD)
@@ -134,10 +150,10 @@ struct MembersPage {
 
           Row() {
             ForEach(['maintain', 'lose', 'gain'], (goal: string) => {
-              Button() { Text(this.getGoalLabel(goal)).fontSize(Theme.FONT_CAPTION) }
+              Button() { Text(this.getGoalLabel(goal)).fontFamily('Inter').fontSize(Theme.FONT_CAPTION) }
                 .type(ButtonType.Capsule)
                 .backgroundColor(this.newGoal === goal ? Theme.PRIMARY : Theme.BG)
-                .fontColor(this.newGoal === goal ? '#FFFFFF' : Theme.TEXT_SECONDARY)
+                .fontColor(this.newGoal === goal ? '#FFFFFF' : Theme.TEXT_SYS_SECONDARY)
                 .height(34).margin({ right: Theme.SPACE_SM })
                 .onClick(() => { this.newGoal = goal })
             })
@@ -145,33 +161,34 @@ struct MembersPage {
           .width('100%').margin({ top: Theme.SPACE_MD })
 
           Row() {
-            Button() { Text('取消').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY) }
+            Button() { Text(this.i18n().cancel).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_SECONDARY) }
               .type(ButtonType.Capsule).backgroundColor(Theme.BG).height(38)
               .layoutWeight(1).margin({ right: Theme.SPACE_SM })
               .onClick(() => { this.showAdd = false })
-            Button() { Text('确认添加').fontSize(Theme.FONT_BODY).fontColor('#FFFFFF').fontWeight(600) }
-              .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).height(38)
+            Button() { Text(this.i18n().confirmAdd).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor('#FFFFFF').fontWeight(600) }
+              .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).linearGradient({ angle: 135, colors: [['#E8967A', 0.0], ['#D97757', 1.0]] }).height(38)
               .layoutWeight(1).margin({ left: Theme.SPACE_SM })
               .onClick(() => this.addMember())
           }
           .width('100%').margin({ top: Theme.SPACE_MD })
         }
-        .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
-        .borderRadius(Theme.RADIUS_LG)
-        .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
-        .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
+          .padding(Theme.SPACE_MD).backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .borderRadius(Theme.RADIUS_LG)
+          .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
+          }
+          .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
       }
 
       // 成员列表
       if (this.isLoading) {
         Column() {
           LoadingProgress().width(32).height(32).color(Theme.PRIMARY)
-          Text('加载成员...').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+          Text(this.i18n().loadingMembers).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_TERTIARY)
             .margin({ top: Theme.SPACE_MD })
         }.justifyContent(FlexAlign.Center).width('100%').layoutWeight(1)
       } else if (this.members.length > 0) {
-        Text('选择当前记录人').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY)
-          .width('100%').padding({ left: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_XS })
+        Text(this.i18n().selectCurrent).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_SECONDARY)
+          .padding({ left: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_XS })
 
         List() {
           ForEach(this.members, (item: MemberItem) => {
@@ -185,33 +202,34 @@ struct MembersPage {
 
                 Column() {
                   Row() {
-                    Text(item.name).fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
+                    Text(item.name).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT_SYS)
                     Text(this.getGoalLabel(item.health_goal))
-                      .fontSize(Theme.FONT_MICRO).fontColor('#FFFFFF')
+                      .fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor('#FFFFFF')
                       .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
                       .backgroundColor(this.getGoalColor(item.health_goal))
                       .borderRadius(Theme.RADIUS_FULL).margin({ left: Theme.SPACE_SM })
                   }
 
                   if (item.created_at) {
-                    Text('加入于 ' + item.created_at).fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_TERTIARY)
+                    Text('加入于 ' + item.created_at).fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SYS_TERTIARY)
                       .margin({ top: Theme.SPACE_XS })
                   }
                 }
                 .alignItems(HorizontalAlign.Start).layoutWeight(1)
 
-                Button() { Text('删除').fontSize(Theme.FONT_CAPTION).fontColor('#FFFFFF') }
+                Button() { Text(this.i18n().delete).fontFamily('Inter').fontSize(Theme.FONT_CAPTION).fontColor('#FFFFFF') }
                   .type(ButtonType.Capsule).backgroundColor(Theme.DANGER)
                   .height(30)
                   .onClick(() => this.deleteMember(item))
               }
-              .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+              .padding(Theme.SPACE_MD).backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER })
               .borderRadius(Theme.RADIUS_MD)
               .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
               .border({
                 width: this.selectedMember === item.name ? 1.5 : 0,
                 color: Theme.PRIMARY
               })
+              .opacity(this.fontScale > 0 ? 1 : 1)
               .onClick(() => this.selectMember(item.name))
             }
             .margin({ top: Theme.SPACE_SM, left: Theme.SPACE_MD, right: Theme.SPACE_MD })
@@ -220,18 +238,19 @@ struct MembersPage {
         .width('100%').layoutWeight(1).margin({ top: Theme.SPACE_SM })
       } else {
         Column() {
-          Text(this.statusMsg).fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
+          Text(this.statusMsg).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_TERTIARY)
             .width('100%').textAlign(TextAlign.Center)
         }
         .width('100%').layoutWeight(1).justifyContent(FlexAlign.Center)
       }
 
       // 提示
-      Text('选择的成员将关联后续的饮食记录')
-        .fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
-        .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
+      Text(this.i18n().memberHint)
+        .fontFamily('Inter').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SYS_TERTIARY)
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
         .textAlign(TextAlign.Center)
     }
-    .width('100%').height('100%').backgroundColor(Theme.BG)
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

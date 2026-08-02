@@ -2,7 +2,9 @@ import http from '@ohos.net.http'
 import fs from '@ohos.file.fs'
 import { AppStorage, RecognizeResponse, NutritionInfo, FoodLogResponse,
   RecipeListResponse, GuidelineResponse, MemberListResponse,
-  FaceStatusResponse, FaceVerifyResponse, FaceEnrollResponse } from './DataModels'
+  FaceStatusResponse, FaceVerifyResponse, FaceEnrollResponse,
+  MealResponse, HealthScoreResponse, LeaderboardResponse,
+  ChatResponse, BoardStatusResponse } from './DataModels'
 
 export class HttpUtil {
   private baseUrl: string = AppStorage.backendUrl
@@ -10,6 +12,10 @@ export class HttpUtil {
   setBaseUrl(url: string) {
     this.baseUrl = url
     AppStorage.backendUrl = url
+  }
+
+  getBaseUrl(): string {
+    return this.baseUrl
   }
 
   async get(url: string): Promise<string> {
@@ -288,20 +294,7 @@ export class HttpUtil {
       return Promise.reject(e)
     }
 
-    let base64 = ''
     let bytes = new Uint8Array(buf)
-    for (let i = 0; i < bytes.length; i++) {
-      base64 += String.fromCharCode(bytes[i])
-    }
-    // JS btoa for base64
-    let encoded = ''
-    // Simple base64-like encoding via btoa polyfill
-    let binary = ''
-    for (let i = 0; i < bytes.length; i++) {
-      binary += String.fromCharCode(bytes[i])
-    }
-    // Note: ArkTS doesn't have btoa(), use manual approach
-    // For now, send as raw binary via multipart
     let boundary = '----FaceKitchen' + Date.now().toString(36)
     let header = '--' + boundary + '\r\n' +
       'Content-Disposition: form-data; name="frame"; filename="face.jpg"\r\n' +
@@ -399,11 +392,17 @@ export class HttpUtil {
 
   async recognizeMeal(imagePath: string): Promise<MealResponse> {
     let httpReq = http.createHttp()
-    let file = fs.openSync(imagePath, fs.OpenMode.READ_ONLY)
-    let stat = fs.statSync(file.fd)
-    let buf = new ArrayBuffer(stat.size)
-    file.readSync(buf)
-    fs.closeSync(file)
+    let buf: ArrayBuffer
+    try {
+      let file = fs.openSync(imagePath, fs.OpenMode.READ_ONLY)
+      let stat = fs.statSync(file.fd)
+      buf = new ArrayBuffer(stat.size)
+      fs.readSync(file.fd, buf)
+      await fs.close(file)
+    } catch (e) {
+      httpReq.destroy()
+      return Promise.reject(e)
+    }
 
     let bytes = new Uint8Array(buf)
     let boundary = '----Meal' + Date.now().toString(36)
@@ -488,6 +487,26 @@ export class HttpUtil {
         readTimeout: 30000,
       }).then(data => {
         let resp = JSON.parse(data.result as string) as ChatResponse
+        httpReq.destroy()
+        resolve(resp)
+      }).catch((err: Error) => {
+        httpReq.destroy()
+        reject(err)
+      })
+    })
+  }
+
+  // ====== 开发板状态 ======
+
+  async getBoardStatus(): Promise<BoardStatusResponse> {
+    let httpReq = http.createHttp()
+    return new Promise<BoardStatusResponse>((resolve, reject) => {
+      httpReq.request(this.baseUrl + '/api/board/status', {
+        method: http.RequestMethod.GET,
+        connectTimeout: 10000,
+        readTimeout: 15000,
+      }).then(data => {
+        let resp = JSON.parse(data.result as string) as BoardStatusResponse
         httpReq.destroy()
         resolve(resp)
       }).catch((err: Error) => {

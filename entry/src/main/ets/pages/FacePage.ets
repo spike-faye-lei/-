@@ -1,15 +1,21 @@
-import router from '@ohos.router'
 import { cameraPicker, camera } from '@kit.CameraKit'
 import { image } from '@kit.ImageKit'
 import fs from '@ohos.file.fs'
 import common from '@ohos.app.ability.common'
 import { httpUtil } from '../utils/HttpUtil'
-import { AppStorage } from '../utils/DataModels'
+import { AppStorage as DataStore, I18nDict } from '../utils/DataModels'
+import { zh } from '../utils/i18n/zh'
+import { en } from '../utils/i18n/en'
 import { Theme } from '../utils/Theme'
 
 @Entry
 @Component
 struct FacePage {
+  @StorageLink('themeMode') themeMode: string = 'system'
+  @StorageLink('fontScale') fontScale: number = 1
+  @StorageLink('language') language: string = 'zh'
+  // 页面每次显示时自增，强制整页重绘
+  @State themeTick: number = 0
   @State photoPath: string = ''
   @State isProcessing: boolean = false
   @State statusText: string = '拍照进行人脸识别'
@@ -21,6 +27,19 @@ struct FacePage {
 
   aboutToAppear() {
     this.loadFaceStatus()
+  }
+
+  i18n(): I18nDict {
+    return this.language === 'zh' ? zh : en
+  }
+
+  onPageShow() {
+    // 页面被压栈时收不到 AppStorage 通知，回到前台强制同步最新设置
+    let mode = AppStorage.get<string>('themeMode') || 'system'
+    let scale = AppStorage.get<number>('fontScale') || 1
+    if (mode !== this.themeMode) this.themeMode = mode
+    if (scale !== this.fontScale) this.fontScale = scale
+    this.themeTick++
   }
 
   async loadFaceStatus() {
@@ -35,7 +54,7 @@ struct FacePage {
   async takePhoto() {
     this.statusText = '拍照中...'
     try {
-      let context = getContext(this) as common.UIAbilityContext
+      let context = this.getUIContext().getHostContext() as common.UIAbilityContext
       let pickerResult = await cameraPicker.pick(
         context,
         [cameraPicker.PickerMediaType.PHOTO],
@@ -81,7 +100,7 @@ struct FacePage {
           this.confidence = resp.confidence ?? 0
           this.statusText = '识别成功: ' + this.identifiedUser
           this.showResult = true
-          AppStorage.currentMember = this.identifiedUser
+          DataStore.currentMember = this.identifiedUser
         } else {
           this.statusText = '未识别: ' + (resp.message || '请先注册人脸')
         }
@@ -114,52 +133,47 @@ struct FacePage {
   }
 
   goBack() {
-    router.back()
+    this.getUIContext().getRouter().back()
   }
 
   build() {
     Column() {
-      // 大标题区
-      Row() {
-        Text('← 返回').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY)
-          .onClick(() => this.goBack())
-        Blank()
-      }
-      .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
-
-      Text('人脸识别').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT)
+      Text(this.i18n().faceTitle).fontFamily('Inter').fontSize(Theme.FONT_TITLE).fontWeight(700).fontColor(Theme.TEXT_SYS)
         .width('100%').margin({ top: Theme.SPACE_SM })
         .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 状态
       Text(this.statusText)
-        .fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SECONDARY)
+        .fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_SECONDARY)
         .width('100%').margin({ top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
         .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 预览区
-      Stack() {
-        if (this.photoPixelMap) {
-          Image(this.photoPixelMap).width('100%').height(240).objectFit(ImageFit.Contain)
-            .borderRadius(Theme.RADIUS_LG)
-        } else {
-          Column() {
-            SymbolGlyph($r('sys.symbol.camera')).fontSize(56).fontColor([Theme.TEXT_TERTIARY])
-            Text('点击拍照进行人脸识别').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_TERTIARY)
-              .margin({ top: Theme.SPACE_SM })
+      Column() {
+        Stack() {
+          if (this.photoPixelMap) {
+            Image(this.photoPixelMap).width('100%').height(240).objectFit(ImageFit.Contain)
+              .borderRadius(Theme.RADIUS_LG)
+          } else {
+            Column() {
+              SymbolGlyph($r('sys.symbol.camera')).fontSize(56).fontColor([Theme.TEXT_SYS_TERTIARY])
+              Text(this.i18n().faceHint).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS_TERTIARY)
+                .margin({ top: Theme.SPACE_SM })
+            }
+            .justifyContent(FlexAlign.Center).width('100%').height(240)
+            .backgroundColor(Theme.BG).borderRadius(Theme.RADIUS_LG)
           }
-          .justifyContent(FlexAlign.Center).width('100%').height(240)
-          .backgroundColor(Theme.BG).borderRadius(Theme.RADIUS_LG)
         }
+        .width('100%')
       }
-      .width('100%').margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
+      .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
 
       // 按钮区
       Row() {
         Button() {
           Row() {
             SymbolGlyph($r('sys.symbol.camera')).fontSize(20).fontColor([Theme.PRIMARY])
-            Text('拍照').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY).fontWeight(600)
+            Text(this.i18n().takePhoto).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontColor(Theme.PRIMARY).fontWeight(600)
               .margin({ left: Theme.SPACE_XS })
           }
         }
@@ -168,75 +182,79 @@ struct FacePage {
 
         Button() {
           if (this.isProcessing) {
-            LoadingProgress().width(20).height(20).color(Theme.SURFACE)
+            LoadingProgress().width(20).height(20).color(Theme.ON_PRIMARY)
           } else {
             Row() {
-              SymbolGlyph($r('sys.symbol.magnifyingglass')).fontSize(20).fontColor([Theme.SURFACE])
-              Text('识别').fontSize(Theme.FONT_SUB).fontColor(Theme.SURFACE).fontWeight(600)
+              SymbolGlyph($r('sys.symbol.magnifyingglass')).fontSize(20).fontColor([Theme.ON_PRIMARY])
+              Text(this.i18n().recognize).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontColor(Theme.ON_PRIMARY).fontWeight(600)
                 .margin({ left: Theme.SPACE_XS })
             }
           }
         }
-        .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).width(150).height(48)
+        .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY).linearGradient({ angle: 135, colors: [['#E8967A', 0.0], ['#D97757', 1.0]] }).width(150).height(48)
         .enabled(!!this.photoPath && !this.isProcessing)
         .onClick(() => this.verifyFace())
       }
-      .justifyContent(FlexAlign.SpaceEvenly).width('100%').padding({ top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
+      .justifyContent(FlexAlign.SpaceEvenly).padding({ top: Theme.SPACE_MD, bottom: Theme.SPACE_MD })
 
       // 识别结果
       if (this.showResult) {
         Column() {
-          Row() {
-            Text('识别结果').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_TERTIARY)
-          }.width('100%')
+          Column() {
+            Row() {
+              Text(this.i18n().recognitionResult).fontFamily('Inter').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SYS_TERTIARY)
+            }.width('100%')
 
-          Row() {
-            Text(this.identifiedUser).fontSize(Theme.FONT_HEADING).fontWeight(700).fontColor(Theme.TEXT)
-            Text((this.confidence * 100).toFixed(1) + '%')
-              .fontSize(Theme.FONT_SUB).fontColor(Theme.SUCCESS).margin({ left: Theme.SPACE_SM })
-          }.margin({ top: Theme.SPACE_XS })
+            Row() {
+              Text(this.identifiedUser).fontFamily('Inter').fontSize(Theme.FONT_HEADING).fontWeight(700).fontColor(Theme.TEXT_SYS)
+              Text((this.confidence * 100).toFixed(1) + '%')
+                .fontFamily('Inter').fontSize(Theme.FONT_SUB).fontColor(Theme.SUCCESS).margin({ left: Theme.SPACE_SM })
+            }.margin({ top: Theme.SPACE_XS })
 
-          Row() {
-            Button() { Text('注册此人').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY) }
-              .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).height(40)
-              .onClick(() => this.enrollFace(this.identifiedUser))
+            Row() {
+              Button() { Text(this.i18n().registerThis).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY) }
+                .type(ButtonType.Capsule).backgroundColor(Theme.PRIMARY_LIGHT).height(40)
+                .onClick(() => this.enrollFace(this.identifiedUser))
+            }
+            .margin({ top: Theme.SPACE_MD })
           }
-          .margin({ top: Theme.SPACE_MD })
+          .padding(Theme.SPACE_MD).backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .borderRadius(Theme.RADIUS_LG)
+          .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
         }
-        .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
-        .borderRadius(Theme.RADIUS_LG)
-        .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
-        .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_MD })
       }
 
       // 已注册用户
       if (this.enrolledUsers.length > 0) {
-        Text('已注册成员').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT)
-          .width('100%').padding({ left: Theme.SPACE_MD, top: Theme.SPACE_LG, bottom: Theme.SPACE_SM })
+        Text(this.i18n().registeredMembers).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontWeight(600).fontColor(Theme.TEXT_SYS)
+          .padding({ left: Theme.SPACE_MD, top: Theme.SPACE_LG, bottom: Theme.SPACE_SM })
 
         Column() {
           ForEach(this.enrolledUsers, (user: string) => {
             Row() {
-              Text(user.charAt(0)).fontSize(Theme.FONT_BODY).fontWeight(600).fontColor(Theme.PRIMARY)
+              Text(user.charAt(0)).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontWeight(600).fontColor(Theme.PRIMARY)
                 .width(36).height(36).textAlign(TextAlign.Center)
                 .backgroundColor(Theme.PRIMARY_LIGHT).borderRadius(Theme.RADIUS_FULL)
 
-              Text(user).fontSize(Theme.FONT_SUB).fontColor(Theme.TEXT).layoutWeight(1)
+              Text(user).fontFamily('Inter').fontSize(Theme.FONT_SUB).fontColor(Theme.TEXT_SYS).layoutWeight(1)
                 .margin({ left: Theme.SPACE_MD })
 
-              Text('已注册').fontSize(Theme.FONT_MICRO).fontColor(Theme.SURFACE)
+              Text(this.i18n().registered).fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.SURFACE)
                 .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
                 .backgroundColor(Theme.SUCCESS).borderRadius(Theme.RADIUS_FULL)
             }
-            .width('100%').padding(Theme.SPACE_MD).backgroundColor(Theme.SURFACE)
+            .padding(Theme.SPACE_MD).backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_XS })
           })
         }
-        .width('100%').padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
+        .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD })
       }
     }
-    .width('100%').height('100%').backgroundColor(Theme.BG).padding({ top: Theme.SPACE_MD })
+    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode))
+    .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
+    .padding({ top: Theme.SPACE_MD })
   }
 }

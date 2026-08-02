@@ -79,6 +79,9 @@ export interface RecipeItem {
   cook_time: number
   difficulty: string
   ingredients: RecipeIngredient[]
+  steps?: string[]
+  bvideo?: string
+  bvideoAuthor?: string
   nutrition: RecipeNutrition
   score?: number
 }
@@ -172,7 +175,47 @@ export interface I18nDict {
   recommendStaple: string; recommendProtein: string; recommendVeg: string
   memberTitle: string; addMember: string; memberName: string; memberGoal: string
   deleteMember: string; mealBreakfast: string; mealLunch: string; mealDinner: string
-  memberPH: string
+  memberPH: string; recipes: string; assistant: string; me: string
+  settings: string; boardStatus: string; darkMode: string; fontSize: string; language: string
+  singleFood: string; mealAnalysis: string
+  healthScore: string; todayCalories: string; emptyRecord: string; foodDetail: string; recipeSquare: string; guidelines: string
+  eatWell: string; eatWellDesc: string; askNutritionist: string; chatDesc: string; tryAsking: string
+  faceRecognition: string; boardDesc: string; historyDesc: string; guidelinesDesc: string; membersDesc: string; faceDesc: string; settingsDesc: string; aboutDesc: string
+  browseByMeal: string; pagodaDesc: string; startChat: string; q1: string; q2: string; q3: string
+  aiNutritionist: string; loseWeight: string; dinnerIdea: string; thinking: string; chatPlaceholder: string; send: string
+  noKeyHint: string; welcomeMsg: string
+  recipeTitle: string; smartRecommend: string; allRecipes: string; loadingRecipes: string; noRecipes: string
+  matchScore: string; diffEasy: string; diffMedium: string; diffHard: string
+  guidelinesTitle: string; dailyIntake: string; macroRatio: string; mealDistribution: string; pagodaTitle: string
+  dataSource: string; loadingGuidelines: string
+  cancel: string; confirmAdd: string; delete: string; defaultNotDeletable: string; selectCurrent: string
+  memberHint: string; loadingMembers: string; noMembers: string; addSuccess: string; addFailed: string
+  deleteSuccess: string; deleteFailed: string; currentMember: string
+  enterMemberName: string; registeredMembers: string
+  faceTitle: string; registerThis: string; registered: string; recognitionResult: string; faceHint: string
+  boardTitle: string; online: string; offline: string; light: string; temperature: string; humidity: string
+  foodWeight: string; refresh: string; boardAuto: string; weighFlow: string; weighFlowDesc: string
+  deviceModel: string; chip: string; os: string; comm: string; lastReport: string
+  appearance: string; followSystem: string; followSystemDesc: string; darkModeDesc: string; fontSizeDesc: string
+  fontPreview: string; languageDesc: string; about: string; settingsAutoSave: string
+  fontSmall: string; fontStandard: string; fontLarge: string; fontXLarge: string; complete: string; all: string
+  bodyData: string; bodyTitle: string; height: string; bodyWeight: string; age: string; gender: string; male: string; female: string
+  bmi: string; bodyFatRate: string; level: string; suggestion: string
+  underweight: string; normal: string; overweight: string; obese: string
+  sugUnder: string; sugNormal: string; sugOver: string; sugObese: string; bodyDataDesc: string; cm: string; kg: string
+  currentMemberLabel: string; dietPlan: string; calorieTarget: string; mealsPlan: string; foodRec: string
+  exerciseRec: string; applyGoal: string; goalApplied: string
+  calUnder: string; calNormal: string; calOver: string; calObese: string
+  mealsUnder: string; mealsNormal: string; mealsOver: string; mealsObese: string
+  foodsUnder: string; foodsNormal: string; foodsOver: string; foodsObese: string
+  exUnder: string; exNormal: string; exOver: string; exObese: string
+  ageGroup: string; ageUnit: string
+  eatWhat: string; eatHowMuch: string; noProfile: string
+  ingredients: string; steps: string
+  weeklyTrend: string
+  watchTutorial: string
+  logToHistory: string; logFail: string; leaderboard: string; days: string; rankLabel: string
+  styleMode: string; styleDesc: string; glassStyle: string; minimalStyle: string
 }
 
 // ====== 营养数据库 ======
@@ -278,6 +321,24 @@ export interface ChatResponse {
   success: boolean
   reply: string
   configured: boolean
+}
+
+// ====== 开发板 ======
+
+export interface BoardSensorData {
+  board: string
+  lux: number
+  temp: number
+  hum: number
+  weight_g: number
+  _time: string
+}
+
+export interface BoardStatusResponse {
+  success: boolean
+  online: boolean
+  data: BoardSensorData | null
+  message: string
 }
 
 export class AppStorage {
