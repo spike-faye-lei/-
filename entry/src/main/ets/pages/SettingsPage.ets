@@ -38,9 +38,11 @@ struct SettingsPage {
     let mode = AppStorage.get<string>('themeMode') || 'system'
     let scale = AppStorage.get<number>('fontScale') || 1
     let lang = AppStorage.get<string>('language') || 'zh'
+    let style = AppStorage.get<string>('styleMode') || 'glass'
     if (mode !== this.themeMode) this.themeMode = mode
     if (scale !== this.fontScale) this.fontScale = scale
     if (lang !== this.language) this.language = lang
+    if (style !== this.styleMode) this.styleMode = style
     this.themeTick++
   }
 
@@ -51,9 +53,11 @@ struct SettingsPage {
       let mode = await pref.get('themeMode', 'system') as string
       let scale = await pref.get('fontScale', 1) as number
       let lang = await pref.get('language', 'zh') as string
+      let style = await pref.get('styleMode', 'glass') as string
       this.themeMode = mode
       this.fontScale = scale
       this.language = lang
+      this.styleMode = style
     } catch (e) {
       // 首次启动无设置文件
     }
@@ -108,6 +112,11 @@ struct SettingsPage {
   // 当前语言描述
   langDesc(): string {
     return this.language === 'zh' ? '中文' : 'English'
+  }
+
+  // 当前界面风格描述（液态玻璃 / Claude 简约）
+  styleDesc(): string {
+    return this.styleMode === 'minimal' ? this.i18n().minimalStyle : this.i18n().glassStyle
   }
 
   // ===== 设置行（直接内联，不用 @Builder 传函数）=====
@@ -185,6 +194,29 @@ struct SettingsPage {
                 })
             }
             .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: 10, bottom: 10 })
+
+            Divider().strokeWidth(0.5).color(Theme.BORDER).margin({ left: Theme.SPACE_MD })
+
+            // 行3: 界面风格（液态玻璃 / Claude 简约，点击切换，Theme.GLASS_* 全局生效）
+            Row() {
+              Column() {
+                Text(this.i18n().styleMode).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS)
+                Text(this.i18n().styleDesc).fontFamily('Inter').fontSize(Theme.FONT_MICRO)
+                  .fontColor(Theme.TEXT_SYS_TERTIARY).margin({ top: 2 })
+              }
+              .alignItems(HorizontalAlign.Start).layoutWeight(1)
+
+              Row() {
+                Text(this.styleDesc()).fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.PRIMARY)
+                Text('›').fontFamily('Inter').fontSize(18).fontColor(Theme.TEXT_SYS_TERTIARY).margin({ left: 6 })
+              }
+              .margin({ left: Theme.SPACE_SM })
+            }
+            .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: 10, bottom: 10 })
+            .onClick((): void => {
+              this.styleMode = this.styleMode === 'minimal' ? 'glass' : 'minimal'
+              this.saveSetting('styleMode', this.styleMode)
+            })
           }
           .width('100%')
           .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
