@@ -56,8 +56,8 @@ export class Theme {
       // 简约卡片可见（学浅色简约：白卡片 / 暗色：深灰卡片），扁平无阴影
       return Theme.isDark() ? '#2A2928' : '#FFFFFF'
     }
-    // 玻璃：低透明度让背景渐变透出（暗色 0.16 通透效果好，浅色对齐到 0.42）
-    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.42)'
+    // 玻璃：低透明度让背景渐变透出（浅色 0.30 与简约白卡片明显区分，暗色 0.20 拉亮）
+    return Theme.isDark() ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.30)'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24
