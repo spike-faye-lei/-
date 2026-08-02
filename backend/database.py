@@ -41,6 +41,13 @@ def init_db():
         );
         CREATE INDEX IF NOT EXISTS idx_food_logs_date ON food_logs(created_at);
         CREATE INDEX IF NOT EXISTS idx_food_logs_member ON food_logs(member);
+        CREATE TABLE IF NOT EXISTS board_events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            topic TEXT NOT NULL,
+            payload TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE INDEX IF NOT EXISTS idx_board_events_topic ON board_events(topic);
     """)
     conn.commit()
     conn.close()

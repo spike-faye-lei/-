@@ -69,3 +69,9 @@ backend/cache/
 data_train_final/
 data_val_final/
 torch_cuda.whl
+
+# 蒸馏产物（由 train_distill.py / export_onnx.py 生成，不随仓库分发）
+backend/models/student_mobilenetv3.pth
+backend/models/student_mobilenetv3.onnx
+backend/models/tinycnn_best.pt
+backend/models/tinycnn_int8.pt

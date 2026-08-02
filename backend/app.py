@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import uvicorn
 from backend.api import recognize, nutrition, history, members, guidelines, recipes
-from backend.api import meal, health, chat as chat_api
+from backend.api import meal, health, chat as chat_api, board
 from backend.modules.face_auth.router import router as face_router
 from backend.database import init_db
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -21,6 +21,11 @@ async def lifespan(app):
     logger.info("smartkitchen starting...")
     init_db()
     logger.info("db initialized")
+    # 开发板 MQTT 接入（环境变量 MQTT_HOST 配置）
+    import os
+    mqtt_host = os.environ.get("MQTT_HOST", "").strip()
+    if mqtt_host:
+        board.mqtt_connect(mqtt_host, int(os.environ.get("MQTT_PORT", "1883")))
     yield
 app = FastAPI(title="SmartKitchen API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
@@ -34,6 +39,7 @@ app.include_router(face_router)
 app.include_router(meal.router)
 app.include_router(health.router)
 app.include_router(chat_api.router)
+app.include_router(board.router)
 @app.get("/")
 async def root():
     return {"service": "SmartKitchen", "version": "1.0.0", "status": "running",
