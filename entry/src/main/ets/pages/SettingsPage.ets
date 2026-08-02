@@ -214,12 +214,16 @@ struct SettingsPage {
             }
             .padding({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: 10, bottom: 10 })
             .onClick((): void => {
-              this.styleMode = this.styleMode === 'minimal' ? 'glass' : 'minimal'
-              this.saveSetting('styleMode', this.styleMode)
+              // 先直写 AppStorage：@StorageLink 本地赋值在渲染期间可能被忽略
+              //（切玻璃后立刻再点切回会失效），全局存储更新会通知所有 @StorageLink 刷新
+              let next = AppStorage.get<string>('styleMode') === 'minimal' ? 'glass' : 'minimal'
+              AppStorage.setOrCreate('styleMode', next)
+              this.styleMode = next
+              this.saveSetting('styleMode', next)
             })
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 字体大小分组 =====
@@ -255,7 +259,7 @@ struct SettingsPage {
             .width('100%').alignItems(HorizontalAlign.Start).padding(Theme.SPACE_MD)
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 语言分组 =====
@@ -284,7 +288,7 @@ struct SettingsPage {
             })
           }
           .width('100%')
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 关于分组 =====
@@ -302,7 +306,7 @@ struct SettingsPage {
               .width('100%').textAlign(TextAlign.Start)
           }
           .padding(Theme.SPACE_MD)
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           Text(this.i18n().settingsAutoSave).fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SYS_TERTIARY)

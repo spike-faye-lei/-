@@ -52,7 +52,7 @@ export struct TabNutrition {
           .alignItems(HorizontalAlign.End).layoutWeight(2)
         }
         .padding(Theme.SPACE_LG)
-        .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+        .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
         .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
 
         // 评分维度明细
@@ -77,7 +77,7 @@ export struct TabNutrition {
           .maxLines(1).textOverflow({ overflow: TextOverflow.Ellipsis })
       }
       .padding(Theme.SPACE_LG)
-      .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
 
       // 功能入口（内联卡片）
@@ -89,7 +89,7 @@ export struct TabNutrition {
         }
         .alignItems(HorizontalAlign.Start).layoutWeight(1)
         .padding(Theme.SPACE_MD)
-        .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+        .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
         .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
         .onClick(() => this.onHistory())
 
@@ -100,7 +100,7 @@ export struct TabNutrition {
         }
         .alignItems(HorizontalAlign.Start).layoutWeight(1)
         .padding(Theme.SPACE_MD)
-        .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+        .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
         .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
         .onClick(() => this.onNutrition())
       }.width('100%')

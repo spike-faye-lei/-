@@ -54,6 +54,8 @@ struct RecipesPage {
     if (mode !== this.themeMode) this.themeMode = mode
     if (scale !== this.fontScale) this.fontScale = scale
     if (lang !== this.language) this.language = lang
+    let style = AppStorage.get<string>('styleMode') || 'glass'
+    if (style !== this.styleMode) this.styleMode = style
     this.themeTick++
   }
 
@@ -269,7 +271,7 @@ struct RecipesPage {
                 }
               }
                             .padding(Theme.SPACE_MD)
-              .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+              .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
               .borderRadius(Theme.RADIUS_MD)
               .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
               .opacity(this.fontScale > 0 ? 1 : 1)
@@ -357,7 +359,7 @@ struct RecipesPage {
             }
           }
           .width('100%').padding(Theme.SPACE_MD)
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_LG)
           .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
           .margin({ left: Theme.SPACE_MD, right: Theme.SPACE_MD, top: Theme.SPACE_SM })
         }

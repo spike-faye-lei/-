@@ -40,6 +40,8 @@ struct FacePage {
     let scale = AppStorage.get<number>('fontScale') || 1
     if (mode !== this.themeMode) this.themeMode = mode
     if (scale !== this.fontScale) this.fontScale = scale
+    let style = AppStorage.get<string>('styleMode') || 'glass'
+    if (style !== this.styleMode) this.styleMode = style
     this.themeTick++
   }
 
@@ -219,7 +221,7 @@ struct FacePage {
             }
             .margin({ top: Theme.SPACE_MD })
           }
-          .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
           .borderRadius(Theme.RADIUS_LG)
           .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
         }
@@ -245,7 +247,7 @@ struct FacePage {
                 .padding({ left: Theme.SPACE_SM, right: Theme.SPACE_SM, top: Theme.SPACE_XS, bottom: Theme.SPACE_XS })
                 .backgroundColor(Theme.SUCCESS).borderRadius(Theme.RADIUS_FULL)
             }
-            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+            .padding(Theme.SPACE_MD).backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
             .borderRadius(Theme.RADIUS_MD)
             .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
             .margin({ top: Theme.SPACE_XS })

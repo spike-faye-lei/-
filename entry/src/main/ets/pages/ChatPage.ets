@@ -43,6 +43,8 @@ struct ChatPage {
     if (mode !== this.themeMode) this.themeMode = mode
     if (scale !== this.fontScale) this.fontScale = scale
     if (lang !== this.language) this.language = lang
+    let style = AppStorage.get<string>('styleMode') || 'glass'
+    if (style !== this.styleMode) this.styleMode = style
     this.themeTick++
   }
 
@@ -95,7 +97,7 @@ struct ChatPage {
         Text(msg.content)
           .fontFamily('Inter').fontSize(Theme.FONT_BODY).fontColor(Theme.TEXT_SYS).lineHeight(20)
           .padding({ left: 14, right: 14, top: 10, bottom: 10 })
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
           .borderRadius({ topLeft: Theme.RADIUS_MD, topRight: Theme.RADIUS_MD, bottomLeft: 4, bottomRight: Theme.RADIUS_MD })
           .shadow({ radius: 2, color: '#08000000', offsetY: 1 })
       }
@@ -166,7 +168,7 @@ struct ChatPage {
         TextInput({ placeholder: this.i18n().chatPlaceholder, text: this.inputText })
           .fontFamily('Inter').fontSize(Theme.FONT_BODY)
           .height(42).layoutWeight(1)
-          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+          .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
           .borderRadius(Theme.RADIUS_FULL)
           .padding({ left: 16, right: 16 })
           .onChange((value: string) => { this.inputText = value })
@@ -184,7 +186,7 @@ struct ChatPage {
         .onClick(() => this.sendMessage(this.inputText))
       }
       .padding({ left: Theme.SPACE_LG, right: Theme.SPACE_LG, top: 8, bottom: 14 })
-      .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER })
+      .backgroundEffect(Theme.GLASS_EFFECT).linearGradient(Theme.GLASS_GRADIENT).border({ width: 0.5, color: Theme.GLASS_BORDER })
     }
     .width('100%').height('100%').linearGradient(Theme.bgGradient(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)

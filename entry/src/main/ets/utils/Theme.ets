@@ -23,29 +23,51 @@ export class Theme {
     return '#E7E1D5'
   }
 
-  // —— 页面背景渐变（glass 模式：暖色渐变层次，半透明白卡片背后才有内容可透/可模糊，
-  //    纯色背景上 backdropBlur 看不出玻璃感 —— 社区共识）——
+  // —— 页面背景渐变（glass 模式：暖色渐变层次，玻璃卡片背后必须有内容可透，
+  //    纯色/弱对比背景上玻璃感出不来；minimal 模式：纯色扁平）——
   static bgGradient(mode: string, style: string): LinearGradientOptions {
     if (mode === 'dark') {
-      return { angle: 135, colors: [['#1F1E1D', 0.0], ['#272420', 1.0]] }
+      if (style === 'minimal') {
+        // 简约暗色：纯色炭黑，对标 Claude 桌面暗色背景 #262624（与 glass 渐变背景区分）
+        return { angle: 135, colors: [['#262624', 0.0], ['#262624', 1.0]] }
+      }
+      // 玻璃暗色：带暖橙层次的多彩渐变（毛玻璃需要背景有色彩变化才透得出质感，
+      // 纯灰背景上玻璃和实心卡片没区别）
+      return { angle: 135, colors: [['#1B1712', 0.0], ['#3D2F1F', 1.0]] }
     }
     if (style === 'minimal') {
-      // 简约：两端同色 = 纯色暖米白
-      return { angle: 135, colors: [['#F7F5F0', 0.0], ['#F7F5F0', 1.0]] }
+      // 简约：两端同色 = 纯色，浅色对标 Claude 米白 #FAF9F5
+      return { angle: 135, colors: [['#FAF9F5', 0.0], ['#FAF9F5', 1.0]] }
     }
-    // 玻璃：暖米白 → 暖沙色渐变，给玻璃卡片提供可透出的层次
-    return { angle: 135, colors: [['#EDE6D8', 0.0], ['#DACFBE', 1.0]] }
+    // 玻璃浅色：米白→暖杏多彩渐变（玻璃透出暖色层次，与简约纯米白拉开）
+    return { angle: 135, colors: [['#F5EEE1', 0.0], ['#E3C4A0', 1.0]] }
   }
 
-  // —— 玻璃背景效果（官方 backgroundEffect API 11+：模糊+饱和度+亮度+颜色叠加，
-  //    这才是液态玻璃质感；minimal 时 radius 0 + 纯色卡片）——
+  // —— 玻璃卡片底色（linearGradient 白色渐变，视觉模拟玻璃光效：
+  //    顶部亮白反光 → 底部透出背景色。不依赖任何模糊 API，模拟器/真机 100% 渲染；
+  //    真机上与 backgroundEffect 的模糊叠加成真液态玻璃）——
+  //    与简约的本质差异：玻璃 = 有光的渐变（透）↔ 简约 = 纯色实心（平）
+  static get GLASS_GRADIENT(): LinearGradientOptions {
+    if (Theme.isMinimal()) {
+      // 简约：纯色实心卡片
+      return { angle: 180, colors: [[Theme.isDark() ? '#353533' : '#FFFFFF', 0.0], [Theme.isDark() ? '#353533' : '#FFFFFF', 1.0]] }
+    }
+    // 玻璃：顶部亮白反光 → 底部透出背景（#AARRGGBB 保证 alpha 可靠）
+    return Theme.isDark()
+      ? { angle: 180, colors: [['#3DFFFFFF', 0.0], ['#0DFFFFFF', 1.0]] }
+      : { angle: 180, colors: [['#8CFFFFFF', 0.0], ['#1FFFFFFF', 1.0]] }
+  }
+
+  // —— 玻璃背景效果（官方 backgroundEffect API 11+：模糊+饱和度+亮度，
+  //    真机才有模糊；模拟器不渲染，视觉由 GLASS_GRADIENT 渐变提供）——
   static get GLASS_EFFECT(): BackgroundEffectOptions {
     if (Theme.isMinimal()) {
-      return { radius: 0, saturation: 1, brightness: 1, color: Theme.isDark() ? '#2A2928' : '#FFFFFF' }
+      return { radius: 0, saturation: 1, brightness: 1 }
     }
+    // Apple Liquid Glass：模糊 22 + 高饱和（背后色彩更艳）+ 适度提亮
     return Theme.isDark()
-      ? { radius: 24, saturation: 1.3, brightness: 1.15, color: 'rgba(255,255,255,0.20)' }
-      : { radius: 24, saturation: 1.35, brightness: 1.10, color: 'rgba(255,255,255,0.30)' }
+      ? { radius: 22, saturation: 1.4, brightness: 1.28 }
+      : { radius: 22, saturation: 1.5, brightness: 1.15 }
   }
 
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
@@ -65,20 +87,24 @@ export class Theme {
   static get GLASS_BG(): string {
     if (Theme.isMinimal()) {
       // 简约卡片可见（学浅色简约：白卡片 / 暗色：深灰卡片），扁平无阴影
-      return Theme.isDark() ? '#2A2928' : '#FFFFFF'
+      return Theme.isDark() ? '#353533' : '#FFFFFF'
     }
-    // 玻璃：低透明度让背景渐变透出（浅色 0.30 与简约白卡片明显区分，暗色 0.20 拉亮）
-    return Theme.isDark() ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.30)'
+    // 玻璃：半透明白（胶囊按钮等小元素用单色，卡片主体用 GLASS_GRADIENT）
+    return Theme.isDark() ? '#1FFFFFFF' : '#33FFFFFF'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24
   }
-  // 玻璃卡片描边：glass 高光白边 / minimal 细边框（学浅色简约：白卡配细边，暗色配细白边）
+  // 玻璃卡片描边：glass 高光白边（Apple Liquid Glass 的标志：亮白描边，
+  // 浅色 0.90 / 暗色 0.50）——即使模拟器无模糊，高光边也撑起玻璃轮廓/
+  // minimal 细边框（对标 Claude：浅色细灰边，暗色 8% 白细边）
   static get GLASS_BORDER(): string {
     if (Theme.isMinimal()) {
-      return Theme.isDark() ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.06)'
+      // #AARRGGBB：暗色 8% 白细边 / 浅色 6% 黑细边
+      return Theme.isDark() ? '#14FFFFFF' : '#0F000000'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.30)' : 'rgba(255,255,255,0.80)'
+    // 玻璃高光白边：#AARRGGBB，暗色 50% 白 / 浅色 90% 白
+    return Theme.isDark() ? '#80FFFFFF' : '#E6FFFFFF'
   }
 
   // —— 文字色（系统资源，渲染引擎按 App 颜色模式自动解析，深浅色自动切换）——
@@ -107,13 +133,13 @@ export class Theme {
   static get WARNING(): string { return Theme.isDark() ? '#FBBF24' : '#F59E0B' }
   // 主色底上的文字颜色（深色模式下 Theme.SURFACE 是深灰，配浅紫主色会看不清）
   static get ON_PRIMARY(): string { return '#FFFFFF' }
-  // 卡片阴影：glass 柔影（深浅色都可见）/ minimal 无阴影（Claude 简约扁平）
-  // 深色背景上黑色投影必须明显加深+加大半径，否则看不见
+  // 卡片阴影：glass 柔影（玻璃"浮起"感，与简约扁平无阴影形成卡片级差异）/
+  // minimal 无阴影（Claude 简约扁平）。深色背景上黑色投影必须明显加深+加大半径
   static get SHADOW_COLOR(): string {
-    if (Theme.isMinimal()) return 'rgba(0,0,0,0)'
-    return Theme.isDark() ? '#66000000' : '#40000000'
+    if (Theme.isMinimal()) return '#00000000'
+    return Theme.isDark() ? '#66000000' : '#4A000000'
   }
-  static get SHADOW(): number { return Theme.isMinimal() ? 0 : (Theme.isDark() ? 10 : 8) }
+  static get SHADOW(): number { return Theme.isMinimal() ? 0 : (Theme.isDark() ? 10 : 10) }
 
   // —— 圆角 ——
   static readonly RADIUS_SM: number = 10
