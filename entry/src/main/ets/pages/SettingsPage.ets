@@ -219,7 +219,7 @@ struct SettingsPage {
             })
           }
           .width('100%')
-          .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 字体大小分组 =====
@@ -255,7 +255,7 @@ struct SettingsPage {
             .width('100%').alignItems(HorizontalAlign.Start).padding(Theme.SPACE_MD)
           }
           .width('100%')
-          .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 语言分组 =====
@@ -284,7 +284,7 @@ struct SettingsPage {
             })
           }
           .width('100%')
-          .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           // ===== 关于分组 =====
@@ -302,7 +302,7 @@ struct SettingsPage {
               .width('100%').textAlign(TextAlign.Start)
           }
           .padding(Theme.SPACE_MD)
-          .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+          .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
           .shadow({ radius: Theme.SHADOW, color: Theme.SHADOW_COLOR, offsetY: 2 })
 
           Text(this.i18n().settingsAutoSave).fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SYS_TERTIARY)

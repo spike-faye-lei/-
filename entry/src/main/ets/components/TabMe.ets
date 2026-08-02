@@ -143,7 +143,7 @@ export struct TabMe {
             .onClick(() => this.onLeaderboard())
       }
       .width('100%')
-      .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
 
       // 关于
@@ -153,7 +153,7 @@ export struct TabMe {
           .fontFamily('Inter').fontSize(Theme.FONT_CAPTION).fontColor(Theme.TEXT_SYS_TERTIARY).margin({ top: 4 })
       }
       .width('100%').padding(Theme.SPACE_LG)
-      .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+      .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
       .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
     }
     .width('100%').height('100%').padding(Theme.SPACE_LG)

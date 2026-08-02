@@ -37,6 +37,17 @@ export class Theme {
     return { angle: 135, colors: [['#EDE6D8', 0.0], ['#DACFBE', 1.0]] }
   }
 
+  // —— 玻璃背景效果（官方 backgroundEffect API 11+：模糊+饱和度+亮度+颜色叠加，
+  //    这才是液态玻璃质感；minimal 时 radius 0 + 纯色卡片）——
+  static get GLASS_EFFECT(): BackgroundEffectOptions {
+    if (Theme.isMinimal()) {
+      return { radius: 0, saturation: 1, brightness: 1, color: Theme.isDark() ? '#2A2928' : '#FFFFFF' }
+    }
+    return Theme.isDark()
+      ? { radius: 24, saturation: 1.3, brightness: 1.15, color: 'rgba(255,255,255,0.20)' }
+      : { radius: 24, saturation: 1.35, brightness: 1.10, color: 'rgba(255,255,255,0.30)' }
+  }
+
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
   static scaleDep(scale: number): number {
     return scale > 0 ? 1 : 1

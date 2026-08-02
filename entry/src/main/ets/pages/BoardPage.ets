@@ -161,7 +161,7 @@ struct BoardPage {
     }
     .justifyContent(FlexAlign.Center).layoutWeight(1)
     .padding(Theme.SPACE_MD)
-    .backgroundColor(Theme.GLASS_BG).backdropBlur(Theme.GLASS_BLUR).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
+    .backgroundEffect(Theme.GLASS_EFFECT).border({ width: 0.5, color: Theme.GLASS_BORDER }).borderRadius(Theme.RADIUS_MD)
     .shadow({ radius: Theme.SHADOW, color: '#11000000', offsetY: 2 })
     .opacity(this.fontScale > 0 ? 1 : 1)
   }
