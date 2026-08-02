@@ -233,7 +233,7 @@ struct BoardPage {
       Text(this.i18n().boardAuto)
         .fontFamily('Inter').fontSize(Theme.FONT_MICRO).fontColor(Theme.TEXT_SYS_TERTIARY).padding({ bottom: 20 })
     }
-    .width('100%').height('100%').backgroundColor(Theme.bg(this.themeMode, this.styleMode))
+    .width('100%').height('100%').linearGradient(Theme.bgGradient(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
     .alignItems(HorizontalAlign.Start)
   }

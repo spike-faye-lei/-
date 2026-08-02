@@ -23,6 +23,20 @@ export class Theme {
     return '#E7E1D5'
   }
 
+  // —— 页面背景渐变（glass 模式：暖色渐变层次，半透明白卡片背后才有内容可透/可模糊，
+  //    纯色背景上 backdropBlur 看不出玻璃感 —— 社区共识）——
+  static bgGradient(mode: string, style: string): LinearGradientOptions {
+    if (mode === 'dark') {
+      return { angle: 135, colors: [['#1F1E1D', 0.0], ['#272420', 1.0]] }
+    }
+    if (style === 'minimal') {
+      // 简约：两端同色 = 纯色暖米白
+      return { angle: 135, colors: [['#F7F5F0', 0.0], ['#F7F5F0', 1.0]] }
+    }
+    // 玻璃：暖米白 → 暖沙色渐变，给玻璃卡片提供可透出的层次
+    return { angle: 135, colors: [['#EDE6D8', 0.0], ['#DACFBE', 1.0]] }
+  }
+
   // —— 字体缩放依赖哨兵：值恒为 1，仅用于让 build() 依赖 fontScale（缩放变化 → 强制重绘）——
   static scaleDep(scale: number): number {
     return scale > 0 ? 1 : 1
@@ -42,7 +56,7 @@ export class Theme {
       // 深色简约：与背景同色，卡片完全融入（极简扁平）
       return Theme.isDark() ? '#1F1E1D' : '#FFFFFF'
     }
-    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.65)'
+    return Theme.isDark() ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.50)'
   }
   static get GLASS_BLUR(): number {
     return Theme.isMinimal() ? 0 : 24

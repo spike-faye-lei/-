@@ -404,11 +404,11 @@ Scroll() {
           }
           .padding({ top: Theme.SPACE_MD })
           .alignItems(HorizontalAlign.Start)
-          .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
+          .linearGradient(Theme.bgGradient(this.themeMode, this.styleMode))
         .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
         }
         .width('100%').height('100%').scrollBar(BarState.Off)
-        .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
+        .linearGradient(Theme.bgGradient(this.themeMode, this.styleMode))
         .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
         // Tab2 营养
 TabNutrition({
@@ -562,7 +562,7 @@ TabMe({
       .border({ width: { top: 0.5 }, color: Theme.BORDER })
     }
     .width('100%').height('100%')
-    .backgroundColor(Theme.bg(this.themeMode, this.styleMode))
+    .linearGradient(Theme.bgGradient(this.themeMode, this.styleMode))
     .opacity(this.themeTick >= 0 && this.fontScale > 0 ? 1 : 1)
   }
 }

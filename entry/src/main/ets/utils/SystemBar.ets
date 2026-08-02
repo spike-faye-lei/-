@@ -19,7 +19,9 @@ export class SystemBar {
   static apply() {
     if (!SystemBar.win) return
     let dark = Theme.isDark()
-    let bg = dark ? '#1F1E1D' : '#F7F5F0'
+    let style = AppStorage.get<string>('styleMode') || 'glass'
+    // 与页面背景同色：glass 浅色取渐变顶部色（页面渐变 135° 从顶部暖米白开始）
+    let bg = dark ? '#1F1E1D' : (style === 'minimal' ? '#F7F5F0' : '#EDE6D8')
     let contentColor = dark ? '#FFFFFFFF' : '#FF000000'
     try {
       SystemBar.win.setWindowSystemBarProperties({
