@@ -142,6 +142,13 @@ def evaluate(session, profile: dict):
     missing_dims = [d["name"] for d in profile["dimensions"] if d["name"] not in dimension_scores]
     for name in missing_dims:
         dimension_scores[name] = 0.0
+        w = weight_map.get(name, 0)
+        weight_total += w  # 权重计入分母：缺失维度按 0 分拉低总分
+        reviewer = next((d.get("reviewer") for d in profile["dimensions"] if d["name"] == name), None)
+        if reviewer == "tech":
+            tech_weight += w
+        else:
+            culture_weight += w
     total = round(weighted_sum / weight_total, 1) if weight_total else 0
     data["total"] = total
     session.report = data  # 存给 HR 审核闸门用
