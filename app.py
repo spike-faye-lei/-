@@ -9,6 +9,7 @@ import gradio as gr
 
 from candidates import CANDIDATES
 from candidate_bot import reply as candidate_reply
+from crawler import fetch_jobs, fetch_seekers, match_profile
 from db import get_interview, init_db, list_interviews, save_interview
 from evaluator import evaluate
 from file_parser import extract_text
@@ -266,15 +267,64 @@ def show_record(record_id):
     return "\n".join(lines)
 
 
-def auto_demo(history, session_state, plot_output, demo_scope):
-    """全自动演示：AI 主动检索简历池 -> 逐份初筛 -> 合适的自动互相聊天 -> 报告（全部入库）"""
-    candidates = CANDIDATES if demo_scope == "完整 5 人" else CANDIDATES[:3]
+def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
+    """全自动演示：岗位采集（可选联网爬取）-> 候选人检索 -> 逐份初筛 -> 合适的自动互相聊天 -> 报告（全部入库）"""
+    want = 5 if demo_scope == "完整 5 人" else 3
     history = [{"role": "assistant", "content": COMPLIANCE}]
     yield history, session_state, None, "全自动招聘演示启动……"
 
+    # ---- 0. 岗位采集（爬虫：仅采集公开自愿发布信息，失败自动回退） ----
+    profile = None
+    if use_crawler == "联网爬取":
+        jobs = fetch_jobs(pages=3)  # 内部已 try/except，失败返回 []
+        if jobs:
+            top = jobs[0]
+            pid = match_profile(f"{top['title']} {top['content']}")
+            profile = get_profile(pid)
+            samples = "\n".join(f"- {j['title']}" for j in jobs[:3])
+            history = history + [{
+                "role": "assistant",
+                "content": (
+                    f"**【岗位采集】（爬虫 · V2EX 公开信息）**\n\n"
+                    f"从 V2EX 酷工作板块抓取 **{len(jobs)} 条公开招聘岗位**，示例：\n"
+                    f"{samples}\n\n"
+                    f"按 JD 关键词自动匹配岗位 rubric：**{profile['job']}**\n"
+                    f"数据来源：{top['url']}"
+                ),
+            }]
+            yield history, session_state, None, "岗位采集完成，开始检索候选人……"
+        else:
+            profile = get_profile("ai-dev")
+            history = history + [{
+                "role": "assistant",
+                "content": "**【岗位采集】** 网络不可用或 V2EX 无响应，已回退内置岗位配置（AI 应用开发工程师）",
+            }]
+            yield history, session_state, None, "岗位采集失败，已回退内置岗位配置"
+    else:
+        profile = get_profile("ai-dev")
+
+    # ---- 1. 候选人检索：真实公开求职帖（若有）+ 内置简历库补齐 ----
+    candidates = []
+    seek_note = ""
+    if use_crawler == "联网爬取":
+        seekers = fetch_seekers(limit=want)  # 内部已 try/except，失败返回 []
+        if seekers:
+            candidates = seekers
+            seek_note = f"，其中 {len(seekers)} 条为 V2EX 公开求职帖"
+    for c in CANDIDATES:
+        if len(candidates) >= want:
+            break
+        candidates.append(c)
+    if use_crawler == "联网爬取":
+        history = history + [{
+            "role": "assistant",
+            "content": f"**【候选人检索】** 共 **{len(candidates)} 位候选人**进入初筛{seek_note}",
+        }]
+        yield history, session_state, None, "候选人检索完成，开始逐份初筛……"
+
     for cand in candidates:
         name = cand["label"].split("·")[0].strip()
-        # 1. 主动检索（附候选人档案）
+        # 2. 主动检索（附候选人档案）
         history = history + [{
             "role": "assistant",
             "content": (
@@ -285,7 +335,7 @@ def auto_demo(history, session_state, plot_output, demo_scope):
         yield history, session_state, None, f"正在初筛 {name}……"
         time.sleep(0.5)
 
-        # 2. 解析 + 初筛
+        # 3. 解析 + 初筛
         try:
             resume = parse_resume(cand["resume"])
             screen = pre_screen(resume)
@@ -297,12 +347,11 @@ def auto_demo(history, session_state, plot_output, demo_scope):
 
             if "低" in screen:
                 history = history + [{"role": "assistant", "content": f"**【跳过】** **{name} 匹配度低，不进入沟通，自动跳过**"}]
-                save_interview(name, cand["source"], "AI 应用开发工程师", "自动初筛跳过", "跳过", None, "", history, "")
+                save_interview(name, cand["source"], profile["job"], "自动初筛跳过", "跳过", None, "", history, "")
                 yield history, session_state, None, f"{name} 已跳过（低匹配）"
                 continue
 
-            # 3. AI 互相聊天：招聘官 AI vs 候选人 AI
-            profile = get_profile("ai-dev")
+            # 4. AI 互相聊天：招聘官 AI vs 候选人 AI
             session = InterviewSession(resume, profile)
             q = first_message(session)
             history = history + [{"role": "assistant", "content": f"**【AI 招聘官】** → {name}\n\n{q}"}]
@@ -320,7 +369,7 @@ def auto_demo(history, session_state, plot_output, demo_scope):
                 yield history, session_state, None, f"{name}：AI 招聘官回复中……"
                 time.sleep(0.3)
 
-            # 4. 决策报告 + 雷达图（自动入库）
+            # 5. 决策报告 + 雷达图（自动入库）
             report, fig = evaluate(session, profile)
             decision = session.report.get("decision", "通过")
             save_interview(name, cand["source"], profile["job"], session.style["name"], decision, session.report.get("total"), "", history, report)
@@ -367,6 +416,12 @@ with gr.Blocks(title="AI 招聘官") as demo:
                         scale=4,
                     )
                     auto_btn = gr.Button("一键运行完整招聘流程", elem_id="auto-btn", variant="primary", scale=6)
+                crawler_radio = gr.Radio(
+                    choices=["联网爬取（V2EX 公开信息）", "离线演示（内置数据）"],
+                    value="联网爬取（V2EX 公开信息）",
+                    label="岗位与候选人采集",
+                    info="联网模式：爬虫抓取 V2EX 酷工作公开招聘帖（PIPL 合规：仅采集自愿公开发布的信息），失败自动回退内置数据",
+                )
 
             with gr.Group(elem_classes="panel"):
                 gr.Markdown("### 岗位与考官配置")
@@ -447,7 +502,7 @@ with gr.Blocks(title="AI 招聘官") as demo:
 
     auto_btn.click(
         auto_demo,
-        inputs=[chatbot, session_state, radar_plot, scope_dropdown],
+        inputs=[chatbot, session_state, radar_plot, scope_dropdown, crawler_radio],
         outputs=[chatbot, session_state, radar_plot, status],
     )
     demo.load(refresh_records, outputs=[record_dropdown, record_detail])
