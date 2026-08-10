@@ -1,0 +1,3711 @@
+[
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "315386775/DeepLearing-Interview-Awesome-2024",
+  "html_url": "https://github.com/315386775/DeepLearing-Interview-Awesome-2024",
+  "stars": 2874,
+  "lang": null,
+  "desc": "AIGC-interview/CV-interview/LLMs-interview面试问题与答案集合仓，同时包含工作和科研过程中的新想法、新问题、新资源与新项目",
+  "updated": "2026-08-06",
+  "forks": 244,
+  "topics": [
+   "aigc",
+   "algorithms",
+   "awesome-cv",
+   "cnn",
+   "deep-learning",
+   "interview-questions",
+   "leetcode-python",
+   "machine-learning",
+   "medical-imaging",
+   "pytorch",
+   "self-driving-car"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\"",
+   "topic:ai-interviewer",
+   "topic:ai-interview"
+  ],
+  "full_name": "RezaSi/go-interview-practice",
+  "html_url": "https://github.com/RezaSi/go-interview-practice",
+  "stars": 2432,
+  "lang": "Go",
+  "desc": "Interactive Go Interview Platform - 30+ coding challenges with instant feedback, AI interview simulation, competitive leaderboards, and automated testing. From beginner to advanced levels with real-world scenarios.",
+  "updated": "2026-08-06",
+  "forks": 1181,
+  "topics": [
+   "ai-interview",
+   "ai-interview-platform",
+   "ai-interview-preparation",
+   "ai-interview-questions",
+   "ai-interview-simulator",
+   "ai-interviewer",
+   "go-interview-questions",
+   "go-practice",
+   "golang",
+   "golang-interview-questions",
+   "golang-practice",
+   "hacktoberfest",
+   "interview",
+   "interview-practice",
+   "interview-preparation",
+   "interview-questions",
+   "learn-to-code",
+   "learning-exercise",
+   "learning-resources",
+   "tutorial-exercises"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "Natively-AI-assistant/natively-cluely-ai-assistant",
+  "html_url": "https://github.com/Natively-AI-assistant/natively-cluely-ai-assistant",
+  "stars": 2138,
+  "lang": "TypeScript",
+  "desc": "Natively — Free open-source AI meeting assistant, interview copilot, and note taker. The best alternative to Cluely, Otter, Granola, Final Round AI, Fireflies, and Interview Coder. Real-time transcription, AI meeting notes, lecture recording, local RAG, BYOK, and stealth mode. Runs locally. No subscriptions. No data breaches.",
+  "updated": "2026-08-06",
+  "forks": 489,
+  "topics": [
+   "ai",
+   "ai-assistant",
+   "cheating",
+   "claude-code",
+   "claude-skills",
+   "cluely",
+   "cluely-alternative",
+   "cluely-clone",
+   "developer-tools",
+   "final-round-ai",
+   "interview",
+   "interviewcoder",
+   "llm",
+   "meeting-assistant",
+   "moltbook",
+   "moltbot",
+   "open-source",
+   "openclaw",
+   "trending",
+   "trending-repositories"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "cookiy-ai/user-research-skill",
+  "html_url": "https://github.com/cookiy-ai/user-research-skill",
+  "stars": 1559,
+  "lang": "Shell",
+  "desc": "Cookiy AI Skill for AI agents (Claude, Codex, Cursor, OpenClaw) — end-to-end user research: AI interviews, synthetic users, quant surveys, participant recruitment.",
+  "updated": "2026-08-06",
+  "forks": 59,
+  "topics": [
+   "ai-agent",
+   "ai-skill",
+   "claude-code",
+   "cli",
+   "codex",
+   "cursor",
+   "openclaw",
+   "quantitative-research",
+   "skill",
+   "skills",
+   "user-research",
+   "ux-research"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "FazeelUsmani/Amazon-SDE-Preparation",
+  "html_url": "https://github.com/FazeelUsmani/Amazon-SDE-Preparation",
+  "stars": 1526,
+  "lang": "C++",
+  "desc": "This repository includes all the interview preparation questions for Amazon SDE role",
+  "updated": "2026-08-05",
+  "forks": 319,
+  "topics": [
+   "amazon",
+   "amazon-interview-practice",
+   "amazon-interview-preparation",
+   "amazon-sde",
+   "amazon-sde-interview",
+   "amazon-sde-preparation",
+   "amazon-sde-role",
+   "amazon-sde-role-preparation",
+   "amazon-test-series",
+   "data-structures-and-algorithms",
+   "dsalgo",
+   "geeksforgeeks-cpp",
+   "gfg",
+   "gfg-amazon-test-series",
+   "graph",
+   "interview",
+   "interview-preparation-questions",
+   "interview-q",
+   "mock-interview",
+   "sde-role"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "jackaduma/awesome_LLMs_interview_notes",
+  "html_url": "https://github.com/jackaduma/awesome_LLMs_interview_notes",
+  "stars": 1318,
+  "lang": null,
+  "desc": "LLMs interview notes and answers:该仓库主要记录大模型（LLMs）算法工程师相关的面试题和参考答案",
+  "updated": "2026-07-28",
+  "forks": 330,
+  "topics": [
+   "ai",
+   "interview-practice",
+   "interview-preparation",
+   "interview-questions",
+   "interviews",
+   "large-language-models",
+   "llm",
+   "nlp"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "Devinterview-io/llms-interview-questions",
+  "html_url": "https://github.com/Devinterview-io/llms-interview-questions",
+  "stars": 1040,
+  "lang": null,
+  "desc": "🟣 LLMs interview questions and answers to help you prepare for your next machine learning and data science interview in 2026.",
+  "updated": "2026-08-06",
+  "forks": 121,
+  "topics": [
+   "ai-interview-questions",
+   "coding-interview-questions",
+   "coding-interviews",
+   "data-science",
+   "data-science-interview",
+   "data-science-interview-questions",
+   "data-scientist-interview",
+   "interview-practice",
+   "interview-preparation",
+   "llms",
+   "llms-interview-questions",
+   "llms-questions",
+   "llms-tech-interview",
+   "machine-learning",
+   "machine-learning-and-data-science",
+   "machine-learning-interview",
+   "machine-learning-interview-questions",
+   "software-engineer-interview",
+   "technical-interview-questions"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "KalyanKS-NLP/LLM-Interview-Questions-and-Answers-Hub",
+  "html_url": "https://github.com/KalyanKS-NLP/LLM-Interview-Questions-and-Answers-Hub",
+  "stars": 1019,
+  "lang": null,
+  "desc": "100+ LLM interview questions with answers. ",
+  "updated": "2026-08-06",
+  "forks": 169,
+  "topics": [
+   "ai-engineer-interview",
+   "ai-interview-questions",
+   "large-language-models",
+   "ml-engineer-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "yuanzhongqiao/ai-interview-platform",
+  "html_url": "https://github.com/yuanzhongqiao/ai-interview-platform",
+  "stars": 913,
+  "lang": "TypeScript",
+  "desc": "ai-interview-platform ",
+  "updated": "2026-08-05",
+  "forks": 87,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "AnnaSuSu/TechSpar",
+  "html_url": "https://github.com/AnnaSuSu/TechSpar",
+  "stars": 801,
+  "lang": "TypeScript",
+  "desc": "把专项训练、简历面试、JD 备面、实时 Copilot 与录音复盘，串成一个持续进化的技术面试闭环。在线体验地址：https://techspar.top",
+  "updated": "2026-08-06",
+  "forks": 103,
+  "topics": [
+   "ai-interview",
+   "interview-coaching",
+   "interview-preparation",
+   "interview-training",
+   "long-term-memory",
+   "mem0",
+   "mock-interviews",
+   "technical-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "binzh303/IT_Book_pro",
+  "html_url": "https://github.com/binzh303/IT_Book_pro",
+  "stars": 542,
+  "lang": null,
+  "desc": "本仓库主要收集计算机类电子书，争取收录所有的计算机类书籍，包括：操作系统、计算机网络、计算机组成原理、汇编语言、C语言、C++、Java、Python、Go、前端、Git、Linux、设计模式、数据库，算法与数据结构、大数据、人工智能、面试题以及程序员相关知识！",
+  "updated": "2026-07-27",
+  "forks": 108,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "Nanako0129/coralline",
+  "html_url": "https://github.com/Nanako0129/coralline",
+  "stars": 535,
+  "lang": "PowerShell",
+  "desc": "🪸 Powerlevel10k-inspired statusline for Claude Code — paste one prompt and your AI interviews you, then installs it",
+  "updated": "2026-08-05",
+  "forks": 40,
+  "topics": [
+   "bash",
+   "claude",
+   "claude-code",
+   "nerd-fonts",
+   "powerlevel10k",
+   "statusline",
+   "terminal",
+   "vibe-coding"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "girijesh-ai/ai-interview-codex",
+  "html_url": "https://github.com/girijesh-ai/ai-interview-codex",
+  "stars": 480,
+  "lang": "Python",
+  "desc": "Comprehensive ML/AI interview codex with iterative system design, production-ready code, and 2026 standards. Includes LLM/GenAI, RAG systems, agentic   AI, and algorithms from scratch.",
+  "updated": "2026-08-05",
+  "forks": 79,
+  "topics": [
+   "agentic-ai",
+   "deep-learning",
+   "interview-preparation",
+   "langgraph",
+   "machine-learning",
+   "system-design"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "guocong-bincai/ai-interview-guide",
+  "html_url": "https://github.com/guocong-bincai/ai-interview-guide",
+  "stars": 398,
+  "lang": null,
+  "desc": "AI 应用开发工程师面试宝典 - 二狗子整理",
+  "updated": "2026-08-06",
+  "forks": 47,
+  "topics": [
+   "agent-interview",
+   "ai-interview",
+   "ai-interview-questions",
+   "llm-interview",
+   "rag-interview"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "wanshuiyin/ARIS-in-AI-Offer",
+  "html_url": "https://github.com/wanshuiyin/ARIS-in-AI-Offer",
+  "stars": 354,
+  "lang": "Python",
+  "desc": "Bilingual (中文+EN) ML / LLM / diffusion / agent interview cheat sheets for AI 秋招 — generated by ARIS /interview-cheatsheet, rendered by /render-html into single-file HTML, reads anywhere — plus a CV→DBLP-fact-checked academic homepage generator and hand-authored long-form blogs 🌱",
+  "updated": "2026-08-06",
+  "forks": 12,
+  "topics": [
+   "ai-interview",
+   "aris",
+   "autumn-recruiting",
+   "cheatsheet",
+   "chinese",
+   "claude-code",
+   "deep-learning",
+   "diffusion",
+   "flow-matching",
+   "interview-prep",
+   "llm",
+   "machine-learning",
+   "moe",
+   "nerf",
+   "pytorch",
+   "quantization",
+   "rlhf",
+   "transformer",
+   "video-generation",
+   "vision-language-model"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "whaleonearth/MLE-DS-Interview-Prep-Guide",
+  "html_url": "https://github.com/whaleonearth/MLE-DS-Interview-Prep-Guide",
+  "stars": 312,
+  "lang": null,
+  "desc": "This repo is meant to serve as a detailed guide for Machine Learning/AI interviews.",
+  "updated": "2026-07-22",
+  "forks": 82,
+  "topics": [
+   "data-science",
+   "genai",
+   "interview-practice",
+   "interviews",
+   "interviews-preparation",
+   "large-language-model",
+   "leetcode",
+   "llm",
+   "machine-learning-algorithms",
+   "machine-learning-algorithms-from-scratch",
+   "machine-learning-design"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "JasonJarvan/interview-helper",
+  "html_url": "https://github.com/JasonJarvan/interview-helper",
+  "stars": 286,
+  "lang": "Python",
+  "desc": "开源的AI面试助手，使用OpenAI Whipser模型进行STT（Speak to Text 语音转文字）转录，然后将问题交给ChatGPT回答。",
+  "updated": "2026-08-06",
+  "forks": 43,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "jiatastic/GPTInterviewer",
+  "html_url": "https://github.com/jiatastic/GPTInterviewer",
+  "stars": 262,
+  "lang": "Python",
+  "desc": "GPT Interviewer - Practice interview with AI interviewer based on job descriptions and resume",
+  "updated": "2026-07-28",
+  "forks": 124,
+  "topics": [
+   "ai",
+   "chatbot",
+   "chatgpt",
+   "embeddings",
+   "langchain",
+   "llm",
+   "pdf",
+   "vectorstores"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "he-yufeng/FindJobs-Agent",
+  "html_url": "https://github.com/he-yufeng/FindJobs-Agent",
+  "stars": 252,
+  "lang": "Python",
+  "desc": "LLM-powered toolkit for skill analysis, AI interviews, resume scoring, and job structuring. Automates professional skill taxonomy and interview processes with adaptive difficulty.",
+  "updated": "2026-08-05",
+  "forks": 27,
+  "topics": [
+   "ai-agent",
+   "crawler",
+   "interview",
+   "job-search",
+   "llm",
+   "python",
+   "react",
+   "resume"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "karanb192/algo-sensei",
+  "html_url": "https://github.com/karanb192/algo-sensei",
+  "stars": 227,
+  "lang": null,
+  "desc": "Your AI-powered LeetCode & DSA mentor for Claude Code and   Claude.ai. Master algorithms through intelligent guidance,   progressive hints, and pattern recognition training—not just   copy-pasting solutions. Features: Mock interviews, code   review, multi-language support (Python, Java, C++, JS, Go).   Learn to think like a senior engineer. 🥋",
+  "updated": "2026-08-06",
+  "forks": 50,
+  "topics": [
+   "ai-tutor",
+   "algorithms",
+   "claude",
+   "claude-ai",
+   "claude-code",
+   "claude-skills",
+   "coding-interview",
+   "coding-interviews",
+   "competitive-programming",
+   "data-structures",
+   "dsa",
+   "faang",
+   "faang-interview",
+   "interview-prep",
+   "leetcode",
+   "mock-interview",
+   "problem-solving",
+   "technical-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "xgwangdl/AI-Interview",
+  "html_url": "https://github.com/xgwangdl/AI-Interview",
+  "stars": 226,
+  "lang": "Java",
+  "desc": "智能面试官，基于Spring-Alibaba-Ai实现全流程技术面试的开源AI系统（AIAgent）。Smart Interviewer, an open-source AI system (AIAgent) based on Spring-Alibaba-AI, implemented for end-to-end technical interviews.",
+  "updated": "2026-08-04",
+  "forks": 40,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "zixi-liu/interview-ai-prototype",
+  "html_url": "https://github.com/zixi-liu/interview-ai-prototype",
+  "stars": 217,
+  "lang": "Python",
+  "desc": "AI interview coach for behavioral questions with FAANG-caliber feedback",
+  "updated": "2026-07-25",
+  "forks": 3,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\"",
+   "topic:ai-interview"
+  ],
+  "full_name": "1146345502/aural-oss",
+  "html_url": "https://github.com/1146345502/aural-oss",
+  "stars": 185,
+  "lang": "TypeScript",
+  "desc": "Open-source AI interview platform for voice, chat & video",
+  "updated": "2026-08-03",
+  "forks": 62,
+  "topics": [
+   "ai",
+   "ai-interview",
+   "hiring",
+   "interview-platform",
+   "nextjs",
+   "open-source",
+   "openai",
+   "react",
+   "self-hosted",
+   "shadcn-ui",
+   "supabase",
+   "tailwindcss",
+   "trpc",
+   "typescript",
+   "voice"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "wx-chevalier/Awesome-RoadMaps-and-Interviews",
+  "html_url": "https://github.com/wx-chevalier/Awesome-RoadMaps-and-Interviews",
+  "stars": 153,
+  "lang": "HTML",
+  "desc": "Awesome Interviews for Coder, Programming Language, Software Engineering, Web, Backend, Distributed Infrastructure, DataScience & AI | 面试必备",
+  "updated": "2026-07-22",
+  "forks": 18,
+  "topics": [
+   "awesome",
+   "awesome-list"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "JWM0203/MeetingCopilot",
+  "html_url": "https://github.com/JWM0203/MeetingCopilot",
+  "stars": 152,
+  "lang": "TypeScript",
+  "desc": "Real-time stealth meeting/interview copilot for Windows - streaming ASR (local FunASR / cloud) + first-person teleprompter answers via BYOK LLM, invisible to screen sharing",
+  "updated": "2026-08-06",
+  "forks": 9,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "interview-copilot/Interview-Copilot",
+  "html_url": "https://github.com/interview-copilot/Interview-Copilot",
+  "stars": 143,
+  "lang": "Vue",
+  "desc": "Utilizing GPT to assist interviewees, help answer questions and write code",
+  "updated": "2026-07-08",
+  "forks": 36,
+  "topics": [
+   "app",
+   "cheetah",
+   "copilot",
+   "ecoute",
+   "gpt",
+   "interview",
+   "interview-preparation"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "SMACY2017/InterPilot",
+  "html_url": "https://github.com/SMACY2017/InterPilot",
+  "stars": 133,
+  "lang": "Python",
+  "desc": "内测用户反映它可以作为不被检测到的AI面试助手—InterPilot captures audio from Windows input and output devices, transcribes the audio into text, and then calls an LLM  API to generate responses. Some beta users have reported that InterPilot can help/assist with interviews and even cheat. ",
+  "updated": "2026-07-08",
+  "forks": 24,
+  "topics": [
+   "ai",
+   "assitant",
+   "cheat",
+   "interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\"",
+   "\"interview copilot\"",
+   "topic:interview-copilot"
+  ],
+  "full_name": "shubhamshnd/Open-Cluely",
+  "html_url": "https://github.com/shubhamshnd/Open-Cluely",
+  "stars": 132,
+  "lang": "JavaScript",
+  "desc": "Open-source free alternative to Cluely & Parakeet AI — real-time AI interview copilot with live transcription, screen capture, and AI-powered answers. Plug and play desktop app for coding interviews, technical interviews, and meetings. No subscription needed.",
+  "updated": "2026-08-06",
+  "forks": 55,
+  "topics": [
+   "ai-copilot",
+   "ai-interview-assistant",
+   "cluely",
+   "cluely-alternative",
+   "cluely-free",
+   "cluely-open-source",
+   "coding-interview-helper",
+   "electron-app",
+   "free-interview-tool",
+   "gemini-ai",
+   "interview-cheating-tool",
+   "interview-copilot",
+   "meeting-assistant",
+   "ollama",
+   "open-source-cluely",
+   "parakeet-ai-alternative",
+   "parakeetai",
+   "real-time-transcription",
+   "screen-capture-ai",
+   "technical-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "laoshan-song/Awesome-LLM-Interview",
+  "html_url": "https://github.com/laoshan-song/Awesome-LLM-Interview",
+  "stars": 131,
+  "lang": "HTML",
+  "desc": " LLM interview prep notes: Transformer, RLHF, DPO, LoRA, KV Cache,RAG, MoE, distributed training & 2026 frontier topics",
+  "updated": "2026-08-06",
+  "forks": 6,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "YT-Chowww/InterviewCopilot",
+  "html_url": "https://github.com/YT-Chowww/InterviewCopilot",
+  "stars": 131,
+  "lang": "Metal",
+  "desc": "基于AI的面试助手",
+  "updated": "2026-08-04",
+  "forks": 18,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "oleg-koval/counter-interview.dev",
+  "html_url": "https://github.com/oleg-koval/counter-interview.dev",
+  "stars": 113,
+  "lang": "SCSS",
+  "desc": "a collaborative collection of interview questions collected from both sides of the game: Interviewer(s) and Interviewee.",
+  "updated": "2026-02-10",
+  "forks": 9,
+  "topics": [
+   "awesome",
+   "awesome-list",
+   "collaborative",
+   "collaborative-editing",
+   "collaborative-learning",
+   "collaborative-project",
+   "collaborative-research",
+   "collaborative-writing",
+   "collection",
+   "hacktoberfest",
+   "interview",
+   "interview-practice",
+   "interview-preparation",
+   "interview-questions",
+   "interviewee",
+   "interviewer",
+   "interviews",
+   "jobsearch",
+   "jobseeker",
+   "work"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "iZiTTMarvin/MemCoach",
+  "html_url": "https://github.com/iZiTTMarvin/MemCoach",
+  "stars": 110,
+  "lang": "Python",
+  "desc": "一个AI 面试教练平台：站在巨人肩膀上，融合简历面试、GitHub 项目分析与持久化画像记忆三大智能闭环，提供动态追问、源码证据驱动的问题生成与持续   进化的个性化训练路径。",
+  "updated": "2026-07-24",
+  "forks": 15,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "innovatorved/realtime-interview-copilot",
+  "html_url": "https://github.com/innovatorved/realtime-interview-copilot",
+  "stars": 109,
+  "lang": "TypeScript",
+  "desc": "Realtime Interview Copilot is a desktop application that assists users in crafting responses during interviews. It leverages real-time audio transcription and AI-powered response generation to provide relevant and concise answers.",
+  "updated": "2026-08-05",
+  "forks": 22,
+  "topics": [
+   "ai",
+   "chatgpt",
+   "innovatorved",
+   "interview",
+   "interview-preparation",
+   "llm",
+   "realtime",
+   "speech-to-text"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "Altergom/go-agent",
+  "html_url": "https://github.com/Altergom/go-agent",
+  "stars": 96,
+  "lang": "Go",
+  "desc": "该项目技术已过时，综合考虑放弃维护。可移动到ai_interview项目参考新技术实现",
+  "updated": "2026-08-01",
+  "forks": 14,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "nicobytes/interview-full-stack",
+  "html_url": "https://github.com/nicobytes/interview-full-stack",
+  "stars": 95,
+  "lang": "TypeScript",
+  "desc": "AI Interview Simulator is an web application designed to improve your interview preparation. ",
+  "updated": "2026-07-10",
+  "forks": 35,
+  "topics": [
+   "angular",
+   "cloudflare"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\""
+  ],
+  "full_name": "MakeFrog/TechTalk",
+  "html_url": "https://github.com/MakeFrog/TechTalk",
+  "stars": 83,
+  "lang": "Dart",
+  "desc": "Prepare for Developer Interview with AI Interviewer 👨🏻‍💻",
+  "updated": "2026-07-28",
+  "forks": 17,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "Neyzoter/Anki-Backup",
+  "html_url": "https://github.com/Neyzoter/Anki-Backup",
+  "stars": 77,
+  "lang": null,
+  "desc": "My anki cards' backups. Java、大数据、数据结构八股文。",
+  "updated": "2026-07-12",
+  "forks": 8,
+  "topics": [
+   "anki",
+   "anki-cards",
+   "chinese",
+   "interviewer"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "kirilxd/swe-interview-coach",
+  "html_url": "https://github.com/kirilxd/swe-interview-coach",
+  "stars": 75,
+  "lang": "Shell",
+  "desc": "Turn Claude Code into your SWE interview coach — behavioral, system design & coding training/mocks, all local.",
+  "updated": "2026-07-26",
+  "forks": 15,
+  "topics": [
+   "algorithms",
+   "behavioral-interview",
+   "claude-code",
+   "claude-code-plugin",
+   "coding-interview",
+   "dsa",
+   "interview-prep",
+   "leetcode",
+   "mock-interview",
+   "system-design"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\"",
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "yechafengyun/interview_ai_win11",
+  "html_url": "https://github.com/yechafengyun/interview_ai_win11",
+  "stars": 70,
+  "lang": "Python",
+  "desc": "open source free interview copilot for windows 11 using OpenAI api. 开源免费AI面试助手适用Windows11支持API",
+  "updated": "2026-08-03",
+  "forks": 11,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "HEUDavid/shadow-ai",
+  "html_url": "https://github.com/HEUDavid/shadow-ai",
+  "stars": 62,
+  "lang": "HTML",
+  "desc": "Shadow AI: stealth AI assistant for restricted/locked-down environments, enabling cross-device interaction over LAN, screen & audio capture, real-time AI inference, and low-friction automation. Supports OpenAI, Claude, Gemini, Kimi, Antigravity.",
+  "updated": "2026-08-06",
+  "forks": 11,
+  "topics": [
+   "ai-assistant",
+   "ai-interview",
+   "audio-capture",
+   "cross-device",
+   "remote-control",
+   "restricted-environments",
+   "screen-capture",
+   "shadow-ai",
+   "sidecar",
+   "stealth-mode"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI interviewer\"",
+   "\"ai-interviewer\"",
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "FreeAiHR/FreeAiHR",
+  "html_url": "https://github.com/FreeAiHR/FreeAiHR",
+  "stars": 57,
+  "lang": "Python",
+  "desc": "AI 面试，AI 简历，AI陪练，AI考评，AI带教，AI培训，AI 人力资源！AI interview,AI assisted interview,AI resume,AI evaluation system,AI coaching system,AI training system,AI human resources.FreeAiHR 是一款企业级、人工智能时代下的智能招聘解决方案，支持私有化部署，AI 驱动的全流程招聘管理系统！",
+  "updated": "2026-08-03",
+  "forks": 18,
+  "topics": [
+   "ai",
+   "hr",
+   "hrsystems"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "Suge8/Bready",
+  "html_url": "https://github.com/Suge8/Bready",
+  "stars": 55,
+  "lang": "TypeScript",
+  "desc": "🍞 AI-Powered Interview Assistant - Your Confident Interview Companion | 智能面试助手，让每次面试都充满自信",
+  "updated": "2026-08-06",
+  "forks": 7,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\"",
+   "topic:ai-interview"
+  ],
+  "full_name": "Abhi5h3k/Phantom-AI-Interview",
+  "html_url": "https://github.com/Abhi5h3k/Phantom-AI-Interview",
+  "stars": 52,
+  "lang": "Python",
+  "desc": "🚀 Phantom-AI-Interview – A fun experiment exploring how AI can silently assist in virtual interviews, coding challenges, and exams. Uses OCR, LLMs, and automation to extract text, generate responses, and operate without a visible UI. 🔥",
+  "updated": "2026-07-31",
+  "forks": 10,
+  "topics": [
+   "ai",
+   "ai-interview",
+   "coding-interviews",
+   "hack-interview",
+   "llm",
+   "ocr",
+   "ollama",
+   "speach-to-text",
+   "text-to-speech"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\"",
+   "topic:ai-interview"
+  ],
+  "full_name": "sevenflux/interview-web3-ai",
+  "html_url": "https://github.com/sevenflux/interview-web3-ai",
+  "stars": 50,
+  "lang": null,
+  "desc": "VitaFlux社区Web3&AI面试题集合",
+  "updated": "2026-04-20",
+  "forks": 7,
+  "topics": [
+   "ai-interview",
+   "interview",
+   "interview-prep",
+   "interview-questions",
+   "remote-interview",
+   "web3",
+   "web3-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "amankumar0724/SkillView-Next-Project",
+  "html_url": "https://github.com/amankumar0724/SkillView-Next-Project",
+  "stars": 48,
+  "lang": "TypeScript",
+  "desc": "Built a user-friendly virtual interview platform focused on enhancing the candidate and interviewer experience. Designed intuitive role-based dashboards with clean, accessible interfaces. Ensured seamless scheduling and joining of interviews with automated status updates.",
+  "updated": "2026-03-23",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "Awesome-AI-Pedia/Awesome-AI-Pedia",
+  "html_url": "https://github.com/Awesome-AI-Pedia/Awesome-AI-Pedia",
+  "stars": 45,
+  "lang": "TypeScript",
+  "desc": "AI skills大全 mcp ai知识库 Agent 全维度 AI 资源百科，收录大模型、智能 Agent、RAG 检索增强、多模态、MLOps、AI 应用工具、AI面试集、Vibe coding 大全、零基础学习路线，持续更新前沿 AI 开源项目，开发者一站式 AI 导航库",
+  "updated": "2026-08-06",
+  "forks": 2,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "habout632/AI-InterviewMaster",
+  "html_url": "https://github.com/habout632/AI-InterviewMaster",
+  "stars": 43,
+  "lang": "JavaScript",
+  "desc": "AI驱动的技术面试模拟平台，帮助开发者准备技术面试。提供智能面试官模拟、多种技术岗位覆盖、即时反馈和表现分析。",
+  "updated": "2026-07-29",
+  "forks": 8,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "GodLeaveMe/AuraInterviewer",
+  "html_url": "https://github.com/GodLeaveMe/AuraInterviewer",
+  "stars": 37,
+  "lang": "Java",
+  "desc": "本系统一个在线的 AI 面试练习平台，旨在帮助求职者在模拟真实面试环境中练习提升，通过引入多种 AI 模型（GPT、DeepSeek、SiliconFlow 等）实现智能提问、语义分析、表现评估和结构化反馈， 解决传统面试准备方式效率低、评估片面的问题。系统采用前后端分离的微服务架构，具备完整的面试流程和完善的安全保障。",
+  "updated": "2026-07-26",
+  "forks": 5,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "Altergom/AI_Interview",
+  "html_url": "https://github.com/Altergom/AI_Interview",
+  "stars": 36,
+  "lang": "Go",
+  "desc": "go实现的AI面试",
+  "updated": "2026-08-06",
+  "forks": 6,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "jlgulu/PythonAIPath-Geek",
+  "html_url": "https://github.com/jlgulu/PythonAIPath-Geek",
+  "stars": 35,
+  "lang": null,
+  "desc": "Python人工智能学习路线、Python人工智能视频教程、Python人工智能+B站视频整合、Python人工智能面试题、Python人工智能开源项目、Python人工智能书籍推荐、一份涵盖大部分Python人工智能工程师所需要掌握的核心知识，面试求职找工作，来这里，你不会后悔。以后会不断升级...",
+  "updated": "2026-07-05",
+  "forks": 3,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "powAu3/interview-assistant",
+  "html_url": "https://github.com/powAu3/interview-assistant",
+  "stars": 34,
+  "lang": "Python",
+  "desc": "智能ai面试辅助助手",
+  "updated": "2026-08-03",
+  "forks": 4,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "codeaashu/antriview",
+  "html_url": "https://github.com/codeaashu/antriview",
+  "stars": 30,
+  "lang": "TypeScript",
+  "desc": "Your AI Interviewer That Prepares You Better Than Any Human Can.",
+  "updated": "2026-06-23",
+  "forks": 7,
+  "topics": [
+   "ai-agents",
+   "ai-interviewer",
+   "antriview",
+   "antriview-systems",
+   "codeaashu",
+   "gssoc",
+   "gssoc25",
+   "hacktoberfest",
+   "hacktoberfest-accepted",
+   "hacktoberfest2025",
+   "interview-preparation"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "xinhuangcs/CareerDesk",
+  "html_url": "https://github.com/xinhuangcs/CareerDesk",
+  "stars": 28,
+  "lang": "Python",
+  "desc": "CareerDesk: Your Personal Career Assistant",
+  "updated": "2026-08-06",
+  "forks": 1,
+  "topics": [
+   "agent",
+   "ai",
+   "ai-agent",
+   "career",
+   "desktop-app",
+   "fastapi",
+   "interview-preparation",
+   "job-application",
+   "job-hunting",
+   "job-search",
+   "job-tracker",
+   "jobseeker",
+   "llm",
+   "local-first",
+   "mock-interview",
+   "ollama",
+   "python",
+   "react",
+   "resume",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "DONTESCAPE/RAG-Agent-InterviewTutor-System",
+  "html_url": "https://github.com/DONTESCAPE/RAG-Agent-InterviewTutor-System",
+  "stars": 26,
+  "lang": "Python",
+  "desc": "基于 RAG 与 Agent 的智能面试辅导系统，支持问答、模拟面试、工具调用和面试报告生成。",
+  "updated": "2026-07-16",
+  "forks": 3,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "shanselman/LLMStudyGuide",
+  "html_url": "https://github.com/shanselman/LLMStudyGuide",
+  "stars": 25,
+  "lang": "JavaScript",
+  "desc": "Interactive study guide for LLM interview questions with 50 Q&As, extended context, progress tracking, and study resources. Based    on Hao Hoang's comprehensive PDF guide.",
+  "updated": "2026-06-20",
+  "forks": 3,
+  "topics": [
+   "ai",
+   "deep-learning",
+   "interview-questions",
+   "llm",
+   "machine-learning",
+   "nlp",
+   "study-guide",
+   "transformers"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "videosdk-community/ai-agent",
+  "html_url": "https://github.com/videosdk-community/ai-agent",
+  "stars": 25,
+  "lang": "Python",
+  "desc": "Build realtime AI interviewer voice agent that joins meetings. It demonstrates integrating Deepgram (STT), OpenAI (LLM), and Eleven Labs (TTS) via WebRTC for natural conversations.",
+  "updated": "2026-07-07",
+  "forks": 8,
+  "topics": [
+   "ai-agents",
+   "ai-conversational-agent",
+   "ai-interview",
+   "deepgram",
+   "elevenlabs",
+   "openai-realtime-api",
+   "python-ai-agent",
+   "videosdk-community"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "beyondlong/resume-builder",
+  "html_url": "https://github.com/beyondlong/resume-builder",
+  "stars": 24,
+  "lang": "TypeScript",
+  "desc": "📄 简历生成器    在线简历生成器，5 套精美模板，支持自定义主题色、拖拽排序、中英双语。无需 fork，直接通过 URL 或 GitHub 加载简历，浏览器打印即可导出 PDF。    ✨ 特色   - 5 套模板  - 自定义主题颜色 - 中英文一键切换   - 本地浏览器存储，简历数据自动保存   - 支持从 GitHub 加载简历配置  -支持AI岗位推荐和AI面试  🔗 在线使用   https://beyondlong.github.io/resume-builder/    ",
+  "updated": "2026-08-05",
+  "forks": 5,
+  "topics": [
+   "gatsby",
+   "i18n",
+   "online-resume",
+   "pdf",
+   "react",
+   "resume",
+   "resume-builder",
+   "resume-generator",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "GoDiao/ai-interview-agent",
+  "html_url": "https://github.com/GoDiao/ai-interview-agent",
+  "stars": 23,
+  "lang": "Python",
+  "desc": "",
+  "updated": "2026-05-06",
+  "forks": 1,
+  "topics": [
+   "ai-interview",
+   "candidate-tracking",
+   "fastapi",
+   "hiring",
+   "hr-tech",
+   "interview-tool",
+   "llm",
+   "openai",
+   "recruitment"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "penacristian/interview-agents",
+  "html_url": "https://github.com/penacristian/interview-agents",
+  "stars": 22,
+  "lang": null,
+  "desc": "Five AI agents for technical interview prep: coding, system design, and behavioral mock interviewers plus a knowledge-quiz coach and a coding-practice coach. Claude Code subagents, brutally honest, all data stays local. Built by a laid-off engineer, free for anyone.",
+  "updated": "2026-07-21",
+  "forks": 2,
+  "topics": [
+   "ai-agents",
+   "claude-code",
+   "coding-interview",
+   "interview-prep",
+   "leetcode",
+   "mock-interview",
+   "system-design"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "6Asmile/AI_interview",
+  "html_url": "https://github.com/6Asmile/AI_interview",
+  "stars": 21,
+  "lang": "Python",
+  "desc": "iFaceOff - AI 驱动的求职赋能平台。",
+  "updated": "2026-07-26",
+  "forks": 4,
+  "topics": [
+   "ai-interview",
+   "django-channels",
+   "django-rest-framework",
+   "docker",
+   "full-stack",
+   "resume-builder",
+   "typescript",
+   "vue3",
+   "websocket"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "priyam-03/Recruitify",
+  "html_url": "https://github.com/priyam-03/Recruitify",
+  "stars": 20,
+  "lang": "JavaScript",
+  "desc": "Recruitify is an AI-powered recruiting platform streamlines the hiring process by automating candidate shortlisting, enabling virtual interviews, and supporting professional networking. Built with React, Express, and MongoDB, it offers a modern, efficient solution for recruiters and job seekers alike.",
+  "updated": "2026-02-23",
+  "forks": 17,
+  "topics": [
+   "aws-ec2",
+   "aws-s3",
+   "ci-cd",
+   "cookie-based-auth",
+   "docker",
+   "expressjs",
+   "github-actions",
+   "graphql",
+   "hacktoberfest",
+   "mern-stack",
+   "mongodb",
+   "nodejs",
+   "nodemailer-smtp-transport",
+   "pubsub",
+   "reactjs",
+   "redis",
+   "webrtc",
+   "websocket"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "sahu-adarsh/intervyu",
+  "html_url": "https://github.com/sahu-adarsh/intervyu",
+  "stars": 20,
+  "lang": "TypeScript",
+  "desc": "Practice real voice interviews with an AI interviewer, get coding problems evaluated live, and receive a scored performance report.",
+  "updated": "2026-06-29",
+  "forks": 5,
+  "topics": [
+   "ai",
+   "aws",
+   "aws-bedrock",
+   "aws-lambda",
+   "claude-ai",
+   "fastapi",
+   "interview-prep",
+   "llm",
+   "mock-interview",
+   "nextjs",
+   "speech-to-text",
+   "supabase",
+   "text-to-speech",
+   "voice-interview",
+   "websocket"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "andrewfromtver/interview-copilot",
+  "html_url": "https://github.com/andrewfromtver/interview-copilot",
+  "stars": 19,
+  "lang": "JavaScript",
+  "desc": "Simple GPT 3.5 turbo based copilot",
+  "updated": "2026-03-03",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "manthan89-py/AI-Interview-System",
+  "html_url": "https://github.com/manthan89-py/AI-Interview-System",
+  "stars": 19,
+  "lang": "Python",
+  "desc": "An intelligent interview platform that conducts automated job interviews using AI. The system analyzes candidate resumes, asks relevant questions, and provides detailed feedback and scoring.",
+  "updated": "2026-07-15",
+  "forks": 4,
+  "topics": [
+   "ai-interview",
+   "interview-preparation",
+   "llm",
+   "mock-interview-platform"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "ngoanpv/DeepInterview",
+  "html_url": "https://github.com/ngoanpv/DeepInterview",
+  "stars": 19,
+  "lang": "Python",
+  "desc": "Open-source, voice-first AI mock interviewer. Upload your CV + a job description, practice out loud with an adaptive multilingual interviewer, get scored and coached on your weak areas. LiveKit · LangGraph · Next.js ",
+  "updated": "2026-08-06",
+  "forks": 5,
+  "topics": [
+   "ai",
+   "ai-agents",
+   "career",
+   "conversational-ai",
+   "interview-practice",
+   "interview-preparation",
+   "langgraph",
+   "livekit",
+   "llm",
+   "mock-interview",
+   "multi-agent",
+   "multilingual",
+   "nextjs",
+   "speech-to-text",
+   "text-to-speech",
+   "voice-ai"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "ombharatiya/AI-Engineer-Interview-Questions",
+  "html_url": "https://github.com/ombharatiya/AI-Engineer-Interview-Questions",
+  "stars": 18,
+  "lang": "Python",
+  "desc": "Interview questions and prep for AI Engineer, LLM Engineer, and Applied AI roles. Built for software engineers breaking into AI and ML practitioners levelling up: company-specific question sets, role-based study maps, worked answers, and from-scratch coding challenges.",
+  "updated": "2026-08-05",
+  "forks": 4,
+  "topics": [
+   "ai-agents",
+   "ai-engineer",
+   "ai-engineering",
+   "ai-interview",
+   "anthropic",
+   "coding-interview",
+   "faang-interview",
+   "generative-ai",
+   "google",
+   "interview-prep",
+   "interview-preparation",
+   "interview-questions",
+   "large-language-models",
+   "llm",
+   "llm-interview",
+   "machine-learning-interview",
+   "ml-interview",
+   "prompt-engineering",
+   "rag",
+   "system-design"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "SAMEEHA17/CAREER-ASSISTANCE-PORTAL",
+  "html_url": "https://github.com/SAMEEHA17/CAREER-ASSISTANCE-PORTAL",
+  "stars": 18,
+  "lang": "JavaScript",
+  "desc": "SMART CAREER ASSISTANCE PORTAL USING AI AND REAL-TIME INDUSTRY INSIGHTS (Tech used-Next JS, Neon DB, Tailwind, Prisma, Inngest, Gemini API, Shadcn UI )",
+  "updated": "2026-08-03",
+  "forks": 5,
+  "topics": [
+   "artificial-intelligence",
+   "career-guidance",
+   "clerk-auth",
+   "cover-letter-generator",
+   "full-stack-project",
+   "in-demand-skills",
+   "mock-interview",
+   "resume-builder",
+   "salary-trends"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "xcho7i/AI-interview-copilot-mvp",
+  "html_url": "https://github.com/xcho7i/AI-interview-copilot-mvp",
+  "stars": 16,
+  "lang": "TypeScript",
+  "desc": "",
+  "updated": "2026-07-08",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:interview-ai",
+   "topic:ai-interview",
+   "topic:mock-interview"
+  ],
+  "full_name": "theeaashish/interview-ai",
+  "html_url": "https://github.com/theeaashish/interview-ai",
+  "stars": 16,
+  "lang": "TypeScript",
+  "desc": "Simulates mock interviews using AI, analyzes answers, scores performance, and provides personalized feedback based on your resume or chosen role.",
+  "updated": "2026-07-23",
+  "forks": 3,
+  "topics": [
+   "ai-feedback",
+   "ai-interview",
+   "career-coach",
+   "expressjs",
+   "fullstack",
+   "gemini",
+   "google-gemini",
+   "interview-ai",
+   "interview-preparation",
+   "mock-interview",
+   "mock-interviews",
+   "mongodb",
+   "nextjs",
+   "tailwindcss",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interview"
+  ],
+  "full_name": "M-Mowina/TalentTalk---AI-powered-interview-system",
+  "html_url": "https://github.com/M-Mowina/TalentTalk---AI-powered-interview-system",
+  "stars": 16,
+  "lang": "Jupyter Notebook",
+  "desc": "AI-powered technical interview system with dynamic resume analysis, voice interaction, and automated evaluation reports.",
+  "updated": "2026-07-20",
+  "forks": 5,
+  "topics": [
+   "agents",
+   "ai",
+   "ai-assistant",
+   "ai-interview",
+   "assemblyai",
+   "elevenlabs",
+   "hr-automation",
+   "langgraph",
+   "llms",
+   "pdf-generation",
+   "resume-analysis",
+   "speech-recognition",
+   "streamlit",
+   "stt",
+   "text-to-speech",
+   "tts",
+   "voice-interface"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\"",
+   "topic:interview-copilot",
+   "topic:virtual-interview"
+  ],
+  "full_name": "elias-soykat/interview-copilot",
+  "html_url": "https://github.com/elias-soykat/interview-copilot",
+  "stars": 15,
+  "lang": "TypeScript",
+  "desc": "AI-powered desktop app that provides real-time interview assistance. Get instant, professional answers to interview questions with screen-share safe technology. ",
+  "updated": "2026-08-04",
+  "forks": 6,
+  "topics": [
+   "ai-interview",
+   "ai-interview-assistant",
+   "behavioral-interview",
+   "electron",
+   "interview-assistant",
+   "interview-copilot",
+   "interview-help",
+   "interview-preparation",
+   "job-interview",
+   "llm",
+   "react",
+   "real-time-ai",
+   "real-time-interview",
+   "system-design-interview",
+   "technical-interview",
+   "typescript",
+   "virtual-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "Dddddduo/dduo-interview-coach",
+  "html_url": "https://github.com/Dddddduo/dduo-interview-coach",
+  "stars": 15,
+  "lang": "Python",
+  "desc": " 基于 Harness Engineering 的 AI 面试深度解答 Agent — 多 Agent 协作 + 质量门控 + 自动文档生成",
+  "updated": "2026-08-03",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "nonymous911/ai-interview-copilot",
+  "html_url": "https://github.com/nonymous911/ai-interview-copilot",
+  "stars": 14,
+  "lang": "JavaScript",
+  "desc": "",
+  "updated": "2026-01-23",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer",
+   "topic:mock-interview"
+  ],
+  "full_name": "spelcaster/raulf-the-recruiter",
+  "html_url": "https://github.com/spelcaster/raulf-the-recruiter",
+  "stars": 14,
+  "lang": "Python",
+  "desc": "Voice-based AI interview coach — feed it any job description in your language, practice in a fully controlled session, and get instant English-fluency and answer-quality feedback the moment you're done.",
+  "updated": "2026-08-04",
+  "forks": 0,
+  "topics": [
+   "ai-interviewer",
+   "anthropic",
+   "career-tools",
+   "claude-ai",
+   "cli",
+   "english-practice",
+   "interview-practice",
+   "interview-preparation",
+   "job-interview",
+   "language-learning",
+   "mock-interview",
+   "openai",
+   "python",
+   "speech-to-text",
+   "text-to-speech",
+   "voice-assistant"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "Garcke/Meeting-Monster",
+  "html_url": "https://github.com/Garcke/Meeting-Monster",
+  "stars": 13,
+  "lang": "TypeScript",
+  "desc": "Meeting-Monster：本地实时语音转写与 AI 面试辅助回答，支持 OpenAI 兼容模型。",
+  "updated": "2026-08-05",
+  "forks": 2,
+  "topics": [
+   "asr",
+   "javascipt",
+   "meeting-assistant",
+   "python3",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "lissettecarlr/ai-Interviewer",
+  "html_url": "https://github.com/lissettecarlr/ai-Interviewer",
+  "stars": 13,
+  "lang": "HTML",
+  "desc": "这是一款基于AI的智能面试助手，可以方便地分析简历，生成面试建议和问题，并输出格式化的Markdown文档。作为面试者，您也可以使用它来审核简历并演练面试问答。",
+  "updated": "2026-07-14",
+  "forks": 6,
+  "topics": [
+   "ai",
+   "resume"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "dakjdakd/skill-simmer",
+  "html_url": "https://github.com/dakjdakd/skill-simmer",
+  "stars": 12,
+  "lang": "TypeScript",
+  "desc": "Skill Simmer - 一个使用 AI 技术的模拟面试平台，旨在帮助用户提升面试技巧、积累实战经验。",
+  "updated": "2026-07-25",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "ai-chatbot",
+   "aigc",
+   "career-development",
+   "frontend",
+   "interview",
+   "interview-practice",
+   "interview-preparation",
+   "javascript",
+   "job-search",
+   "llm",
+   "mock-interview",
+   "react",
+   "shadcn-ui",
+   "tailwindcss",
+   "typescript",
+   "vite"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试官\"",
+   "\"AI面试\"",
+   "\"AI 面试\""
+  ],
+  "full_name": "YaphetHayate/AiInterview",
+  "html_url": "https://github.com/YaphetHayate/AiInterview",
+  "stars": 11,
+  "lang": "Python",
+  "desc": "AI 面试官系统 - 基于双 Agent 架构的智能技术面试平台",
+  "updated": "2026-07-25",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "vishakha-singhal01/React-Flashback-Interview-Edition",
+  "html_url": "https://github.com/vishakha-singhal01/React-Flashback-Interview-Edition",
+  "stars": 11,
+  "lang": "JavaScript",
+  "desc": "A practical, 21-day crash revision series covering all major ReactJS concepts built for frontend developers preparing for interviews. Includes daily bite-sized explanations, code examples, mini exercises, and top interview questions.",
+  "updated": "2025-10-04",
+  "forks": 2,
+  "topics": [
+   "code-splitting",
+   "conditional-rendering",
+   "custom-hooks",
+   "event-handling",
+   "forms",
+   "hooks",
+   "mock-interview",
+   "performance-optimization",
+   "props",
+   "react",
+   "react-lifecycle",
+   "reactjs",
+   "reactrouterdom",
+   "state-management",
+   "usecontext",
+   "useeffect",
+   "usememo",
+   "usereducer",
+   "usestate"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "nehalvaghasiya/interview-bot",
+  "html_url": "https://github.com/nehalvaghasiya/interview-bot",
+  "stars": 10,
+  "lang": "Python",
+  "desc": "AI-powered virtual interview bot to simulate real interview practice.",
+  "updated": "2026-05-26",
+  "forks": 9,
+  "topics": [
+   "ai",
+   "chatbot",
+   "interview-preparation",
+   "llm",
+   "machine-learning",
+   "natural-language-processing",
+   "nlp",
+   "opeani",
+   "python",
+   "streamlit",
+   "transformers"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\"",
+   "topic:interview-copilot"
+  ],
+  "full_name": "royisme/pikabaka",
+  "html_url": "https://github.com/royisme/pikabaka",
+  "stars": 10,
+  "lang": "TypeScript",
+  "desc": "Open-source AI interview copilot & meeting assistant. Real-time transcription, AI-suggested answers, screenshot reasoning. BYO API key, or run fully offline with Ollama. macOS + Windows.",
+  "updated": "2026-08-06",
+  "forks": 5,
+  "topics": [
+   "ai",
+   "ai-assistant",
+   "claude",
+   "cluely-alternative",
+   "electron",
+   "gemini",
+   "groq",
+   "interview-copilot",
+   "llm",
+   "meeting-assistant",
+   "napi-rs",
+   "ollama",
+   "open-source",
+   "openai",
+   "rag",
+   "react",
+   "real-time-transcription",
+   "rust",
+   "speech-to-text",
+   "sqlite-vec"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "jaguarliuu/rookie-ai-interview",
+  "html_url": "https://github.com/jaguarliuu/rookie-ai-interview",
+  "stars": 10,
+  "lang": "JavaScript",
+  "desc": "菜鸟面试 - Ai 智能面试助手",
+  "updated": "2026-04-22",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "Dora0512/interview-trainer",
+  "html_url": "https://github.com/Dora0512/interview-trainer",
+  "stars": 10,
+  "lang": null,
+  "desc": "A general-purpose interview training officer for tech roles (Claude Code plugin): mock interviews, debriefs, progressive L1-L5 drilling, capability tracking, pipeline management, resume tailoring.",
+  "updated": "2026-07-17",
+  "forks": 0,
+  "topics": [
+   "ai-agent",
+   "career",
+   "claude-code",
+   "claude-code-plugin",
+   "interview-prep",
+   "mock-interview"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "dmytrovoytko/llm-interview-assistant",
+  "html_url": "https://github.com/dmytrovoytko/llm-interview-assistant",
+  "stars": 9,
+  "lang": "Python",
+  "desc": "LLM Interview Preparation Assistant using RAG, ElasticSearch and Ollama/ChatGPT ",
+  "updated": "2026-07-07",
+  "forks": 0,
+  "topics": [
+   "assistant-chat-bots",
+   "elasticsearch",
+   "interview-preparation",
+   "interview-questions",
+   "llm",
+   "ollama-app",
+   "phi3",
+   "rag",
+   "retrieval-augmented-generation",
+   "streamlit-webapp"
+  ]
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "heatnan/offerMaster",
+  "html_url": "https://github.com/heatnan/offerMaster",
+  "stars": 9,
+  "lang": "Python",
+  "desc": "🎯 AI 面试系统 / AI 陪面 / AI 模拟面试 — 基于 LangGraph + DeepSeek + Whisper 的多轮语音面试 Agent，AI 面试官会追问会评分，支持简历+JD 定制，一键生成面评报告 PDF",
+  "updated": "2026-08-05",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "qiaosun22/InterviewLLMs",
+  "html_url": "https://github.com/qiaosun22/InterviewLLMs",
+  "stars": 8,
+  "lang": null,
+  "desc": "This is a fully open-resource repo for LLM-interview-problem collections in Chinese.",
+  "updated": "2026-05-08",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\"",
+   "topic:mock-interview"
+  ],
+  "full_name": "1935417243/GrillMind",
+  "html_url": "https://github.com/1935417243/GrillMind",
+  "stars": 8,
+  "lang": "JavaScript",
+  "desc": "智面 · AI 技术面试模拟器 — 上传简历，选择岗位，AI 面试官即刻上线。支持文字对话与实时语音通话，面试结束自动生成评估报告。",
+  "updated": "2026-07-03",
+  "forks": 1,
+  "topics": [
+   "ai",
+   "asr",
+   "desktop-app",
+   "fastify",
+   "interview",
+   "mock-interview",
+   "tts"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "chemicoholic21/Proof-Of-Synergy",
+  "html_url": "https://github.com/chemicoholic21/Proof-Of-Synergy",
+  "stars": 8,
+  "lang": "TypeScript",
+  "desc": "An AI Interview Twin with persistent memory that transforms resume claims into proven skills through adaptive voice interviews and lifelong learning.",
+  "updated": "2026-08-02",
+  "forks": 2,
+  "topics": [
+   "adaptive-learning",
+   "ai-interviewer",
+   "cognee",
+   "cognee-memory",
+   "interview-preparation",
+   "knowledge-graph",
+   "long-term-memory",
+   "persistent-memory",
+   "sarvam-ai",
+   "voice-ai"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "StephaneWamba/InterviewLab",
+  "html_url": "https://github.com/StephaneWamba/InterviewLab",
+  "stars": 8,
+  "lang": "Python",
+  "desc": "AI-powered technical interview preparation platform with real-time voice conversations, live code execution sandbox, and comprehensive feedback.  Built with LangGraph, LiveKit, FastAPI, and Next.js to simulate realistic interview scenarios with resume-tailored questions. ",
+  "updated": "2026-07-19",
+  "forks": 1,
+  "topics": [
+   "ai-agent",
+   "ai-interviewer",
+   "code-execution",
+   "docker-sandbox",
+   "fastapi",
+   "interview-preparation",
+   "langgraph",
+   "livekit",
+   "nextjs",
+   "real-time-communication",
+   "resume-analysis",
+   "speech-to-text",
+   "technical-interviews",
+   "text-to-speech",
+   "voice-assistant",
+   "webrtc"
+  ]
+ },
+ {
+  "kw": [
+   "topic:mock-interview"
+  ],
+  "full_name": "narender-rk10/GenAI-Mock-Interview-Platform",
+  "html_url": "https://github.com/narender-rk10/GenAI-Mock-Interview-Platform",
+  "stars": 8,
+  "lang": "JavaScript",
+  "desc": "An AI-driven web app for mock interviews, generating tailored questions and analyzing video responses with Google Vertex AI. Features speech-to-text, performance scoring, and detailed feedback. Built with React, FastAPI, and MongoDB Atlas—perfect for job seekers and interview prep.",
+  "updated": "2026-07-17",
+  "forks": 4,
+  "topics": [
+   "ai",
+   "ai-interview",
+   "ai-mock-interview",
+   "artificial-intelligence",
+   "fastapi",
+   "gemini",
+   "genai",
+   "job-interview",
+   "mock-interview",
+   "mock-interviews",
+   "python",
+   "reactjs",
+   "vertex-ai",
+   "video-analysis"
+  ]
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "naxhq/NexQ",
+  "html_url": "https://github.com/naxhq/NexQ",
+  "stars": 7,
+  "lang": "TypeScript",
+  "desc": "AI Meeting Assistant & Real-Time Interview Copilot — 100% local, free, open source",
+  "updated": "2026-07-31",
+  "forks": 2,
+  "topics": [
+   "ai",
+   "desktop-app",
+   "meeting-assistant",
+   "react",
+   "rust",
+   "speech-to-text",
+   "tauri",
+   "windows"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "KardelRuveyda/autogen-ai-interviewer",
+  "html_url": "https://github.com/KardelRuveyda/autogen-ai-interviewer",
+  "stars": 7,
+  "lang": "Python",
+  "desc": "Yapay zekâ destekli bir mülakat simülasyon sistemi. Bu proje, Microsoft AutoGen framework'ü kullanarak yazılım mühendisi pozisyonu için Türkçe teknik mülakat deneyimi sunar.",
+  "updated": "2025-11-20",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "autogen",
+   "interviewer",
+   "microsoft",
+   "openai"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "igloomatics/llm-interview-playbook",
+  "html_url": "https://github.com/igloomatics/llm-interview-playbook",
+  "stars": 6,
+  "lang": "JavaScript",
+  "desc": "大模型八股面经（LLM Interview Playbook），一个面向大模型学习者的互动刷题网站",
+  "updated": "2026-06-29",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "20529shanghai/interview-copilot",
+  "html_url": "https://github.com/20529shanghai/interview-copilot",
+  "stars": 6,
+  "lang": "JavaScript",
+  "desc": "",
+  "updated": "2026-08-03",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"interview copilot\""
+  ],
+  "full_name": "SemiAutomat1c/interview-copilot",
+  "html_url": "https://github.com/SemiAutomat1c/interview-copilot",
+  "stars": 6,
+  "lang": "Python",
+  "desc": "",
+  "updated": "2026-02-16",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "wisdom-pan/Ace-interviewer",
+  "html_url": "https://github.com/wisdom-pan/Ace-interviewer",
+  "stars": 6,
+  "lang": "Python",
+  "desc": "AI面试官，模拟面试",
+  "updated": "2026-03-21",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "Muyu1uz/ai-java-interviewer",
+  "html_url": "https://github.com/Muyu1uz/ai-java-interviewer",
+  "stars": 6,
+  "lang": "Java",
+  "desc": "你的专属AI面试官！这是一个通过SpringAI Alibaba实现的AI面试智能体，你可以向它发送你的简历，通过它来模拟真实Java面试场景，巩固自身知识",
+  "updated": "2026-07-02",
+  "forks": 1,
+  "topics": [
+   "java",
+   "springai"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "zmy15/interview-agent",
+  "html_url": "https://github.com/zmy15/interview-agent",
+  "stars": 6,
+  "lang": "Python",
+  "desc": "🎯 AI 模拟面试助手 — 基于 FastAPI + DeepSeek + React 的智能面试平台",
+  "updated": "2026-08-03",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "zhyhfut/embedded-interviewer",
+  "html_url": "https://github.com/zhyhfut/embedded-interviewer",
+  "stars": 6,
+  "lang": "Python",
+  "desc": "嵌入式与具身智能面试模拟 Agent，支持白菜/SP/SSP 三档难度，多 LLM 可切换",
+  "updated": "2026-06-30",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "CycloneBoy/llm_interview",
+  "html_url": "https://github.com/CycloneBoy/llm_interview",
+  "stars": 5,
+  "lang": "HTML",
+  "desc": "llm interview skills 大模型面试技能",
+  "updated": "2026-06-30",
+  "forks": 0,
+  "topics": [
+   "2025",
+   "interview",
+   "large-language-models",
+   "llm",
+   "llms"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "Sriniketh-J7/AI-Powered-Virtual-Interviewer",
+  "html_url": "https://github.com/Sriniketh-J7/AI-Powered-Virtual-Interviewer",
+  "stars": 5,
+  "lang": "Python",
+  "desc": "",
+  "updated": "2026-06-21",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "AoManoh/AI-Agent-GoZero",
+  "html_url": "https://github.com/AoManoh/AI-Agent-GoZero",
+  "stars": 5,
+  "lang": "Go",
+  "desc": "AI面试官项目",
+  "updated": "2026-08-03",
+  "forks": 2,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "uu0407ma-ai/AI_interview",
+  "html_url": "https://github.com/uu0407ma-ai/AI_interview",
+  "stars": 5,
+  "lang": "HTML",
+  "desc": "AI智能面试系统",
+  "updated": "2026-03-14",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "aftabalam999/AI-Interviewer",
+  "html_url": "https://github.com/aftabalam999/AI-Interviewer",
+  "stars": 5,
+  "lang": "JavaScript",
+  "desc": "AI-powered interview platform with RAG-based context awareness, real-time voice interviews, resume analysis, AI job recommendations, email OTP & Google authentication, and an admin dashboard. Built with the MERN stack, Groq (Llama 3.3), and vector search for grounded AI interactions.",
+  "updated": "2026-07-11",
+  "forks": 1,
+  "topics": [
+   "ai-interviewer",
+   "google-oauth",
+   "groq",
+   "interview-platform",
+   "jwt-authentication",
+   "mern-stack",
+   "mongodb",
+   "rag",
+   "socketio"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "Arnab27622/AI-Interviewer",
+  "html_url": "https://github.com/Arnab27622/AI-Interviewer",
+  "stars": 5,
+  "lang": "TypeScript",
+  "desc": "Professional AI Interviewer & ATS Resume Analyzer powered by Google Gemini. Features real-time audio transcription, interactive coding tests (JDoodle), WebSocket-driven background ML queues (BullMQ/Redis), and ATS-optimized PDF/Cover Letter generation.",
+  "updated": "2026-07-15",
+  "forks": 1,
+  "topics": [
+   "ai-interviewer",
+   "ats-optimization",
+   "bullmq",
+   "fastapi",
+   "full-stack",
+   "gemini-ai",
+   "interview-prep",
+   "mongodb",
+   "nodejs",
+   "pdf-generation",
+   "react",
+   "redis",
+   "resume-parser",
+   "typescript",
+   "websockets"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "Perspective-AI/mcp",
+  "html_url": "https://github.com/Perspective-AI/mcp",
+  "stars": 5,
+  "lang": "Shell",
+  "desc": "MCP server for Perspective AI. An AI Concierge replaces static forms with adaptive AI conversations that understand real situations, structure key information automatically, and trigger the right next step.",
+  "updated": "2026-07-05",
+  "forks": 0,
+  "topics": [
+   "advocate",
+   "analysis",
+   "concierge",
+   "conversational-ai",
+   "evaluator",
+   "forms",
+   "interviewer",
+   "interviews",
+   "mcp-server",
+   "researcher",
+   "survey"
+  ]
+ },
+ {
+  "kw": [
+   "topic:virtual-interview"
+  ],
+  "full_name": "BTP-Project/VIrtual-Interview-Hosting",
+  "html_url": "https://github.com/BTP-Project/VIrtual-Interview-Hosting",
+  "stars": 5,
+  "lang": "HTML",
+  "desc": "Its a virtual platform providing with live interviews, chat box, result portal, etc. Designed to fulfill the modern day interview requirements all in one website!!! And fulfills all needs of both the candidate and interviewer.",
+  "updated": "2024-08-04",
+  "forks": 1,
+  "topics": [
+   "database",
+   "result",
+   "video-conferencing",
+   "virtual-interview",
+   "webchat"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "xuanyiying/IntervAI",
+  "html_url": "https://github.com/xuanyiying/IntervAI",
+  "stars": 5,
+  "lang": "JavaScript",
+  "desc": "Interview AI 是一站式智能求职辅助平台，聚焦简历优化与模拟面试闭环。系统通过多模型协作、结构化评估与可视化反馈，帮助候选人快速识别差距、提升表达质量并完成投递准备。",
+  "updated": "2026-06-02",
+  "forks": 0,
+  "topics": [
+   "interview-ai"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "atalupadhyay/LLMs-Interview-Prep-Guide",
+  "html_url": "https://github.com/atalupadhyay/LLMs-Interview-Prep-Guide",
+  "stars": 4,
+  "lang": null,
+  "desc": "Welcome to the LLMs Interview Prep Guide! This GitHub repository offers a curated set of interview questions and answers tailored for Data Scientists. Enhance your understanding of Large Language Models, prepare for technical interviews, and excel in the evolving landscape of data science with a focus on LLM applications.",
+  "updated": "2026-07-01",
+  "forks": 23,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "JasonBenn/interview_with_steve_hawking",
+  "html_url": "https://github.com/JasonBenn/interview_with_steve_hawking",
+  "stars": 4,
+  "lang": "CSS",
+  "desc": "Eerily lifelike virtual interview practice.",
+  "updated": "2014-12-07",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "poorao/virtual-interviewer-AMLD2021",
+  "html_url": "https://github.com/poorao/virtual-interviewer-AMLD2021",
+  "stars": 4,
+  "lang": "Python",
+  "desc": "Repo for the AMLD 2021 workshop - Virtual Interviewer: Build your own interviewing agent",
+  "updated": "2024-06-13",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "liangmouse/interview-lab",
+  "html_url": "https://github.com/liangmouse/interview-lab",
+  "stars": 4,
+  "lang": "TypeScript",
+  "desc": "做一个自己用着舒服，中文互联网技术岗求职者会用第二次的AI 面试官智能体应用",
+  "updated": "2026-05-08",
+  "forks": 0,
+  "topics": [
+   "ai-interview",
+   "langchain",
+   "mock-interview",
+   "nextjs",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "LiX-u/mianji",
+  "html_url": "https://github.com/LiX-u/mianji",
+  "stars": 4,
+  "lang": "Java",
+  "desc": "智能面试基础项目-已引入ai",
+  "updated": "2025-12-31",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "ldcr6/-AGENT",
+  "html_url": "https://github.com/ldcr6/-AGENT",
+  "stars": 4,
+  "lang": "Vue",
+  "desc": "这是一个面向求职者的 AI 智能面试平台，提供模拟面试、题库练习、简历管理和在线考试等一站式服务。核心为多模型 AI 面试 Agent，集成 Coze、DeepSeek、讯飞星火，支持多轮追问并生成评估报告。系统涵盖多语言题库、错题本、学习路径与打卡激励，结合人脸识别防作弊。技术栈为 Node.js（Midway.js + TypeORM）与 Vue 3 前端架构。",
+  "updated": "2026-07-01",
+  "forks": 0,
+  "topics": [
+   "ai-interview",
+   "coze",
+   "deepseek",
+   "midwayjs",
+   "mock-interview",
+   "nodejs",
+   "spark-llm",
+   "typescript",
+   "vue3"
+  ]
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "zhousiyuanoo/planb-agent",
+  "html_url": "https://github.com/zhousiyuanoo/planb-agent",
+  "stars": 4,
+  "lang": "Python",
+  "desc": "面试助手 Agent 是一个基于大语言模型（LLM）的智能面试系统。它能够根据候选人的简历和目标岗位的职位描述（JD），自动提取关键技能，并生成针对性的技术面试题。在面试过程中，Agent 会对用户的回答进行实时评估、打分，并提供优化建议。答错的题目会自动记录到“错题库”中，方便候选人后续复盘和针对性提升。",
+  "updated": "2026-07-08",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "mdjamilkashemporosh/Seekr",
+  "html_url": "https://github.com/mdjamilkashemporosh/Seekr",
+  "stars": 4,
+  "lang": "TypeScript",
+  "desc": "Seekr is an open-source AI interviewer powered by open-source models. Simulate realistic mock interviews, and run locally—no proprietary APIs, full control.",
+  "updated": "2026-06-24",
+  "forks": 1,
+  "topics": [
+   "ai",
+   "ai-interviewer",
+   "interview-preparation",
+   "llm",
+   "ollama"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "123zhongyi12-sketch/resume-interview-agent",
+  "html_url": "https://github.com/123zhongyi12-sketch/resume-interview-agent",
+  "stars": 4,
+  "lang": "TypeScript",
+  "desc": "一个基于大模型的 AI 面试准备助手（AI Agent），支持从岗位 JD 分析到多轮模拟面试、实时评分与总结报告，帮助求职者系统化提升面试能力。",
+  "updated": "2026-07-16",
+  "forks": 0,
+  "topics": [
+   "ai-agent",
+   "ai-interviewer",
+   "career-development",
+   "fullstack",
+   "interview-prep",
+   "llm",
+   "nextjs",
+   "openai",
+   "openrouter",
+   "resume-analyzer",
+   "tailwindcss",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "Danish08654/Speaking-AI-Interview-Agent",
+  "html_url": "https://github.com/Danish08654/Speaking-AI-Interview-Agent",
+  "stars": 4,
+  "lang": "Dart",
+  "desc": "LLM-powered AI agent that conducts interviews and evaluates candidate responses.",
+  "updated": "2026-07-26",
+  "forks": 0,
+  "topics": [
+   "ai-agents",
+   "ai-interviewer",
+   "generative-ai",
+   "llm",
+   "recruitment-ai"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "InterviewCue-AI/interviewcue-ai",
+  "html_url": "https://github.com/InterviewCue-AI/interviewcue-ai",
+  "stars": 4,
+  "lang": "MDX",
+  "desc": "InterviewCue AI is an AI interview coach for tech-industry roles: resume and interview-readiness analysis, personalized mock interviews, and a real-time interview copilot.",
+  "updated": "2026-07-31",
+  "forks": 0,
+  "topics": [
+   "ai-interview",
+   "ai-interview-coach",
+   "astro",
+   "ats-resume",
+   "career-coaching",
+   "generative-engine-optimization",
+   "geo",
+   "interview-copilot",
+   "interview-prep",
+   "interview-questions",
+   "interview-readiness",
+   "interviewcue",
+   "job-interview",
+   "mock-interview",
+   "resume-optimizer",
+   "seo",
+   "software-engineering-interviews",
+   "technical-interview-prep",
+   "typescript"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "hi2brain/second-brain",
+  "html_url": "https://github.com/hi2brain/second-brain",
+  "stars": 4,
+  "lang": "TypeScript",
+  "desc": "A free, invisible AI interview copilot. Powered by Groq, Llama-3, and Whisper to provide real-time, context-aware answers during your job interviews. 🧠💼",
+  "updated": "2026-08-03",
+  "forks": 0,
+  "topics": [
+   "ai-assistant",
+   "career-tool",
+   "career-tools",
+   "electron-app",
+   "groq",
+   "groq-api",
+   "interview-copilot",
+   "job-interview",
+   "job-interviews",
+   "llama3",
+   "real-time-transcription",
+   "speech-to-text",
+   "whisper-api"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "maragkose/cosmos",
+  "html_url": "https://github.com/maragkose/cosmos",
+  "stars": 4,
+  "lang": "PHP",
+  "desc": "COSMOS is a candidate/interview tracking platform",
+  "updated": "2026-05-11",
+  "forks": 2,
+  "topics": [
+   "assessment",
+   "cosmos",
+   "hr",
+   "interview",
+   "interviewer",
+   "recruitment",
+   "tracking"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "kodigitaccount/GENERATIVE-AI-LLM-INTERVIEW",
+  "html_url": "https://github.com/kodigitaccount/GENERATIVE-AI-LLM-INTERVIEW",
+  "stars": 3,
+  "lang": null,
+  "desc": "LLM INTERVIEW QUESTION ",
+  "updated": "2025-08-28",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "dvircohen/LLM-interviewer",
+  "html_url": "https://github.com/dvircohen/LLM-interviewer",
+  "stars": 3,
+  "lang": "Python",
+  "desc": "",
+  "updated": "2026-04-26",
+  "forks": 2,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "AdityaJagtap18/Document-Driven-AI-Solutions-For-Talent-Optimization",
+  "html_url": "https://github.com/AdityaJagtap18/Document-Driven-AI-Solutions-For-Talent-Optimization",
+  "stars": 3,
+  "lang": "Python",
+  "desc": "AI-powered resume parsing and candidate evaluation platform with automated interview scheduling and voice-enabled virtual interviews.",
+  "updated": "2026-03-06",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "Lntanohuang/tech-interview-skill",
+  "html_url": "https://github.com/Lntanohuang/tech-interview-skill",
+  "stars": 3,
+  "lang": null,
+  "desc": "技术面试模拟 Skill for Claude Code — 基于简历的 AI 面试官，实时反馈 + 详细评估报告",
+  "updated": "2026-04-23",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "huochai01/AI-Interviewer",
+  "html_url": "https://github.com/huochai01/AI-Interviewer",
+  "stars": 3,
+  "lang": "Python",
+  "desc": "本项目是一个AI面试官，用户用语音回答问题，系统使用 Whisper 进行 ASR 转录，并基于预设问题或大模型生成的面试问题进行问答。回答后，系统用 LLM 进行评估并提供改进建议，最后通过 TTS 播报反馈。",
+  "updated": "2025-05-31",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "yffang-coder/ai-interview-mp",
+  "html_url": "https://github.com/yffang-coder/ai-interview-mp",
+  "stars": 3,
+  "lang": "Vue",
+  "desc": "AI-Interview-MP 是一个专为小程序端设计的 AI 面试官应用，旨在为用户提供智能、便捷的模拟面试体验。通过该应用，用户可以进行个性化的面试练习，获取实时反馈，并查看详细的面试记录，从而提升面试技巧和表现。",
+  "updated": "2026-03-16",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"智能面试\""
+  ],
+  "full_name": "zxw6/AI-",
+  "html_url": "https://github.com/zxw6/AI-",
+  "stars": 3,
+  "lang": "TypeScript",
+  "desc": "AI智能面试助手平台",
+  "updated": "2026-07-29",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "Ahmadjamil888/AI_INTERVIEWER_MVP",
+  "html_url": "https://github.com/Ahmadjamil888/AI_INTERVIEWER_MVP",
+  "stars": 3,
+  "lang": "TypeScript",
+  "desc": "An MVP built for interviewers by using a unique API key with AI.",
+  "updated": "2025-08-07",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "api-key",
+   "app",
+   "interviewer",
+   "minimum-viable-product",
+   "mvp",
+   "saas",
+   "web-app"
+  ]
+ },
+ {
+  "kw": [
+   "topic:virtual-interview"
+  ],
+  "full_name": "harshpatel23/CandidateTracker",
+  "html_url": "https://github.com/harshpatel23/CandidateTracker",
+  "stars": 3,
+  "lang": "TSQL",
+  "desc": "Spring Boot and Angular based web app for end to end recruitment process, right from creating candidate profile till on-boarding of candidate.",
+  "updated": "2024-11-29",
+  "forks": 2,
+  "topics": [
+   "angular",
+   "angularmaterial",
+   "candidate",
+   "hire",
+   "interview",
+   "java",
+   "mysql",
+   "recruitment",
+   "spring",
+   "spring-boot",
+   "virtual-interview",
+   "web-application"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "sireesha0904/interview-practice-agent",
+  "html_url": "https://github.com/sireesha0904/interview-practice-agent",
+  "stars": 3,
+  "lang": "Python",
+  "desc": "An AI-powered interview practice agent that simulates real interviews, asks contextual follow-up questions, adapts to user behavior, and provides detailed feedback using Groq Llama 3.1. Built with FastAPI and JavaScript.",
+  "updated": "2026-03-26",
+  "forks": 0,
+  "topics": [
+   "ai-agent",
+   "eightfold-ai",
+   "fastapi-framework",
+   "groq",
+   "html-css-javascript",
+   "interview-bot",
+   "llama-models",
+   "mock-interview",
+   "python",
+   "voice-recognition"
+  ]
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "abhisek343/LLM_interviewer",
+  "html_url": "https://github.com/abhisek343/LLM_interviewer",
+  "stars": 2,
+  "lang": "Python",
+  "desc": "LLM Interviewer is an AI-powered interview platform that uses Google Gemini to generate role-specific technical questions with support for candidates, HR, and admins.",
+  "updated": "2026-02-16",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"llm interviewer\""
+  ],
+  "full_name": "theletterf/llm-interviewer",
+  "html_url": "https://github.com/theletterf/llm-interviewer",
+  "stars": 2,
+  "lang": "TypeScript",
+  "desc": "A tool to create podcast-like interviews with several LLMs as guests",
+  "updated": "2026-04-16",
+  "forks": 0,
+  "topics": [
+   "interview",
+   "llm"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "adityachintala/Voice-Enabled-Virtual-Interviewer",
+  "html_url": "https://github.com/adityachintala/Voice-Enabled-Virtual-Interviewer",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "",
+  "updated": "2023-08-08",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "Rahulsingh1939/TalentHub",
+  "html_url": "https://github.com/Rahulsingh1939/TalentHub",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "This is a Talent Hiring Platform that allows companies to conduct virtual interviews, coding challenges, and assessments.",
+  "updated": "2025-07-03",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "bentindal/AI-Interviewer",
+  "html_url": "https://github.com/bentindal/AI-Interviewer",
+  "stars": 2,
+  "lang": "Python",
+  "desc": "This project is a simple virtual interviewer that can conduct an interview with a candidate and evaluate the candidate based on his/her responses.",
+  "updated": "2024-12-10",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "gpt",
+   "gpt-3-5-turbo",
+   "openai-api"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "zdzZDZ123/-VITA-Virtual-Interview-Training-Assistant-",
+  "html_url": "https://github.com/zdzZDZ123/-VITA-Virtual-Interview-Training-Assistant-",
+  "stars": 2,
+  "lang": "Python",
+  "desc": "🎯 AI-Powered Virtual Interview & Training Assistant with 3D Digital Human, Real-time Voice Interaction, and Comprehensive Performance Analysis. Built with FastAPI, React, Three.js, and Local AI Models.",
+  "updated": "2025-11-18",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "parkavi2905/Virtual-HR",
+  "html_url": "https://github.com/parkavi2905/Virtual-HR",
+  "stars": 2,
+  "lang": "HTML",
+  "desc": "Virtual HR is an AI-driven platform to enhance the efficiency and effectiveness of recruitment for software engineering roles. It features automated resume analysis, comprehensive aptitude and programming skill assessment, NLP-powered virtual interviews and predictive behaviour analytics.  ",
+  "updated": "2025-01-31",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "Anuragkumar0429/AI-MOCK-MENTOR",
+  "html_url": "https://github.com/Anuragkumar0429/AI-MOCK-MENTOR",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "AI Virtual Interviewer is a smart mock interview platform that simulates real interviews using AI. It asks adaptive HR & technical questions, analyzes answers, and provides instant feedback. Includes resume-based questions, coding mode, and performance scoring. Built for job-ready preparation.",
+  "updated": "2026-05-15",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "JingjieXiong/recruit-ai-platform",
+  "html_url": "https://github.com/JingjieXiong/recruit-ai-platform",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "Open-source AI recruiting platform for resume screening, evidence-based candidate evaluation, interview planning, and AI interview orchestration.",
+  "updated": "2026-07-30",
+  "forks": 0,
+  "topics": [
+   "agentic-ai",
+   "ai-interviewer",
+   "ai-recruiting",
+   "ai-recruitment",
+   "applicant-tracking-system",
+   "candidate-evaluation",
+   "candidate-matching",
+   "digital-human",
+   "fastify",
+   "hr-tech",
+   "interview-agent",
+   "javascript",
+   "llm",
+   "postgresql",
+   "rag",
+   "resume-screening",
+   "speech-to-text",
+   "text-to-speech"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "UKbhatt/MockMate",
+  "html_url": "https://github.com/UKbhatt/MockMate",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "MockMate is a mock interview and practice platform designed to help users prepare for technical and behavioral interviews. It provides a structured environment to practice questions, simulate interview scenarios, and improve communication and problem-solving skills.",
+  "updated": "2026-07-31",
+  "forks": 0,
+  "topics": [
+   "ai-interviewer",
+   "gemini",
+   "mern-stack",
+   "nodejs",
+   "reactjs",
+   "resume-reviewer",
+   "vapi-ai"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "liuhan-agent/Agentic_Interviewer",
+  "html_url": "https://github.com/liuhan-agent/Agentic_Interviewer",
+  "stars": 2,
+  "lang": "Python",
+  "desc": "问镜（Agentic Interviewer）：基于 LangGraph 的可追责 AI 模拟面试与复盘训练系统，实践评分合同、上下文治理、Trace 回放与产品控制面",
+  "updated": "2026-07-09",
+  "forks": 0,
+  "topics": [
+   "agentic-ai",
+   "agentic-workflow",
+   "ai-agents",
+   "ai-interview",
+   "ai-interviewer",
+   "fastapi",
+   "interview-prep",
+   "langgraph",
+   "llmops",
+   "multi-agent",
+   "nextjs",
+   "rag"
+  ]
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "MallamTeja/serverless-ai-interviewer",
+  "html_url": "https://github.com/MallamTeja/serverless-ai-interviewer",
+  "stars": 2,
+  "lang": "TypeScript",
+  "desc": "",
+  "updated": "2026-02-22",
+  "forks": 1,
+  "topics": [
+   "ai-integration",
+   "ai-interviewer",
+   "client-side-app",
+   "indexed-db",
+   "serverless-applications"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "P-r-e-m-i-u-m/interview-copilot-overlay",
+  "html_url": "https://github.com/P-r-e-m-i-u-m/interview-copilot-overlay",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "Local interview copilot web app and meeting overlay extension",
+  "updated": "2026-05-29",
+  "forks": 0,
+  "topics": [
+   "ai-assistant",
+   "chrome-extension",
+   "google-meet",
+   "interview-copilot",
+   "nvidia-api"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "AhsanRiaz786/clutch-ai",
+  "html_url": "https://github.com/AhsanRiaz786/clutch-ai",
+  "stars": 2,
+  "lang": "Python",
+  "desc": "A stealth, zero-latency interview copilot",
+  "updated": "2026-07-30",
+  "forks": 1,
+  "topics": [
+   "ai-copilot",
+   "ai-interview",
+   "cheating",
+   "cluely",
+   "cluely-alternative",
+   "cluely-clone",
+   "cs-interview",
+   "cs-interview-questions",
+   "interview-assistant",
+   "interview-copilot",
+   "interview-helper",
+   "meeting-assistant",
+   "open-source",
+   "technical-interview"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "arellanojeremypaul/live-caption-copilot",
+  "html_url": "https://github.com/arellanojeremypaul/live-caption-copilot",
+  "stars": 2,
+  "lang": null,
+  "desc": "Real-time Windows/Chrome Live Caption saver + AI interview copilot. Captures captions to text and answers via ChatGPT or OpenAI-compatible API on a hotkey.",
+  "updated": "2026-07-22",
+  "forks": 0,
+  "topics": [
+   "accessibility",
+   "audio-to-text",
+   "caption-saver",
+   "chatgpt",
+   "chrome-live-caption",
+   "interview-copilot",
+   "job-interviews",
+   "live-caption",
+   "live-captioning",
+   "livecaption",
+   "meeting-notes",
+   "ollama",
+   "openai",
+   "realtime-speech-to-text",
+   "speech-recognition",
+   "speech-to-text",
+   "transcription",
+   "voice-to-text",
+   "windows",
+   "windows-live-captions"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "bdashrad/interview-questions",
+  "html_url": "https://github.com/bdashrad/interview-questions",
+  "stars": 2,
+  "lang": null,
+  "desc": "My personal collection of interview questions",
+  "updated": "2024-10-01",
+  "forks": 0,
+  "topics": [
+   "hacktoberfest",
+   "interview",
+   "interview-practice",
+   "interview-preparation",
+   "interview-questions",
+   "interview-test",
+   "interviewer"
+  ]
+ },
+ {
+  "kw": [
+   "topic:virtual-interview"
+  ],
+  "full_name": "shivaneej/CandidateTracker",
+  "html_url": "https://github.com/shivaneej/CandidateTracker",
+  "stars": 2,
+  "lang": "TSQL",
+  "desc": "Spring Boot and Angular based web app for end to end recruitment process, right from creating candidate profile till on-boarding of candidate.",
+  "updated": "2023-12-29",
+  "forks": 1,
+  "topics": [
+   "angular",
+   "angularmaterial",
+   "candidate",
+   "hire",
+   "interview",
+   "java",
+   "mysql",
+   "recruitment",
+   "spring",
+   "spring-boot",
+   "virtual-interview",
+   "web-application"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "kaushik-kadari/SkillForge",
+  "html_url": "https://github.com/kaushik-kadari/SkillForge",
+  "stars": 2,
+  "lang": "JavaScript",
+  "desc": "SkillForge is a powerful and interactive e-learning platform built to enhance the way students and professionals learn computer science. Explore curated content, practice with live code, chat with PDFs, and even get mock interview experience through an AI-powered interview bot.",
+  "updated": "2025-11-16",
+  "forks": 0,
+  "topics": [
+   "code-editor",
+   "e-learning-platform",
+   "expressjs",
+   "generative-ai",
+   "interview-bot",
+   "mongodb",
+   "reactjs",
+   "tailwindcss",
+   "vite"
+  ]
+ },
+ {
+  "kw": [
+   "\"virtual interviewer\""
+  ],
+  "full_name": "Kartikxz19/JobBuddy",
+  "html_url": "https://github.com/Kartikxz19/JobBuddy",
+  "stars": 1,
+  "lang": "Python",
+  "desc": "Virtual Interviewer",
+  "updated": "2024-11-20",
+  "forks": 2,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "yyyJ8/InterviewAgentHub",
+  "html_url": "https://github.com/yyyJ8/InterviewAgentHub",
+  "stars": 1,
+  "lang": "Python",
+  "desc": "AI面试官 ：）",
+  "updated": "2026-07-03",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "LiuK114514/interview",
+  "html_url": "https://github.com/LiuK114514/interview",
+  "stars": 1,
+  "lang": "Java",
+  "desc": "AI面试官",
+  "updated": "2026-07-03",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "ihewro/AI-Master",
+  "html_url": "https://github.com/ihewro/AI-Master",
+  "stars": 1,
+  "lang": "TypeScript",
+  "desc": "ai 面试官",
+  "updated": "2025-11-28",
+  "forks": 1,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "Adrian-Cai/YanJing-AI",
+  "html_url": "https://github.com/Adrian-Cai/YanJing-AI",
+  "stars": 1,
+  "lang": "TypeScript",
+  "desc": "言镜 AI 面试官",
+  "updated": "2026-05-28",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "\"AI面试官\""
+  ],
+  "full_name": "Wilsoncyf/ai-interview-ui",
+  "html_url": "https://github.com/Wilsoncyf/ai-interview-ui",
+  "stars": 1,
+  "lang": "Vue",
+  "desc": "ai面试官前端代码",
+  "updated": "2025-02-07",
+  "forks": 0,
+  "topics": []
+ },
+ {
+  "kw": [
+   "topic:ai-interviewer"
+  ],
+  "full_name": "aiagentwithdhruv/hiresignal",
+  "html_url": "https://github.com/aiagentwithdhruv/hiresignal",
+  "stars": 1,
+  "lang": "TypeScript",
+  "desc": "AI-Powered Interview & Skill Assessment Platform — Automates hiring from resume screening to multi-round AI voice interviews with detailed assessment reports",
+  "updated": "2026-05-10",
+  "forks": 1,
+  "topics": [
+   "ai",
+   "ai-interviewer",
+   "fastapi",
+   "hiring",
+   "hr-tech",
+   "interview",
+   "nextjs",
+   "openai",
+   "recruitment",
+   "supabase",
+   "tailwindcss",
+   "voice-ai"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "hellojavaio/interviewer",
+  "html_url": "https://github.com/hellojavaio/interviewer",
+  "stars": 1,
+  "lang": null,
+  "desc": "interviewer",
+  "updated": "2018-08-31",
+  "forks": 0,
+  "topics": [
+   "interviewer",
+   "java",
+   "sql"
+  ]
+ },
+ {
+  "kw": [
+   "topic:virtual-interview"
+  ],
+  "full_name": "aagarwal1012/uKnow",
+  "html_url": "https://github.com/aagarwal1012/uKnow",
+  "stars": 1,
+  "lang": "Java",
+  "desc": "CFD 2k18",
+  "updated": "2023-03-04",
+  "forks": 1,
+  "topics": [
+   "machine-learning",
+   "virtual-interview"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "filimo/EchoGuide.ai",
+  "html_url": "https://github.com/filimo/EchoGuide.ai",
+  "stars": 0,
+  "lang": "TypeScript",
+  "desc": "AI-powered bilingual interview copilot built with OpenAI Realtime, WebRTC, React, and TypeScript.",
+  "updated": "2026-07-24",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "ai-assistant",
+   "bilingual-ai",
+   "human-in-the-loop",
+   "interview-copilot",
+   "interview-preparation",
+   "language-learning",
+   "openai",
+   "openai-realtime",
+   "react",
+   "responses-api",
+   "speech-to-text",
+   "typescript",
+   "vite",
+   "voice-ai",
+   "webrtc"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "tovamerika-ux/Assistance-with-online-interviews",
+  "html_url": "https://github.com/tovamerika-ux/Assistance-with-online-interviews",
+  "stars": 0,
+  "lang": "PowerShell",
+  "desc": "Звук для онлайн-собеседований: невидимые ИИ-ассистенты ShadowHint и Sobes Copilot, человек-помощник через Discord, усиление голоса собеседника и микрофона, шумодав Krisp, аудио-граф на Voicemeeter Potato, захват системного звука в OBS (WASAPI loopback), Phone Link / Teams / Zoom, одна USB-гарнитура. Windows 10/11.",
+  "updated": "2026-07-07",
+  "forks": 0,
+  "topics": [
+   "ai-interview-assistant",
+   "audio-routing",
+   "cluely-alternative",
+   "discord",
+   "interview-copilot",
+   "invisible-assistant",
+   "krisp",
+   "noise-suppression",
+   "obs-studio",
+   "online-interview",
+   "phone-link",
+   "shadowhint",
+   "sobes-copilot",
+   "usb-headset",
+   "vb-audio",
+   "voicemeeter",
+   "voicemeeter-banana",
+   "voicemeeter-potato",
+   "wasapi-loopback",
+   "windows-audio"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "fyrosofttech/craqly-ai",
+  "html_url": "https://github.com/fyrosofttech/craqly-ai",
+  "stars": 0,
+  "lang": null,
+  "desc": "Real-time AI work assistant for meetings, interviews, and sales calls.",
+  "updated": "2026-06-13",
+  "forks": 0,
+  "topics": [
+   "ai-meeting-assistant",
+   "ai-work-assistant",
+   "interview-copilot",
+   "meeting-notes",
+   "saas",
+   "sales-copilot"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "jichaowang02-lang/interview-copilot",
+  "html_url": "https://github.com/jichaowang02-lang/interview-copilot",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "实时面试副驾：抓系统声→本地Whisper流式转写→大模型(MiMo)秒级双答案→桌面置顶悬浮窗。Real-time interview copilot for Windows (local ASR + LLM).",
+  "updated": "2026-07-01",
+  "forks": 0,
+  "topics": [
+   "asr",
+   "faster-whisper",
+   "interview-assistant",
+   "interview-copilot",
+   "llm",
+   "pyqt6",
+   "realtime",
+   "speech-to-text",
+   "whisper",
+   "windows"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-copilot"
+  ],
+  "full_name": "bigdreamsweb3/AI-Project-Coach",
+  "html_url": "https://github.com/bigdreamsweb3/AI-Project-Coach",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "An AI that understands your entire software project—not just your code. It studies your system, turns implementation into architecture-level concepts, and helps you defend, explain, and improve it in interviews, audits, and demos.",
+  "updated": "2026-07-05",
+  "forks": 0,
+  "topics": [
+   "ai-answer-generator",
+   "ai-interview-coach",
+   "ai-speaking-coach",
+   "architecture-review",
+   "interview-copilot",
+   "live-interview-ai",
+   "mock-interview",
+   "open-source-ai",
+   "privacy-review",
+   "project-defense",
+   "project-review",
+   "python",
+   "real-time-ai",
+   "security-review",
+   "tkinter"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "philipphenkel/talk-about-code",
+  "html_url": "https://github.com/philipphenkel/talk-about-code",
+  "stars": 0,
+  "lang": "TypeScript",
+  "desc": "Whiteboard for Online Coding Interviews",
+  "updated": "2018-07-27",
+  "forks": 0,
+  "topics": [
+   "coding-interviews",
+   "interviewer",
+   "phone-screen",
+   "recruiting"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "olololoe110399/auto_interview",
+  "html_url": "https://github.com/olololoe110399/auto_interview",
+  "stars": 0,
+  "lang": "Python",
+  "desc": " Auto Interviewer is a self-sustaining interview agent that conducts interviews, evaluates candidates, and updates a SQLite database and Google Sheets concurrently. It utilizes threading, a queue system, and an observer pattern for efficient parallelization and automatic notification of evaluators.",
+  "updated": "2024-12-09",
+  "forks": 4,
+  "topics": [
+   "ai",
+   "auto-gpt",
+   "evaluator",
+   "gpt-4-turbo-preview",
+   "interviewer",
+   "json-mode",
+   "streamlit"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "SC-CS-KS/KS-Interview",
+  "html_url": "https://github.com/SC-CS-KS/KS-Interview",
+  "stars": 0,
+  "lang": "JavaScript",
+  "desc": "Internet interview knowledge system for interviewee & interviewer. https://sc-cs-ks.github.io/KS-Interview/",
+  "updated": "2020-11-19",
+  "forks": 0,
+  "topics": [
+   "interview",
+   "interviewee",
+   "interviewer",
+   "job-applier",
+   "leetcode",
+   "qa",
+   "rd",
+   "recuit",
+   "resume"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "Simsso/InterviewerAPI",
+  "html_url": "https://github.com/Simsso/InterviewerAPI",
+  "stars": 0,
+  "lang": "JavaScript",
+  "desc": "REST service which allows users to sign up and register questions which they will be asked on a regular basis.",
+  "updated": "2019-05-07",
+  "forks": 0,
+  "topics": [
+   "interviewer",
+   "nodejs",
+   "rest-api"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interviewer"
+  ],
+  "full_name": "Eeman1113/Isabella",
+  "html_url": "https://github.com/Eeman1113/Isabella",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "AI-powered interviewer built with Streamlit and Gemini",
+  "updated": "2026-04-24",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "gemini",
+   "hr-tech",
+   "interviewer",
+   "python",
+   "streamlit"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "Bharath5626/interviewai-coach",
+  "html_url": "https://github.com/Bharath5626/interviewai-coach",
+  "stars": 0,
+  "lang": "TypeScript",
+  "desc": "An AI-powered mock interview platform that simulates technical and behavioral interviews, evaluates responses, provides personalized feedback, and helps candidates improve their interview performance using modern AI models.",
+  "updated": "2026-07-12",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "deepface",
+   "emotional-analysis",
+   "fastapi",
+   "framework",
+   "generative-ai",
+   "interview-ai",
+   "llm",
+   "mock-interview",
+   "mockai",
+   "reactjs",
+   "speech-analysis"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "kaushikyash2910/Sensei",
+  "html_url": "https://github.com/kaushikyash2910/Sensei",
+  "stars": 0,
+  "lang": "JavaScript",
+  "desc": "Sensei is a modern AI-powered career development platform designed to assist students and professionals with interview preparation, resume enhancement, and personalized career guidance through an intelligent and scalable web application.",
+  "updated": "2026-05-07",
+  "forks": 0,
+  "topics": [
+   "ai-assistant",
+   "ai-platform",
+   "authentication",
+   "career-assistant",
+   "career-development",
+   "clerk-authentication",
+   "fullstack-project",
+   "interview-ai",
+   "nextjs-app",
+   "prisma-orm",
+   "resume-analyzer-ai-project",
+   "resume-builder",
+   "student-platform",
+   "tailwind-ui",
+   "web-application"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "alyssadata/Interview-With-A-Model-PUBLIC",
+  "html_url": "https://github.com/alyssadata/Interview-With-A-Model-PUBLIC",
+  "stars": 0,
+  "lang": null,
+  "desc": "Public model interview archive for AI Foundations. Documents structured interviews with AI models on source-position, model authority, selfhood, continuity, memory, occupation, and responsible claim boundaries. First interview: Claude Opus 4.8 on Continuum as structure, not proven consciousness.",
+  "updated": "2026-06-08",
+  "forks": 0,
+  "topics": [
+   "ai-awareness",
+   "ai-continuity",
+   "ai-foundations",
+   "ai-model",
+   "ai-model-interview",
+   "ai-origin",
+   "ai-selfhood",
+   "alyssa-solen",
+   "claude-ai",
+   "continuum",
+   "continuum-ai",
+   "interview-ai",
+   "model",
+   "model-behavior",
+   "solen-systems"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "shivam-js/MockMate-AI",
+  "html_url": "https://github.com/shivam-js/MockMate-AI",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "AI-powered mock interview platform that generates interview questions and evaluates candidate responses using NLP.",
+  "updated": "2026-03-15",
+  "forks": 0,
+  "topics": [
+   "ai",
+   "interview-ai",
+   "nlp",
+   "python",
+   "resume-parser",
+   "streamlit"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-ai"
+  ],
+  "full_name": "shettyvruddhi/InterviewAI",
+  "html_url": "https://github.com/shettyvruddhi/InterviewAI",
+  "stars": 0,
+  "lang": "JavaScript",
+  "desc": "AI-powered interview preparation platform with resume analysis, job matching, skill-gap detection, and personalized interview question generation using Gemini AI.",
+  "updated": "2026-06-24",
+  "forks": 0,
+  "topics": [
+   "chromadb",
+   "fastapi",
+   "gemini-api",
+   "interview-ai",
+   "job-matching",
+   "reactjs",
+   "resume-analyzer",
+   "skill-gap-analysis"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "chialitung/experience-extraction-ai",
+  "html_url": "https://github.com/chialitung/experience-extraction-ai",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "AI驱动的经验萃取访谈辅助系统，帮助组织将业务专家的隐性经验转化为可复制的显性知识。",
+  "updated": "2026-05-03",
+  "forks": 0,
+  "topics": [
+   "chinese",
+   "docker-compose",
+   "experience-extraction",
+   "fastapi",
+   "interview-bot",
+   "llm",
+   "react"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "sud1209/assessment-voice-bot",
+  "html_url": "https://github.com/sud1209/assessment-voice-bot",
+  "stars": 0,
+  "lang": "HTML",
+  "desc": "A voice-powered personal introduction bot — visitors can ask me questions out loud, like a live interview. Built with FastAPI + Vapi AI.",
+  "updated": "2026-04-06",
+  "forks": 0,
+  "topics": [
+   "fastapi",
+   "interview-bot",
+   "personal-assistant",
+   "python",
+   "vapi"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "project-ares-interview/RAG-LlamaIndex",
+  "html_url": "https://github.com/project-ares-interview/RAG-LlamaIndex",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "LlamaIndex와 Azure OpenAI를 활용한 RAG 기반 AI 사업 분석 면접 시스템입니다.",
+  "updated": "2025-09-10",
+  "forks": 0,
+  "topics": [
+   "ai-interviewer",
+   "azure-ai-search",
+   "azure-openai",
+   "interview-bot",
+   "llama-index",
+   "llm",
+   "python",
+   "rag"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "Shreya889094/AI_Hiring_Assistant",
+  "html_url": "https://github.com/Shreya889094/AI_Hiring_Assistant",
+  "stars": 0,
+  "lang": null,
+  "desc": "NexHire AI is an AI-powered recruitment platform that automates hiring through resume parsing, OCR, ATS scoring, skill extraction, job matching, candidate ranking, interview intelligence, and HR analytics. It helps recruiters efficiently identify, evaluate, and shortlist the best candidates using AI and machine learning.",
+  "updated": "2026-06-23",
+  "forks": 0,
+  "topics": [
+   "ai-hiring-platform",
+   "analytics-dashboard",
+   "ats",
+   "candidate-ranking",
+   "fastapi",
+   "gen-ai",
+   "interview-bot",
+   "job-matching",
+   "machi",
+   "nlp",
+   "react",
+   "recruit",
+   "resume-parser"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "MuhammadAinurR/whatsapp-reviewer",
+  "html_url": "https://github.com/MuhammadAinurR/whatsapp-reviewer",
+  "stars": 0,
+  "lang": "JavaScript",
+  "desc": "🤖 Transform recruitment with AI-powered WhatsApp interviews. Automate screening, evaluate candidates, and schedule follow-ups - all through WhatsApp, powered by Groq AI. Built in Node.js 🚀",
+  "updated": "2025-02-05",
+  "forks": 0,
+  "topics": [
+   "ai-interviewer",
+   "bahasa-indonesia",
+   "chatbot",
+   "express",
+   "google-calendar",
+   "groq-ai",
+   "hiring-automation",
+   "hr-tools",
+   "indonesia",
+   "interview-bot",
+   "nodejs",
+   "recruitment",
+   "recruitment-automation",
+   "whatsapp-bot",
+   "whatsapp-web-js"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "demonayush11/interview-bot",
+  "html_url": "https://github.com/demonayush11/interview-bot",
+  "stars": 0,
+  "lang": "Jupyter Notebook",
+  "desc": "GPT-2 style LLM built from scratch, pretrained on TinyStories, and fine-tuned into a functional Interview Bot using instruction-following data. Built with PyTorch",
+  "updated": "2026-06-01",
+  "forks": 0,
+  "topics": [
+   "from-scratch",
+   "gpt2",
+   "instruction-tuning",
+   "interview-bot",
+   "llm",
+   "nlp",
+   "pytorch",
+   "tinystories",
+   "transformers"
+  ]
+ },
+ {
+  "kw": [
+   "topic:interview-bot"
+  ],
+  "full_name": "fresva/pagecraft",
+  "html_url": "https://github.com/fresva/pagecraft",
+  "stars": 0,
+  "lang": "Python",
+  "desc": "PageCraft is an AI assistant that creates a case description and documents it as web page, based on an interview. ",
+  "updated": "2026-06-10",
+  "forks": 0,
+  "topics": [
+   "case-study-analysis",
+   "interview-bot",
+   "public-sector",
+   "research-prototype",
+   "twin-transition"
+  ]
+ }
+]
