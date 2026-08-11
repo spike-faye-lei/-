@@ -11,7 +11,7 @@ from candidates import CANDIDATES
 from candidate_bot import reply_stream as candidate_reply_stream
 from crawler import fetch_jobs, fetch_seekers, match_profile
 from db import get_interview, init_db, list_interviews, save_interview
-from evaluator import evaluate
+from evaluator import evaluate, radar_figure
 from file_parser import extract_text
 from interviewer import STYLES, InterviewSession, is_finished, stream_first_message, stream_next_message
 from job_profile import PROFILES, add_hr_feedback, get_profile
@@ -246,6 +246,18 @@ def hr_review(decision, comment, history, session_state, plot_output):
     save_interview(candidate_name, "手动模式", session.profile["job"], session.style["name"], verdict, session.report.get("total"), comment, history, report_text)
     session.report = None  # 防重复审核
     return history, session, plot_output, "审核完成 —— HR 意见已进入反馈校准闭环，记录已存档"
+
+
+def empty_radar_figure(profile: dict):
+    """初始占位雷达图：界面一打开就显示（全 0 轮廓，等待评估）"""
+    return radar_figure(
+        profile,
+        {d["name"]: 0 for d in profile["dimensions"]},
+        tech_score=0, culture_score=0,
+        tech_weight=sum(d["weight"] for d in profile["dimensions"] if d.get("reviewer") == "tech"),
+        culture_weight=sum(d["weight"] for d in profile["dimensions"] if d.get("reviewer") == "culture"),
+        total=0, decision="待评估",
+    )
 
 
 def refresh_records():
@@ -525,7 +537,10 @@ with gr.Blocks(title="AI 招聘官") as demo:
                 )
                 send_btn = gr.Button("发送", elem_id="send-btn", variant="primary", scale=2)
 
-            radar_plot = gr.Plot(label="候选人能力雷达图")
+            radar_plot = gr.Plot(
+                label="候选人能力雷达图",
+                value=empty_radar_figure(get_profile("ai-dev")),  # 初始就显示占位图
+            )
 
             with gr.Group(elem_classes="panel"):
                 gr.Markdown("### HR 人工审核闸门")
