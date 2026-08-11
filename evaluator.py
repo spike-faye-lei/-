@@ -72,25 +72,103 @@ def _to_score(value) -> float:
     return max(0.0, min(10.0, s))
 
 
-def radar_figure(profile: dict, dimension_scores: dict):
-    """生成评分雷达图（matplotlib）"""
-    dims = [d["name"] for d in profile["dimensions"]]
-    vals = [max(0, min(10, float(dimension_scores.get(d, 0)))) for d in dims]
-    angles = np.linspace(0, 2 * np.pi, len(dims), endpoint=False).tolist()
-    vals += vals[:1]
-    angles += angles[:1]
+def radar_figure(
+    profile: dict,
+    dimension_scores: dict,
+    tech_score: float = None,
+    culture_score: float = None,
+    tech_weight: int = 0,
+    culture_weight: int = 0,
+    total: float = None,
+    decision: str = None,
+):
+    """候选人评估数据看板（Python 数据分析绘图）：
 
-    fig, ax = plt.subplots(figsize=(5.2, 4.2), subplot_kw=dict(polar=True))
-    ax.plot(angles, vals, color="#4f46e5", linewidth=2)
-    ax.fill(angles, vals, color="#4f46e5", alpha=0.25)
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels([f"{d}\n{s}/10" for d, s in zip(dims, vals[:-1])], fontsize=10)
+    雷达图（能力轮廓） + 维度得分条形图（含权重） + 考官分组对比 + 总分/决策
+    """
+    dims = [d["name"] for d in profile["dimensions"]]
+    reviewer_of = {d["name"]: d.get("reviewer", "tech") for d in profile["dimensions"]}
+    weights = {d["name"]: d["weight"] for d in profile["dimensions"]}
+    vals = [max(0.0, min(10.0, float(dimension_scores.get(d, 0)))) for d in dims]
+
+    # 主色板（与 UI 主题一致）
+    C_TECH = "#4f46e5"      # indigo：技术维度
+    C_CULT = "#10b981"      # emerald：文化维度
+    C_GRID = "#e2e8f0"
+    C_TEXT = "#334155"
+
+    fig = plt.figure(figsize=(12.5, 5.8), facecolor="white")
+    gs = fig.add_gridspec(2, 3, height_ratios=[1.15, 1], width_ratios=[1, 1.15, 1.05],
+                          left=0.07, right=0.97, top=0.88, bottom=0.10, hspace=0.55, wspace=0.45)
+
+    # ---- 1. 雷达图（能力轮廓） ----
+    ax = fig.add_subplot(gs[:, 0], polar=True)
+    angles = np.linspace(0, 2 * np.pi, len(dims), endpoint=False).tolist()
+    v = vals + vals[:1]
+    a = angles + angles[:1]
+    ax.plot(a, v, color=C_TECH, linewidth=2)
+    ax.fill(a, v, color=C_TECH, alpha=0.22)
+    ax.set_xticks(angles)
+    ax.set_xticklabels([f"{d}\n{s:.1f}" for d, s in zip(dims, vals)], fontsize=9.5)
     ax.set_ylim(0, 10)
     ax.set_yticks([2, 4, 6, 8, 10])
-    ax.set_yticklabels(["2", "4", "6", "8", "10"], fontsize=8, color="#94a3b8")
-    ax.grid(color="#e2e8f0")
-    ax.set_title("候选人能力雷达图", fontsize=12, pad=18)
-    plt.tight_layout()
+    ax.set_yticklabels(["2", "4", "6", "8", "10"], fontsize=7.5, color="#94a3b8")
+    ax.grid(color=C_GRID)
+    ax.set_title("候选人能力雷达图", fontsize=13, fontweight="bold", pad=16, color=C_TEXT)
+
+    # ---- 2. 维度得分条形图（含权重） ----
+    ax2 = fig.add_subplot(gs[0, 1:])
+    ypos = np.arange(len(dims))[::-1]
+    colors = [C_TECH if reviewer_of[d] == "tech" else C_CULT for d in dims]
+    bars = ax2.barh(ypos, vals, height=0.58, color=colors, alpha=0.9, zorder=3)
+    ax2.set_yticks(ypos)
+    ax2.set_yticklabels(dims, fontsize=10)
+    ax2.set_xlim(0, 10.6)
+    ax2.set_xticks(range(0, 11, 2))
+    ax2.set_xticklabels(range(0, 11, 2), fontsize=8.5, color="#94a3b8")
+    ax2.tick_params(axis="y", colors=C_TEXT)
+    for bar, d, s in zip(bars, dims, vals):
+        ax2.text(bar.get_width() + 0.15, bar.get_y() + bar.get_height() / 2,
+                 f"{s:.1f} 分 · 权重{weights[d]}%", va="center", fontsize=9.5, color=C_TEXT)
+    ax2.axvline(6, color="#f59e0b", linestyle="--", linewidth=1.2, alpha=0.7, zorder=2)
+    ax2.text(6.05, len(dims) - 0.35, "及格线 6", fontsize=8.5, color="#f59e0b")
+    ax2.set_title("各维度得分与岗位权重", fontsize=13, fontweight="bold", pad=10, color=C_TEXT)
+    ax2.spines[["top", "right"]].set_visible(False)
+    ax2.grid(axis="x", color=C_GRID, zorder=0)
+
+    # ---- 3. 考官分组对比（技术考官 vs 文化考官） ----
+    ax3 = fig.add_subplot(gs[1, :2])
+    ts = tech_score if tech_score is not None else 0
+    cs = culture_score if culture_score is not None else 0
+    groups = [("技术考官", ts, tech_weight, C_TECH), ("文化考官", cs, culture_weight, C_CULT)]
+    y3 = np.arange(len(groups))
+    for i, (label, score, w, c) in enumerate(groups):
+        ax3.barh(i, score, height=0.5, color=c, alpha=0.9, zorder=3)
+        ax3.text(score + 0.15, i, f"{score:.1f} / 10（权重 {w}%）", va="center", fontsize=10.5, color=C_TEXT)
+    ax3.set_yticks(y3)
+    ax3.set_yticklabels([g[0] for g in groups], fontsize=11)
+    ax3.set_xlim(0, 10.8)
+    ax3.set_xticks(range(0, 11, 2))
+    ax3.set_xticklabels(range(0, 11, 2), fontsize=8.5, color="#94a3b8")
+    ax3.tick_params(axis="y", colors=C_TEXT)
+    ax3.set_title("多考官分组评审", fontsize=13, fontweight="bold", pad=10, color=C_TEXT)
+    ax3.spines[["top", "right"]].set_visible(False)
+    ax3.grid(axis="x", color=C_GRID, zorder=0)
+
+    # ---- 4. 加权总分 + 决策 ----
+    ax4 = fig.add_subplot(gs[1, 2])
+    ax4.axis("off")
+    t = total if total is not None else 0
+    ok = decision != "不通过"
+    ax4.text(0.5, 0.72, f"{t:.1f}", ha="center", fontsize=44, fontweight="bold",
+             color=C_TECH, transform=ax4.transAxes)
+    ax4.text(0.5, 0.52, "/ 10 · 岗位加权总分", ha="center", fontsize=11, color="#64748b",
+             transform=ax4.transAxes)
+    ax4.text(0.5, 0.28, f"筛选决策：{decision or '—'}", ha="center", fontsize=13,
+             fontweight="bold", color=(C_CULT if ok else "#E2162A"), transform=ax4.transAxes)
+    ax4.text(0.5, 0.12, "（AI 建议 · 最终由 HR 审核决定）", ha="center", fontsize=8.5,
+             color="#94a3b8", transform=ax4.transAxes)
+
     return fig
 
 
@@ -192,4 +270,13 @@ def evaluate(session, profile: dict):
         "",
         f"**总评：** {data.get('comment', '—')}",
     ]
-    return "\n".join(lines), radar_figure(profile, dimension_scores)
+    return "\n".join(lines), radar_figure(
+        profile,
+        dimension_scores,
+        tech_score=tech_score,
+        culture_score=culture_score,
+        tech_weight=tech_weight,
+        culture_weight=culture_weight,
+        total=total,
+        decision=decision,
+    )

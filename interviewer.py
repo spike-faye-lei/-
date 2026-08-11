@@ -1,7 +1,7 @@
 """AI 招聘智能体：主动沟通 -> 初聊 -> 技术深挖（资深技术专家考官，含糊必追问，动态难度）-> 收口邀约"""
 import re
 
-from config import chat
+from config import chat, chat_stream
 from job_profile import profile_summary
 from resume_parser import format_resume_summary
 
@@ -176,6 +176,21 @@ def first_message(session: InterviewSession) -> str:
     return reply
 
 
+def stream_first_message(session: InterviewSession):
+    """流式版 first_message：yield (partial, done)，done=True 时附带最终文本。
+
+    yield (partial_text, False) 多次 → 最后 yield (final_text, True)
+    """
+    parts = []
+    for chunk in chat_stream(session._build_messages(), temperature=0.7):
+        parts.append(chunk)
+        yield "".join(parts), False
+    reply = "".join(parts)
+    session.history.append({"role": "assistant", "content": reply})
+    session.round += 1
+    yield reply, True
+
+
 CLOSING_PROMPT = """你是「智聘科技」的 AI 招聘智能体。与候选人的沟通已全部结束，这是最后一步，必须给出最终筛选结果。
 【硬性要求】
 1. 输出必须以「【结论】」开头，且只能写"通过"或"不通过"
@@ -203,3 +218,28 @@ def next_message(session: InterviewSession, answer: str) -> str:
 def is_finished(session: InterviewSession, reply: str) -> bool:
     """沟通是否结束：AI 给出结论或达到最大轮数"""
     return "【结论】" in reply or session.round >= MAX_ROUNDS
+
+
+def stream_next_message(session: InterviewSession, answer: str):
+    """流式版 next_message：先更新难度，再流式获取 AI 回复。
+
+    yield (partial, done)，done=True 时附带最终回复文本（此时 history/round 已更新）。
+    """
+    session.history.append({"role": "user", "content": answer})
+    session.update_difficulty(answer)
+    if session.round + 1 >= MAX_ROUNDS:
+        # 最后一轮：切换收口 prompt，强制给出结论与面试邀约
+        messages = [{"role": "system", "content": CLOSING_PROMPT}] + session.history[-6:]
+        messages.append({"role": "user", "content": "【对话已结束】请现在输出最终筛选结果。"})
+        temp = 0.3
+    else:
+        messages = session._build_messages()
+        temp = 0.7
+    parts = []
+    for chunk in chat_stream(messages, temperature=temp):
+        parts.append(chunk)
+        yield "".join(parts), False
+    reply = "".join(parts)
+    session.history.append({"role": "assistant", "content": reply})
+    session.round += 1
+    yield reply, True

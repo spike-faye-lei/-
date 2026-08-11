@@ -1,4 +1,5 @@
 """全局配置：DeepSeek API"""
+import json
 import os
 
 # 读取 .env 文件（简单实现，避免额外依赖）
@@ -56,3 +57,49 @@ def chat(messages, temperature=0.7, max_tokens=2000, retries=3):
         if attempt < retries - 1:
             time.sleep(2 ** attempt)  # 1s, 2s, 4s 指数退避
     raise last_err
+
+
+def chat_stream(messages, temperature=0.7, max_tokens=2000):
+    """流式调用 DeepSeek 对话接口（SSE）。
+
+    返回 generator，逐块 yield 文本增量（打字机效果）；出错时 yield 错误提示后结束。
+    """
+    import requests
+
+    if not API_KEY:
+        yield "（错误：缺少 DEEPSEEK_API_KEY，请在 .env 文件中配置）"
+        return
+    try:
+        resp = requests.post(
+            BASE_URL,
+            headers={
+                "Authorization": f"Bearer {API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": MODEL,
+                "messages": messages,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "stream": True,
+            },
+            stream=True,
+            timeout=(30, 180),
+        )
+        if resp.status_code != 200:
+            yield f"（错误：API 调用失败 {resp.status_code}：{resp.text[:200]}）"
+            return
+        for line in resp.iter_lines(decode_unicode=True):
+            if not line or not line.startswith("data:"):
+                continue
+            data = line[5:].strip()
+            if data == "[DONE]":
+                break
+            try:
+                delta = json.loads(data)["choices"][0]["delta"].get("content", "")
+            except (json.JSONDecodeError, KeyError, IndexError):
+                continue
+            if delta:
+                yield delta
+    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+        yield f"（网络错误：{type(e).__name__}，流式响应中断）"

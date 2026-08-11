@@ -8,12 +8,12 @@ import time
 import gradio as gr
 
 from candidates import CANDIDATES
-from candidate_bot import reply as candidate_reply
+from candidate_bot import reply_stream as candidate_reply_stream
 from crawler import fetch_jobs, fetch_seekers, match_profile
 from db import get_interview, init_db, list_interviews, save_interview
 from evaluator import evaluate
 from file_parser import extract_text
-from interviewer import STYLES, InterviewSession, first_message, is_finished, next_message
+from interviewer import STYLES, InterviewSession, is_finished, stream_first_message, stream_next_message
 from job_profile import PROFILES, add_hr_feedback, get_profile
 from resume_parser import format_resume_summary, parse_resume, pre_screen
 
@@ -147,52 +147,65 @@ def search_candidate(label, history, session_state):
 
 
 def start_interview(resume_text, profile_id, style_id, history, session_state):
-    """手动模式：解析简历 -> 初筛 -> AI 主动联系（含合规声明）"""
+    """手动模式：解析简历 -> 初筛 -> AI 主动联系（流式打字效果）"""
     if not resume_text or not resume_text.strip():
-        return history, None, None, "请先粘贴简历、上传文件或从简历库检索"
+        yield history, None, None, "请先粘贴简历、上传文件或从简历库检索"
+        return
 
     profile = get_profile(profile_id)
     try:
         resume = parse_resume(resume_text)
         screen = pre_screen(resume)
         session = InterviewSession(resume, profile, style=style_id)
-        msg = first_message(session)
-        history = [
+        base = [
             {"role": "assistant", "content": COMPLIANCE},
             {"role": "assistant", "content": f"**【简历解析】**\n\n{format_resume_summary(resume)}"},
             {"role": "assistant", "content": f"**【自动初筛】**\n\n{screen}"},
-            {"role": "assistant", "content": f"**【AI 主动联系】**\n\n{msg}"},
+            {"role": "assistant", "content": "**【AI 主动联系】**\n\n"},
         ]
-        return history, session, None, f"招聘进行中 —— AI 正在与候选人沟通（第 {session.round} 轮）"
+        for partial, done in stream_first_message(session):
+            base[-1]["content"] = f"**【AI 主动联系】**\n\n{partial}"
+            yield [dict(m) for m in base], session, None, "AI 正在与候选人沟通……"
+            if done:
+                break
+        yield [dict(m) for m in base], session, None, f"招聘进行中 —— AI 正在与候选人沟通（第 {session.round} 轮）"
     except Exception as e:
-        return history, None, None, f"启动失败：{e}"
+        yield history, None, None, f"启动失败：{e}"
 
 
 def send_reply(user_input, history, session_state, plot_output):
-    """手动模式：候选人回答 -> AI 推进 -> 结束后出报告+雷达图"""
+    """手动模式：候选人回答 -> AI 流式推进 -> 结束后出报告+雷达图"""
     if session_state is None:
-        return history, session_state, plot_output, "请先添加简历并点击「开始招聘」"
+        yield history, session_state, plot_output, "请先添加简历并点击「开始招聘」"
+        return
     if not user_input or not user_input.strip():
-        return history, session_state, plot_output, "请输入候选人回答"
+        yield history, session_state, plot_output, "请输入候选人回答"
+        return
 
     session = session_state
     try:
-        reply = next_message(session, user_input)
-        history = history + [{"role": "user", "content": user_input}]
+        hist = history + [{"role": "user", "content": user_input}]
+        # AI 流式回复（打字机效果，实时可见）
+        reply = ""
+        for partial, done in stream_next_message(session, user_input):
+            reply = partial
+            yield hist + [{"role": "assistant", "content": partial}], session_state, plot_output, "AI 回复中……"
+            if done:
+                break
         if is_finished(session, reply):
             report, fig = evaluate(session, session.profile)
-            history = history + [
+            history = hist + [
                 {"role": "assistant", "content": reply},
                 {"role": "assistant", "content": report},
                 {"role": "assistant", "content": "**报告已生成，等待 HR 在下方审核后发送最终决定**"},
             ]
-            return history, session, fig, "筛选完成 —— 请在下方进行 HR 审核"
-        history = history + [{"role": "assistant", "content": reply}]
-        return history, session, plot_output, (
+            yield history, session, fig, "筛选完成 —— 请在下方进行 HR 审核"
+            return
+        yield hist + [{"role": "assistant", "content": reply}], session, plot_output, (
             f"招聘进行中（第 {session.round} 轮 · {session.style['name']}风格 · 追问难度：{session.difficulty_name}）"
         )
     except Exception as e:
-        return history, session_state, plot_output, f"调用失败：{e}"
+        yield history, session_state, plot_output, f"调用失败：{e}"
 
 
 def hr_review(decision, comment, history, session_state, plot_output):
@@ -351,23 +364,41 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
                 yield history, session_state, None, f"{name} 已跳过（低匹配）"
                 continue
 
-            # 4. AI 互相聊天：招聘官 AI vs 候选人 AI
+            # 4. AI 互相聊天（流式：招聘官/候选人消息逐字出现）
             session = InterviewSession(resume, profile)
-            q = first_message(session)
-            history = history + [{"role": "assistant", "content": f"**【AI 招聘官】** → {name}\n\n{q}"}]
-            yield history, session_state, None, f"{name}：AI 互相聊天中……"
+            history = history + [{"role": "assistant", "content": f"**【AI 招聘官】** → {name}\n\n"}]
+            q = ""
+            for partial, done in stream_first_message(session):
+                q = partial
+                history[-1]["content"] = f"**【AI 招聘官】** → {name}\n\n{partial}"
+                yield [dict(m) for m in history], session_state, None, f"{name}：AI 招聘官发言中……"
+                if done:
+                    break
+            yield [dict(m) for m in history], session_state, None, f"{name}：AI 互相聊天中……"
 
             while not is_finished(session, q):
-                answer = candidate_reply(name, cand["resume"], session.history, q)
-                history = history + [{"role": "user", "content": f"**{name}（候选人 AI）：**\n\n{answer}"}]
-                yield history, session_state, None, f"{name} 回答中……"
-                time.sleep(0.3)
+                # 候选人 AI 流式回答
+                history = history + [{"role": "user", "content": f"**{name}（候选人 AI）：**\n\n"}]
+                answer = ""
+                for partial in candidate_reply_stream(name, cand["resume"], session.history, q):
+                    answer = partial
+                    history[-1]["content"] = f"**{name}（候选人 AI）：**\n\n{partial}"
+                    yield [dict(m) for m in history], session_state, None, f"{name} 回答中……"
+                yield [dict(m) for m in history], session_state, None, f"{name} 回答完成……"
 
-                q = next_message(session, answer)
-                role = "**AI 招聘官**" if not is_finished(session, q) else "**AI 招聘官 · 收口**"
-                history = history + [{"role": "assistant", "content": f"{role} → {name}\n\n{q}"}]
-                yield history, session_state, None, f"{name}：AI 招聘官回复中……"
-                time.sleep(0.3)
+                # 招聘官流式回复
+                history = history + [{"role": "assistant", "content": f"**AI 招聘官** → {name}\n\n"}]
+                for partial, done in stream_next_message(session, answer):
+                    q = partial
+                    history[-1]["content"] = f"**AI 招聘官** → {name}\n\n{partial}"
+                    yield [dict(m) for m in history], session_state, None, f"{name}：AI 招聘官回复中……"
+                    if done:
+                        break
+                if is_finished(session, q):
+                    history[-1]["content"] = f"**AI 招聘官 · 收口** → {name}\n\n{q}"
+                    yield [dict(m) for m in history], session_state, None, f"{name}：AI 招聘官给出结论……"
+                else:
+                    yield [dict(m) for m in history], session_state, None, f"{name}：AI 招聘官回复完成……"
 
             # 5. 决策报告 + 雷达图（自动入库）
             report, fig = evaluate(session, profile)
