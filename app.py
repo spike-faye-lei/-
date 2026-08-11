@@ -28,92 +28,91 @@ COMPLIANCE = (
 )
 
 CSS = """
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ===== Linear 风格设计 token（参考 research/07-design-reference.md） ===== */
+/* ===== 大赛级简约设计 token（参考 Awwwards 获奖作品：留白/单一强调色/hairline） ===== */
 :root {
-  --bg-page: #08090A;        /* 页面底（近黑带蓝灰） */
-  --bg-panel: #0F1011;       /* 面板 */
-  --bg-card: #191A1B;        /* 卡片 */
-  --bg-hover: #28282C;       /* hover 表面 */
-  --bg-input: #0F1011;       /* 输入框（比卡片深） */
-  --text-1: #F7F8F8;         /* 主文字（非纯白） */
-  --text-2: #D0D6E0;         /* 次级文字 */
-  --text-3: #8A8F98;         /* 占位/元信息 */
-  --border-1: rgba(255,255,255,0.05);
-  --border-2: rgba(255,255,255,0.08);
-  --border-3: rgba(255,255,255,0.12);
-  --accent: #5E6AD2;         /* 唯一强调色：indigo */
-  --accent-hover: #828FFF;
-  --success: #27A644; --danger: #E2162A; --warning: #FFAE00;
-  --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+  --bg-page: #F5F4F0;        /* 暖米色页面底（有质感，非纯白） */
+  --bg-panel: #FFFFFF;       /* 面板纯白 */
+  --bg-hover: #EEEDE8;       /* hover 表面 */
+  --bg-input: #FFFFFF;       /* 输入框 */
+  --text-1: #1C1B1A;         /* 主文字近黑（带暖调） */
+  --text-2: #5C5A55;         /* 次级文字 */
+  --text-3: #A8A49C;         /* 占位/元信息 */
+  --border-1: #E8E6E0;       /* hairline 细边（暖灰） */
+  --border-2: #DAD7D0;       /* 略深细边 */
+  --accent: #4F46E5;         /* 唯一强调色：indigo（点缀） */
+  --ink: #1C1B1A;            /* 黑（主按钮） */
+  --success: #16A34A; --danger: #DC2626; --warning: #D97706;
+  --r-sm: 8px; --r-md: 10px; --r-lg: 14px;
 }
 
 body { background: var(--bg-page) !important; }
 
 .gradio-container {
-  max-width: 1320px !important; margin: 0 auto !important; padding: 18px 20px 32px !important;
+  max-width: 1320px !important; margin: 0 auto !important; padding: 24px 20px 40px !important;
   background: transparent !important;
   font-family: "Inter", -apple-system, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif !important;
   color: var(--text-1) !important;
   font-weight: 400;
 }
 
-/* 卡片：近黑分层 + hairline 边框，靠亮度分层不靠投影 */
+/* 卡片：纯白 + hairline，无阴影无渐变——靠留白分层（大赛简约核心） */
 .panel, .gr-box, .form, .wrap, .gr-group {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--border-2) !important;
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border-1) !important;
   border-radius: var(--r-md) !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.16) !important;
-  padding: 16px !important;
+  box-shadow: none !important;
+  padding: 18px !important;
 }
-#left-col, #right-col { gap: 12px; }
+#left-col, #right-col { gap: 14px; }
 
-/* 顶部横幅：深色面板 + 强调色左边条（无渐变、无装饰光效） */
+/* 顶部横幅：白底 + indigo 左边条，大字号层级 */
 #banner {
   background: var(--bg-panel) !important;
-  border: 1px solid var(--border-2) !important;
+  border: 1px solid var(--border-1) !important;
   border-left: 3px solid var(--accent) !important;
   border-radius: var(--r-lg) !important;
-  padding: 18px 22px; margin-bottom: 14px;
+  padding: 22px 26px; margin-bottom: 16px;
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
 }
-#banner h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); }
-#banner p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-3); }
+#banner h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-1); }
+#banner p { margin: 5px 0 0; font-size: 12.5px; color: var(--text-3); }
 #steps { display: flex; gap: 6px; flex-wrap: wrap; }
 .step-chip {
-  background: var(--bg-card); border: 1px solid var(--border-2);
-  border-radius: var(--r-full); padding: 4px 12px; font-size: 11.5px; color: var(--text-2);
+  background: var(--bg-panel); border: 1px solid var(--border-1);
+  border-radius: 999px; padding: 5px 13px; font-size: 11.5px; color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
 
-/* 按钮：纯色强调，无渐变；绿/橙仅作状态色 */
-#auto-btn button, #start-btn button, #send-btn button, #search-btn button {
-  background: var(--accent) !important;
-  border: none !important; color: #fff !important; font-weight: 500; border-radius: var(--r-sm) !important;
-  transition: background .15s ease !important;
+/* 按钮：黑色实心主按钮（大赛简约标志）+ 白底细边次按钮；绿/橙仅状态色 */
+/* Gradio 6 的 elem_id 直接渲染在 button 元素上，选择器必须直接匹配 */
+#auto-btn, #start-btn, #send-btn, #search-btn {
+  background: var(--ink) !important;
+  border: none !important; color: #fff !important; font-weight: 600; border-radius: var(--r-sm) !important;
+  transition: background .15s ease, transform .1s ease !important;
   cursor: pointer;
 }
-#auto-btn button:hover, #start-btn button:hover, #send-btn button:hover, #search-btn button:hover { background: var(--accent-hover) !important; }
-#auto-btn button { background: var(--success) !important; font-size: 14px; padding: 9px !important; }
-#auto-btn button:hover { background: #2DB84C !important; }
-#review-btn button { background: var(--warning) !important; color: #000 !important; }
-#review-btn button:hover { background: #FFBE26 !important; }
+#auto-btn:hover, #start-btn:hover, #send-btn:hover, #search-btn:hover { background: #000 !important; }
+#auto-btn { background: var(--ink) !important; font-size: 14px; padding: 10px !important; }
+#auto-btn:hover { background: #000 !important; }
+#review-btn { background: var(--bg-panel) !important; color: var(--text-1) !important; border: 1px solid var(--border-2) !important; }
+#review-btn:hover { background: var(--bg-hover) !important; }
 
-/* 状态条：面板色 */
+/* 状态条：白底 hairline */
 #status-bar {
   background: var(--bg-panel) !important;
-  border: 1px solid var(--border-2) !important; border-radius: var(--r-md) !important; padding: 9px 14px !important;
+  border: 1px solid var(--border-1) !important; border-radius: var(--r-md) !important; padding: 10px 16px !important;
 }
 #status-bar p { margin: 0; font-size: 12.5px; color: var(--text-2); }
 
-/* 聊天区：气泡近黑分层 */
-#chat { border-radius: var(--r-md) !important; background: var(--bg-panel) !important; }
-#chat .message.bot { background: var(--bg-card) !important; border: 1px solid var(--border-1); color: var(--text-1) !important; }
-#chat .message.user { background: var(--accent) !important; color: #fff !important; }
-#radar { border-radius: var(--r-md); background: var(--bg-panel); border: 1px solid var(--border-2); padding: 6px; }
+/* 聊天区：AI 白底细边 / 用户黑底白字（高对比极简） */
+#chat { border-radius: var(--r-md) !important; background: var(--bg-panel) !important; border: 1px solid var(--border-1) !important; }
+#chat .message.bot { background: var(--bg-panel) !important; border: 1px solid var(--border-1) !important; color: var(--text-1) !important; }
+#chat .message.user { background: var(--ink) !important; color: #fff !important; }
+#radar { border-radius: var(--r-md); background: var(--bg-panel); border: 1px solid var(--border-1); padding: 8px; }
 
-/* 文字与表单控件 */
+/* 文字与表单控件：极简灰阶 */
 .gradio-container label, .gradio-container .label, .gradio-container legend { color: var(--text-2) !important; font-weight: 500; }
 .gradio-container h1, .gradio-container h2, .gradio-container h3, .gradio-container h4 { color: var(--text-1) !important; font-weight: 600 !important; }
 .gradio-container input, .gradio-container textarea, .gradio-container select {
