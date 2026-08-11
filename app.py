@@ -557,43 +557,51 @@ with gr.Blocks(title="AI 招聘官") as demo:
 
     session_state = gr.State(None)
 
+    # show_progress="hidden"：禁用 Gradio 默认 spinner 覆盖层（会遮挡招聘现场，看不见实时对话）
     auto_btn.click(
         auto_demo,
         inputs=[chatbot, session_state, radar_plot, scope_dropdown, crawler_radio],
         outputs=[chatbot, session_state, radar_plot, status],
+        show_progress="hidden",
     )
-    demo.load(refresh_records, outputs=[record_dropdown, record_detail])
-    refresh_btn.click(refresh_records, outputs=[record_dropdown, record_detail])
-    record_dropdown.change(show_record, inputs=record_dropdown, outputs=record_detail)
+    demo.load(refresh_records, outputs=[record_dropdown, record_detail], show_progress="hidden")
+    refresh_btn.click(refresh_records, outputs=[record_dropdown, record_detail], show_progress="hidden")
+    record_dropdown.change(show_record, inputs=record_dropdown, outputs=record_detail, show_progress="hidden")
     resume_file.change(
         load_resume_file,
         inputs=[resume_file, chatbot, session_state],
         outputs=[resume_input, session_state, status],
+        show_progress="hidden",
     )
     search_btn.click(
         search_candidate,
         inputs=[candidate_dropdown, chatbot, session_state],
         outputs=[resume_input, session_state, status],
+        show_progress="hidden",
     )
     start_btn.click(
         start_interview,
         inputs=[resume_input, profile_dropdown, style_dropdown, chatbot, session_state],
         outputs=[chatbot, session_state, radar_plot, status],
+        show_progress="hidden",
     )
     send_btn.click(
         send_reply,
         inputs=[answer_input, chatbot, session_state, radar_plot],
         outputs=[chatbot, session_state, radar_plot, status],
+        show_progress="hidden",
     )
     answer_input.submit(
         send_reply,
         inputs=[answer_input, chatbot, session_state, radar_plot],
         outputs=[chatbot, session_state, radar_plot, status],
+        show_progress="hidden",
     )
     review_btn.click(
         hr_review,
         inputs=[review_radio, review_comment, chatbot, session_state, radar_plot],
         outputs=[chatbot, session_state, radar_plot, status],
+        show_progress="hidden",
     )
 
 
