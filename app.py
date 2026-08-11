@@ -3,6 +3,7 @@
 """
 import json
 import os
+import random
 import time
 
 import gradio as gr
@@ -351,11 +352,11 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
         candidates += seekers
     candidates = candidates[:want]
     builtin_count = 0
-    for c in CANDIDATES:
-        if len(candidates) >= want:
-            break
-        candidates.append(c)
-        builtin_count += 1
+    if len(candidates) < want:
+        # 内置补齐：随机抽取（每次演示候选人不同，不固定顺序）
+        pool = random.sample(CANDIDATES, min(len(CANDIDATES), want - len(candidates)))
+        candidates += pool
+        builtin_count = len(pool)
     if use_crawler == CRAWL_ON:
         history = history + [{
             "role": "assistant",
