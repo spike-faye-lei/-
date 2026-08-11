@@ -338,6 +338,8 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
         profile = get_profile("ai-dev")
 
     # ---- 1. 候选人检索：Gitee 真实开发者 → V2EX 求职帖 → 内置简历库补齐 ----
+    if use_crawler == CRAWL_ON:
+        yield [dict(m) for m in history], session_state, None, "正在检索候选人（Gitee 开发者档案 / V2EX 求职帖）……"
     candidates = []
     gitee_count = seek_count = 0
     if use_crawler == CRAWL_ON:

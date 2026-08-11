@@ -111,21 +111,21 @@ GITEE_API = "https://gitee.com/api/v5"
 GITEE_QUERIES = ["RAG", "大模型", "agent", "langchain", "LLM", "AIGC", "FastAPI", "深度学习", "人工智能", "chatbot"]
 
 
-def _gitee_get(path: str, params: dict = None, retries: int = 2):
-    """Gitee API 请求（网络抖动自动重试），失败返回 None"""
+def _gitee_get(path: str, params: dict = None, retries: int = 1):
+    """Gitee API 请求（网络抖动重试 1 次），失败返回 None。超时 8s 保证演示不被拖死"""
     for attempt in range(retries + 1):
         try:
             resp = requests.get(
                 f"{GITEE_API}{path}",
                 params=params,
                 headers={"User-Agent": UA, "Accept": "application/json"},
-                timeout=12,
+                timeout=8,
             )
             if resp.status_code == 200 and resp.content:
                 return resp.json()
         except requests.exceptions.RequestException:
             pass
-        time.sleep(1.5 * (attempt + 1))
+        time.sleep(1.0 * (attempt + 1))
     return None
 
 
@@ -137,7 +137,8 @@ def fetch_gitee_seekers(limit: int = 3) -> list:
     """
     import random
 
-    queries = random.sample(GITEE_QUERIES, min(2, len(GITEE_QUERIES)))
+    # 1 个随机关键词（15 条仓库足够取 3 人），保证速度与多样性平衡
+    queries = random.sample(GITEE_QUERIES, 1)
     repos = []
     for q in queries:
         d = _gitee_get("/search/repos", {"q": q, "per_page": 15})
@@ -190,12 +191,10 @@ def fetch_seekers(limit: int = 3) -> list:
     """
     posts = []
     try:
-        for page in range(1, 6):  # 酷工作翻 5 页
+        for page in range(1, 3):  # 酷工作翻 2 页（求职帖稀缺，少翻页避免拖慢演示）
             posts += _fetch_page(V2EX_API, {"node_name": "jobs", "page": page})
             time.sleep(REQUEST_INTERVAL)
-        posts += _fetch_page(V2EX_LATEST, {})  # 全站最新
-        time.sleep(REQUEST_INTERVAL)
-        posts += _fetch_page(V2EX_LATEST, {"p": 2})  # 全站最新第 2 页兜底
+        posts += _fetch_page(V2EX_LATEST, {})  # 全站最新 1 页兜底
     except (requests.exceptions.RequestException, ValueError):
         pass
     seekers = []
