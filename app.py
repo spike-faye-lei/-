@@ -308,13 +308,14 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
 
     # ---- 0. 岗位采集（爬虫：仅采集公开自愿发布信息，失败自动回退） ----
     profile = None
-    if use_crawler == "联网爬取":
-        jobs = fetch_jobs(pages=3)  # 内部已 try/except，失败返回 []
+    CRAWL_ON = "联网爬取（V2EX 公开信息）"
+    if use_crawler == CRAWL_ON:
+        jobs = fetch_jobs(pages=5)  # 5 页 = 50 条公开招聘 JD；失败返回 []
         if jobs:
             top = jobs[0]
             pid = match_profile(f"{top['title']} {top['content']}")
             profile = get_profile(pid)
-            samples = "\n".join(f"- {j['title']}" for j in jobs[:3])
+            samples = "\n".join(f"- {j['title']}" for j in jobs[:5])
             history = history + [{
                 "role": "assistant",
                 "content": (
@@ -338,7 +339,8 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
 
     # ---- 1. 候选人检索：真实公开求职帖（若有）+ 内置简历库补齐 ----
     candidates = []
-    if use_crawler == "联网爬取":
+    CRAWL_ON = "联网爬取（V2EX 公开信息）"
+    if use_crawler == CRAWL_ON:
         seekers = fetch_seekers(limit=want)  # 内部已 try/except，失败返回 []
         candidates = seekers
     seek_count = len(candidates)
@@ -346,7 +348,7 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
         if len(candidates) >= want:
             break
         candidates.append(c)
-    if use_crawler == "联网爬取":
+    if use_crawler == CRAWL_ON:
         builtin_count = len(candidates) - seek_count
         history = history + [{
             "role": "assistant",

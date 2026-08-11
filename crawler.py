@@ -114,10 +114,12 @@ def fetch_seekers(limit: int = 3) -> list:
     """
     posts = []
     try:
-        for page in range(1, 4):  # 酷工作翻 3 页
+        for page in range(1, 6):  # 酷工作翻 5 页
             posts += _fetch_page(V2EX_API, {"node_name": "jobs", "page": page})
             time.sleep(REQUEST_INTERVAL)
-        posts += _fetch_page(V2EX_LATEST, {})  # 全站最新 1 页兜底
+        posts += _fetch_page(V2EX_LATEST, {})  # 全站最新
+        time.sleep(REQUEST_INTERVAL)
+        posts += _fetch_page(V2EX_LATEST, {"p": 2})  # 全站最新第 2 页兜底
     except (requests.exceptions.RequestException, ValueError):
         pass
     seekers = []
