@@ -110,16 +110,18 @@ def fetch_seekers(limit: int = 3) -> list:
     """抓取 V2EX 公开求职帖（候选人自愿公开发布），转成候选人结构。
 
     返回 [{label, source, profile, resume}]；找不到返回 []（调用方用内置简历库补齐）。
-    求职帖是稀缺资源（酷工作板块以招聘帖为主），抓不到是常态，勿依赖。
+    求职帖是稀缺资源（酷工作板块以招聘帖为主），会翻多页尽力找，找不到是常态。
     """
     posts = []
     try:
-        posts += _fetch_page(V2EX_API, {"node_name": "jobs", "page": 1})
-        time.sleep(REQUEST_INTERVAL)
-        posts += _fetch_page(V2EX_LATEST, {})
+        for page in range(1, 4):  # 酷工作翻 3 页
+            posts += _fetch_page(V2EX_API, {"node_name": "jobs", "page": page})
+            time.sleep(REQUEST_INTERVAL)
+        posts += _fetch_page(V2EX_LATEST, {})  # 全站最新 1 页兜底
     except (requests.exceptions.RequestException, ValueError):
-        return []
+        pass
     seekers = []
+    seen = set()
     for p in posts:
         title = p.get("title", "")
         if p.get("deleted") or not SEEK_TITLE_PATTERN.search(title):
@@ -127,6 +129,10 @@ def fetch_seekers(limit: int = 3) -> list:
         content = _clean_html(p.get("content", ""))
         if not content:
             continue
+        url = p.get("url", "")
+        if url in seen:
+            continue
+        seen.add(url)
         username = p.get("member", {}).get("username", "匿名")
         seekers.append(
             {
@@ -135,7 +141,7 @@ def fetch_seekers(limit: int = 3) -> list:
                 "profile": f"V2EX 用户 {username} · 公开自荐",
                 "resume": (
                     f"姓名：V2EX 用户 {username}\n"
-                    f"来源：{p.get('url', '')}\n"
+                    f"来源：{url}\n"
                     f"自荐内容：\n{content[:1500]}"
                 ),
             }

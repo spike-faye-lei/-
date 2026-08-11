@@ -338,20 +338,24 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
 
     # ---- 1. 候选人检索：真实公开求职帖（若有）+ 内置简历库补齐 ----
     candidates = []
-    seek_note = ""
     if use_crawler == "联网爬取":
         seekers = fetch_seekers(limit=want)  # 内部已 try/except，失败返回 []
-        if seekers:
-            candidates = seekers
-            seek_note = f"，其中 {len(seekers)} 条为 V2EX 公开求职帖"
+        candidates = seekers
+    seek_count = len(candidates)
     for c in CANDIDATES:
         if len(candidates) >= want:
             break
         candidates.append(c)
     if use_crawler == "联网爬取":
+        builtin_count = len(candidates) - seek_count
         history = history + [{
             "role": "assistant",
-            "content": f"**【候选人检索】** 共 **{len(candidates)} 位候选人**进入初筛{seek_note}",
+            "content": (
+                f"**【候选人检索】** 共 **{len(candidates)} 位候选人**进入初筛\n\n"
+                f"- 联网采集：V2EX 公开求职帖 **{seek_count} 条**"
+                f"{'（该平台求职帖稀缺，属正常情况）' if seek_count == 0 else ''}\n"
+                f"- 内置简历库补齐：**{builtin_count} 条**（演示数据）"
+            ),
         }]
         yield history, session_state, None, "候选人检索完成，开始逐份初筛……"
 
