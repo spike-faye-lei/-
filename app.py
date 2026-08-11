@@ -147,22 +147,28 @@ def search_candidate(label, history, session_state):
 
 
 def start_interview(resume_text, profile_id, style_id, history, session_state):
-    """手动模式：解析简历 -> 初筛 -> AI 主动联系（流式打字效果）"""
+    """手动模式：解析简历 -> 初筛 -> AI 主动联系（分阶段即时反馈 + 流式打字）"""
     if not resume_text or not resume_text.strip():
         yield history, None, None, "请先粘贴简历、上传文件或从简历库检索"
         return
 
     profile = get_profile(profile_id)
+    base = [{"role": "assistant", "content": COMPLIANCE}]
     try:
+        # 1) 立即反馈（不等待 API）
+        yield [dict(m) for m in base], None, None, "① 正在解析简历……"
         resume = parse_resume(resume_text)
+        base = base + [{"role": "assistant", "content": f"**【简历解析】**\n\n{format_resume_summary(resume)}"}]
+        yield [dict(m) for m in base], None, None, "② 简历解析完成，正在自动初筛……"
+
+        # 2) 初筛
         screen = pre_screen(resume)
+        base = base + [{"role": "assistant", "content": f"**【自动初筛】**\n\n{screen}"}]
         session = InterviewSession(resume, profile, style=style_id)
-        base = [
-            {"role": "assistant", "content": COMPLIANCE},
-            {"role": "assistant", "content": f"**【简历解析】**\n\n{format_resume_summary(resume)}"},
-            {"role": "assistant", "content": f"**【自动初筛】**\n\n{screen}"},
-            {"role": "assistant", "content": "**【AI 主动联系】**\n\n"},
-        ]
+        yield [dict(m) for m in base], session, None, "③ 初筛完成，AI 正在主动联系候选人……"
+
+        # 3) AI 主动联系（流式打字）
+        base = base + [{"role": "assistant", "content": "**【AI 主动联系】**\n\n"}]
         for partial, done in stream_first_message(session):
             base[-1]["content"] = f"**【AI 主动联系】**\n\n{partial}"
             yield [dict(m) for m in base], session, None, "AI 正在与候选人沟通……"
@@ -183,13 +189,15 @@ def send_reply(user_input, history, session_state, plot_output):
         return
 
     session = session_state
+    hist = history + [{"role": "user", "content": user_input}]
+    # 立即反馈：AI 思考占位（不等待 API）
+    yield hist + [{"role": "assistant", "content": "（AI 思考中……）"}], session, plot_output, "AI 思考中……"
     try:
-        hist = history + [{"role": "user", "content": user_input}]
         # AI 流式回复（打字机效果，实时可见）
         reply = ""
         for partial, done in stream_next_message(session, user_input):
             reply = partial
-            yield hist + [{"role": "assistant", "content": partial}], session_state, plot_output, "AI 回复中……"
+            yield hist + [{"role": "assistant", "content": partial}], session, plot_output, "AI 回复中……"
             if done:
                 break
         if is_finished(session, reply):
@@ -493,7 +501,10 @@ with gr.Blocks(title="AI 招聘官") as demo:
 
             with gr.Accordion("面试记录（历史存档）", open=False):
                 with gr.Row():
-                    record_dropdown = gr.Dropdown(label="选择记录", choices=[], scale=8)
+                    record_dropdown = gr.Dropdown(
+                        label="选择记录", choices=[], scale=8,
+                        allow_custom_value=True,  # 服务重启后旧页面残留值不报错
+                    )
                     refresh_btn = gr.Button("刷新", scale=2)
                 record_detail = gr.Markdown("暂无面试记录——跑一次流程后自动存档，重启不丢失")
 
