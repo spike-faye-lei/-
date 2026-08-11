@@ -9,7 +9,7 @@ import gradio as gr
 
 from candidates import CANDIDATES
 from candidate_bot import reply_stream as candidate_reply_stream
-from crawler import fetch_jobs, fetch_seekers, match_profile
+from crawler import fetch_gitee_seekers, fetch_jobs, fetch_seekers, match_profile
 from db import get_interview, init_db, list_interviews, save_interview
 from evaluator import evaluate, radar_figure
 from file_parser import extract_text
@@ -337,23 +337,29 @@ def auto_demo(history, session_state, plot_output, demo_scope, use_crawler):
     else:
         profile = get_profile("ai-dev")
 
-    # ---- 1. 候选人检索：真实公开求职帖（若有）+ 内置简历库补齐 ----
+    # ---- 1. 候选人检索：Gitee 真实开发者 → V2EX 求职帖 → 内置简历库补齐 ----
     candidates = []
-    CRAWL_ON = "联网爬取（V2EX 公开信息）"
+    gitee_count = seek_count = 0
     if use_crawler == CRAWL_ON:
-        seekers = fetch_seekers(limit=want)  # 内部已 try/except，失败返回 []
-        candidates = seekers
-    seek_count = len(candidates)
+        gitee = fetch_gitee_seekers(limit=want)  # 真实开发者档案（每次关键词轮换，候选人不同）
+        gitee_count = len(gitee)
+        candidates += gitee
+        seekers = fetch_seekers(limit=want)  # V2EX 公开求职帖（稀缺）
+        seek_count = len(seekers)
+        candidates += seekers
+    candidates = candidates[:want]
+    builtin_count = 0
     for c in CANDIDATES:
         if len(candidates) >= want:
             break
         candidates.append(c)
+        builtin_count += 1
     if use_crawler == CRAWL_ON:
-        builtin_count = len(candidates) - seek_count
         history = history + [{
             "role": "assistant",
             "content": (
                 f"**【候选人检索】** 共 **{len(candidates)} 位候选人**进入初筛\n\n"
+                f"- 联网采集：Gitee 公开开发者 **{gitee_count} 条**（真实技术档案）\n"
                 f"- 联网采集：V2EX 公开求职帖 **{seek_count} 条**"
                 f"{'（该平台求职帖稀缺，属正常情况）' if seek_count == 0 else ''}\n"
                 f"- 内置简历库补齐：**{builtin_count} 条**（演示数据）"

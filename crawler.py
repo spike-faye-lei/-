@@ -105,6 +105,82 @@ def match_profile(jd_text: str) -> str:
 
 SEEK_TITLE_PATTERN = re.compile(r"求职|求一份|找工作中|求内推|找工作")
 
+# Gitee 公开开发者源：搜索公开仓库 → 仓库 owner 即真实开发者（公开 profile+仓库=天然简历）
+GITEE_API = "https://gitee.com/api/v5"
+# 轮换搜索关键词：每次随机选 2 个 → 每次演示抓到的开发者不同（候选人换着来）
+GITEE_QUERIES = ["RAG", "大模型", "agent", "langchain", "LLM", "AIGC", "FastAPI", "深度学习", "人工智能", "chatbot"]
+
+
+def _gitee_get(path: str, params: dict = None, retries: int = 2):
+    """Gitee API 请求（网络抖动自动重试），失败返回 None"""
+    for attempt in range(retries + 1):
+        try:
+            resp = requests.get(
+                f"{GITEE_API}{path}",
+                params=params,
+                headers={"User-Agent": UA, "Accept": "application/json"},
+                timeout=12,
+            )
+            if resp.status_code == 200 and resp.content:
+                return resp.json()
+        except requests.exceptions.RequestException:
+            pass
+        time.sleep(1.5 * (attempt + 1))
+    return None
+
+
+def fetch_gitee_seekers(limit: int = 3) -> list:
+    """抓取 Gitee 公开仓库的开发者作为候选人（公开自愿发布的技术档案，PIPL 合规）。
+
+    搜索公开仓库 → 取 owner（真实开发者）→ 个人简介 + 仓库语言 + 项目 = 简历。
+    随机关键词轮换保证每次抓到的候选人不同；失败返回 []（调用方回退内置库）。
+    """
+    import random
+
+    queries = random.sample(GITEE_QUERIES, min(2, len(GITEE_QUERIES)))
+    repos = []
+    for q in queries:
+        d = _gitee_get("/search/repos", {"q": q, "per_page": 15})
+        if isinstance(d, dict):
+            repos += d.get("data", [])
+        time.sleep(REQUEST_INTERVAL)
+    seekers = []
+    seen_owners = set()
+    for rp in repos:
+        owner = rp.get("owner")
+        if not owner or owner in seen_owners:
+            continue
+        seen_owners.add(owner)
+        u = _gitee_get(f"/users/{owner}")
+        name = (u or {}).get("name") or owner
+        bio = (u or {}).get("bio") or ""
+        location = (u or {}).get("location") or ""
+        langs = rp.get("languages") or []
+        lang_str = ", ".join(langs[:6]) if isinstance(langs, list) else ""
+        title = rp.get("title") or rp.get("name") or owner
+        repo_name = str(title).split("/")[-1][:12]
+        desc = str(rp.get("description") or "")[:110]
+        stars = rp.get("stars") or 0
+        url = rp.get("url") or f"https://gitee.com/{owner}"
+        seekers.append(
+            {
+                "label": f"{name} · Gitee 开发者（{repo_name}）",
+                "source": f"Gitee 公开仓库 · 开发者技术档案（{owner}）",
+                "profile": f"Gitee 开发者 {owner} · 公开技术档案{(' · ' + location) if location else ''}",
+                "resume": (
+                    f"姓名：{name}\n"
+                    f"Gitee 账号：{owner}\n"
+                    f"个人简介：{bio or '（未填写）'}\n"
+                    f"技能：{lang_str or '（未标注）'}\n"
+                    f"项目经验：\n- {title}（{stars} 星）：{desc}\n"
+                    f"来源：{url}"
+                ),
+            }
+        )
+        if len(seekers) >= limit:
+            break
+    return seekers
+
 
 def fetch_seekers(limit: int = 3) -> list:
     """抓取 V2EX 公开求职帖（候选人自愿公开发布），转成候选人结构。
