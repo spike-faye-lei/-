@@ -23,14 +23,21 @@ py -3.12 -m pip install -r requirements.txt   # 首次
 py -3.12 app.py
 ```
 
-或者直接**双击 `start.bat`**（自动装依赖 + 自动打开浏览器 http://localhost:7860）
+或者直接**双击 `start.bat`**（自动装依赖 + 启动前按时间戳备份数据库到 `backups/` + 自动打开浏览器 http://localhost:7860）
 
-## 测试
+## 测试与质量检查
 
 ```bash
-py -3.12 -m pip install pytest    # 首次
-py -3.12 -m pytest tests/ -q      # 63 个用例，全部 mock 不真实调 API
+py -3.12 -m pip install pytest ruff    # 首次
+py -3.12 -m pytest tests/ -q           # 单元测试全部 mock，不真实调 API；3 条 live 冒烟默认跳过
+ruff check .                           # 静态检查（未用导入/未定义名等，research/ 参考资料除外）
 ```
+
+3 条 **live 冒烟测试**（`tests/test_smoke_live.py`）会真实调用 DeepSeek，验证 prompt 服从度
+（收口格式 / 评估 JSON 契约 / JD 结构）——单元测试 mock 掉了 LLM，这部分契约只有真跑才知道：
+PowerShell 下 `$env:RUN_LIVE_TESTS='1'; py -3.12 -m pytest tests/test_smoke_live.py -q`
+
+推送 GitHub 后 `.github/workflows/ci.yml` 会自动跑 ruff + 全量单测（无需 API Key）。
 
 ## 两种模式
 
@@ -64,9 +71,23 @@ py -3.12 -m pytest tests/ -q      # 63 个用例，全部 mock 不真实调 API
 
 API key 在 `.env`（`DEEPSEEK_API_KEY`），默认模型 `deepseek-chat`，可改 `DEEPSEEK_MODEL`。
 
+## 登录鉴权
+
+默认免登录（本机演示模式，启动时会打印提醒）。**对外部署前**在 `.env` 中同时配置：
+
+```
+ADMIN_USERNAME=hr
+ADMIN_PASSWORD=你的强密码
+```
+
+重启后访问页面需输入账号密码（Gradio 内置登录页 + 访问令牌 Cookie）。两者都配置才生效，只配一个或都不配则保持免登录。
+
 ## 文件结构
 
-- `app.py` — Gradio 主界面（4 个 Tab：AI 面试官/批量初筛/候选人对比/招聘工具）
+- `app.py` — 入口：初始化数据库 + 启动（含可选登录鉴权，`.env` 配置 `ADMIN_USERNAME`/`ADMIN_PASSWORD` 启用）
+- `ui.py` — Gradio 界面装配（4 个 Tab：AI 面试官/批量初筛/候选人对比/招聘工具的组件与事件绑定）
+- `handlers.py` — 全部事件处理函数（业务接线，纯函数 + generator，不持有组件引用）
+- `ui_theme.py` — 全局样式 token（CSS）/ 合规声明 / 静态资源路径
 - `bulk_screen.py` — 批量简历初筛（LLM 评分 + 代码加权 + 排序 generator）
 - `compare.py` — 多候选人横向对比（对比矩阵 + LLM 推荐排序）
 - `jd_generator.py` — JD 生成 + rubric 匹配 + 面试题库生成
@@ -81,5 +102,8 @@ API key 在 `.env`（`DEEPSEEK_API_KEY`），默认模型 `deepseek-chat`，可�
 - `file_parser.py` — PDF/DOCX/TXT 简历提取文本
 - `config.py` — DeepSeek API 封装（含流式）
 - `db.py` — SQLite 持久化（面试/初筛/批次/反馈/统计）
-- `tests/` — pytest 单元测试（52 用例，全部 mock 不调真实 API）
+- `start.bat` — 一键启动：装依赖 + 备份数据库到 `backups/` + 打开浏览器
+- `demo_resumes/` — 内置演示简历（TXT/DOCX/PDF 三种格式，可演示上传解析）
+- `tests/` — pytest 单元测试（全 mock，不调真实 API）+ 3 条 live 冒烟测试（opt-in，见「测试与质量检查」）
 - `research/` — 6 份行业研究报告 + 总报告
+- `ruff.toml` — 静态检查配置；`.github/workflows/ci.yml` — push 自动跑 ruff + 单测
