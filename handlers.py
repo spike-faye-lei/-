@@ -14,6 +14,7 @@ from bulk_screen import BATCH_LIMIT, screen_batch
 from candidates import CANDIDATES
 from candidate_bot import reply_stream as candidate_reply_stream
 from compare import compare_report
+from config import chat
 from crawler import fetch_gitee_seekers, fetch_jobs, fetch_seekers, match_profile
 from db import (
     add_batch_report,
@@ -94,25 +95,25 @@ def start_interview(resume_text, profile_id, style_id, history, session_state):
 
 
 def send_reply(user_input, history, session_state, plot_output):
-    """手动模式：候选人回答 -> AI 流式推进 -> 结束后出报告+雷达图"""
+    """手动模式：候选人回答 -> AI 流式推进 -> 结束后出报告+雷达图（并把审核单选默认值设为 AI 决策）"""
     if session_state is None:
-        yield history, session_state, plot_output, "请先添加简历并点击「开始招聘」"
+        yield history, session_state, plot_output, gr.update(), "请先添加简历并点击「开始招聘」"
         return
     if not user_input or not user_input.strip():
-        yield history, session_state, plot_output, "请输入候选人回答"
+        yield history, session_state, plot_output, gr.update(), "请输入候选人回答"
         return
 
     plot_output = plot_output or _placeholder_radar()
     session = session_state
     hist = history + [{"role": "user", "content": user_input}]
     # 立即反馈：AI 思考占位（不等待 API）
-    yield hist + [{"role": "assistant", "content": "（AI 思考中……）"}], session, plot_output, "AI 思考中……"
+    yield hist + [{"role": "assistant", "content": "（AI 思考中……）"}], session, plot_output, gr.update(), "AI 思考中……"
     try:
         # AI 流式回复（打字机效果，实时可见）
         reply = ""
         for partial, done in stream_next_message(session, user_input):
             reply = partial
-            yield hist + [{"role": "assistant", "content": partial}], session, plot_output, "AI 回复中……"
+            yield hist + [{"role": "assistant", "content": partial}], session, plot_output, gr.update(), "AI 回复中……"
             if done:
                 break
         if is_finished(session, reply):
@@ -122,13 +123,15 @@ def send_reply(user_input, history, session_state, plot_output):
                 {"role": "assistant", "content": report},
                 {"role": "assistant", "content": "**报告已生成，等待 HR 在下方审核后发送最终决定**"},
             ]
-            yield history, session, fig, "筛选完成 —— 请在下方进行 HR 审核"
+            # 审核单选默认值跟随 AI 决策（HR 可改，AI 只建议）
+            radio = gr.update(value=_radio_value(session.report.get("decision", "")))
+            yield history, session, fig, radio, "筛选完成 —— 请在下方进行 HR 审核"
             return
-        yield hist + [{"role": "assistant", "content": reply}], session, plot_output, (
+        yield hist + [{"role": "assistant", "content": reply}], session, plot_output, gr.update(), (
             f"招聘进行中（第 {session.round} 轮 · {session.style['name']}风格 · 追问难度：{session.difficulty_name}）"
         )
     except Exception as e:
-        yield history, session_state, plot_output, f"调用失败：{e}"
+        yield history, session_state, plot_output, gr.update(), f"调用失败：{e}"
 
 
 def hr_review(decision, comment, history, session_state, plot_output):
@@ -140,10 +143,15 @@ def hr_review(decision, comment, history, session_state, plot_output):
     data = session.report
     verdict = "通过" if decision.startswith("通过") else "驳回"
     invite = data.get("invite", "—")
+    note = ""
+    # 一致性守卫：HR 结论与 AI 决策相反时，草稿是反方向的话术，必须按 HR 结论重新起草
+    if _verdict_mismatch(verdict, data.get("decision")):
+        invite = _redraft_invite(verdict)
+        note = f"\n\n> ⚠️ AI 建议为「{data.get('decision', '?')}」，与您的结论相反，通知已按您的结论重新起草，请核对后再发送"
     kind = "线下面试邀约" if verdict == "通过" else "婉拒通知"
     msg = (
         f"**【HR 审核】{verdict}**\n\n"
-        f"AI 起草的{kind}已填入下方文本框（可编辑），确认后点击「确认发送」\n\n"
+        f"AI 起草的{kind}已填入下方文本框（可编辑），确认后点击「确认发送」{note}\n\n"
         f"**HR 意见：** {comment or '（无）'}"
     )
     history = history + [{"role": "assistant", "content": msg}]
@@ -199,19 +207,73 @@ def _extract_invite(report_md: str) -> str:
     return ""
 
 
+def _extract_decision(report_md: str) -> str:
+    """从报告 markdown 提取 AI 的筛选决策（通过/不通过，取不到返回空串）"""
+    m = re.search(r"筛选决策：\s*\*{0,2}\s*(通过|不通过)", report_md or "")
+    return m.group(1) if m else ""
+
+
+def _verdict_mismatch(hr_verdict: str, ai_decision: str) -> bool:
+    """HR 审核结论与 AI 决策是否相反（AI 无明确结论「待复核」时不算不一致）"""
+    if ai_decision not in ("通过", "不通过"):
+        return False
+    return (hr_verdict == "通过") != (ai_decision == "通过")
+
+
+_FALLBACK_INVITE = {
+    "通过": "恭喜您通过本次面试评估，诚邀您于明天下午 3 点到智聘科技大厦 12 层参加线下面试，请携带相关证件，期待与您见面。",
+    "驳回": "感谢您参与本次沟通。经过综合评估，我们暂时无法为您推进后续流程，感谢您的关注，祝您求职顺利。",
+}
+
+
+def _redraft_invite(verdict: str) -> str:
+    """按 HR 结论重新起草通知文本（LLM 失败时回退固定模板，绝不中断审核流程）"""
+    kind = "线下面试邀约" if verdict == "通过" else "婉拒通知"
+    try:
+        text = chat(
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        f"你是「智聘科技」的招聘专员。HR 审核结论为：{verdict}。"
+                        f"请起草一段正式得体的{kind}：通过则写明线下面试时间地点"
+                        "（明天下午 3 点，智聘科技大厦 12 层）；驳回则礼貌婉拒并感谢参与。"
+                        "只输出通知正文，不要任何其他内容。"
+                    ),
+                },
+                {"role": "user", "content": "请输出通知正文。"},
+            ],
+            temperature=0.5,
+            max_tokens=300,
+        )
+        text = text.strip()
+        if text:
+            return text
+    except Exception:
+        pass
+    return _FALLBACK_INVITE.get(verdict, "")
+
+
+def _radio_value(decision: str) -> str:
+    """审核单选默认值：AI 明确「不通过」时默认驳回，否则默认通过（与界面选项文本一致）"""
+    return "驳回" if decision == "不通过" else "通过（进入线下面试）"
+
+
 def load_pending(record_id):
-    """载入一条待审核记录：完整详情 + AI 通知草稿 + 审核状态（供提交/确认发送使用）"""
+    """载入一条待审核记录：完整详情 + AI 通知草稿 + 审核状态 + 审核单选默认值（供提交/确认发送使用）"""
     if isinstance(record_id, (list, tuple)):
         record_id = record_id[0] if record_id else None
     if not record_id:
-        return "请先选择待审核记录", "", None, "请先选择待审核记录"
+        return "请先选择待审核记录", "", None, "请先选择待审核记录", gr.update()
     r = get_interview(record_id)
     if not r:
-        return "记录不存在", "", None, "记录不存在"
+        return "记录不存在", "", None, "记录不存在", gr.update()
     detail = show_record(record_id)
     invite = _extract_invite(r["report"] or "")
     state = {"iid": r["id"], "candidate": r["candidate"], "job": r["job"]}
-    return detail, invite, state, f"已载入 **{r['candidate']}** —— 上方选择审核决定、填写意见后点「提交审核（待审核记录）」"
+    # 审核单选默认值跟随 AI 决策（HR 可改，AI 只建议）
+    radio = gr.update(value=_radio_value(_extract_decision(r["report"] or "")))
+    return detail, invite, state, f"已载入 **{r['candidate']}** —— 上方选择审核决定、填写意见后点「提交审核（待审核记录）」", radio
 
 
 def submit_pending(decision, comment, invite_text, pending_state):
@@ -221,9 +283,15 @@ def submit_pending(decision, comment, invite_text, pending_state):
     verdict = "通过" if decision.startswith("通过") else "驳回"
     update_interview_hr(pending_state["iid"], verdict, comment)
     add_hr_feedback(verdict, comment, pending_state["job"])
+    note = ""
+    # 一致性守卫：与 AI 决策相反时按 HR 结论重新起草（与手动模式 hr_review 同规则）
+    rec = get_interview(pending_state["iid"])
+    if rec and _verdict_mismatch(verdict, _extract_decision(rec["report"] or "")):
+        invite_text = _redraft_invite(verdict)
+        note = "（AI 建议与您的结论相反，通知已按您的结论重新起草）"
     new_invite_state = {"iid": pending_state["iid"], "verdict": verdict, "candidate": pending_state["candidate"]}
     kind = "线下面试邀约" if verdict == "通过" else "婉拒通知"
-    return invite_text, new_invite_state, None, f"审核完成（{verdict}）—— AI 起草的{kind}已填入下方（可编辑），点击「确认发送」"
+    return invite_text, new_invite_state, None, f"审核完成（{verdict}）{note}—— AI 起草的{kind}已填入下方（可编辑），点击「确认发送」"
 
 
 def empty_radar_figure(profile: dict):

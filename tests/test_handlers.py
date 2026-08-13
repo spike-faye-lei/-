@@ -134,16 +134,25 @@ class TestLoadPending:
     def test_载入待审核记录构造状态(self, monkeypatch):
         monkeypatch.setattr(handlers, "get_interview", lambda i: {
             "id": 1, "candidate": "张三", "job": "AI岗",
-            "report": "**下一步（待 HR 审核确认后发送）：** 欢迎来面试",
+            "report": "**筛选决策：通过**\n\n**下一步（待 HR 审核确认后发送）：** 欢迎来面试",
         })
         monkeypatch.setattr(handlers, "show_record", lambda i: "详情")
-        detail, invite, state, status = load_pending(1)
+        detail, invite, state, status, radio = load_pending(1)
         assert detail == "详情" and invite == "欢迎来面试"
         assert state == {"iid": 1, "candidate": "张三", "job": "AI岗"}
         assert "张三" in status
+        assert radio.get("value") == "通过（进入线下面试）"
+
+    def test_AI不通过时单选默认驳回(self, monkeypatch):
+        monkeypatch.setattr(handlers, "get_interview", lambda i: {
+            "id": 1, "candidate": "张三", "job": "AI岗", "report": "**筛选决策：不通过**",
+        })
+        monkeypatch.setattr(handlers, "show_record", lambda i: "详情")
+        *_, radio = load_pending(1)
+        assert radio.get("value") == "驳回"
 
     def test_未选择给出提示(self):
-        detail, invite, state, status = load_pending(None)
+        detail, invite, state, status, radio = load_pending(None)
         assert invite == "" and state is None and "请先选择" in status
 
 
@@ -152,6 +161,7 @@ class TestSubmitPending:
         calls = []
         monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: calls.append(a))
         monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: calls.append(a))
+        monkeypatch.setattr(handlers, "get_interview", lambda i: {"report": "**筛选决策：通过**"})
         state = {"iid": 1, "candidate": "张三", "job": "AI岗"}
         _, new_state, pending, status = submit_pending("通过（进入线下面试）", "不错", "邀约文本", state)
         assert new_state["verdict"] == "通过" and pending is None
@@ -160,6 +170,7 @@ class TestSubmitPending:
     def test_驳回路径(self, monkeypatch):
         monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: None)
         monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
+        monkeypatch.setattr(handlers, "get_interview", lambda i: {"report": "**筛选决策：不通过**"})
         _, new_state, _, status = submit_pending("驳回", "", "文本", {"iid": 1, "candidate": "张三", "job": "AI岗"})
         assert new_state["verdict"] == "驳回" and "婉拒通知" in status
 
@@ -324,3 +335,80 @@ class TestEmptyRadar:
     def test_占位雷达图可生成(self):
         fig = empty_radar_figure(get_profile("ai-dev"))
         assert fig is not None
+
+
+# ==================== 结论-草稿一致性守卫（HR 推翻 AI 结论时按 HR 结论重新起草） ====================
+
+class TestVerdictMismatch:
+    def test_HR通过而AI不通过_不一致(self):
+        assert handlers._verdict_mismatch("通过", "不通过") is True
+
+    def test_HR驳回而AI通过_不一致(self):
+        assert handlers._verdict_mismatch("驳回", "通过") is True
+
+    def test_结论一致_不触发(self):
+        assert handlers._verdict_mismatch("通过", "通过") is False
+        assert handlers._verdict_mismatch("驳回", "不通过") is False
+
+    def test_AI待复核_视为无明确结论_不触发(self):
+        assert handlers._verdict_mismatch("通过", "待复核") is False
+        assert handlers._verdict_mismatch("驳回", "待复核") is False
+
+
+class TestExtractDecision:
+    def test_解析报告决策(self):
+        assert handlers._extract_decision("**筛选决策：不通过**") == "不通过"
+        assert handlers._extract_decision("筛选决策：通过") == "通过"
+
+    def test_无决策返回空(self):
+        assert handlers._extract_decision("没有决策") == ""
+
+
+class TestRedraftInvite:
+    def test_LLM失败回退固定模板(self, monkeypatch):
+        monkeypatch.setattr(handlers, "chat", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+        assert "面试" in handlers._redraft_invite("通过")
+        assert "感谢" in handlers._redraft_invite("驳回")
+
+    def test_LLM返回正文被采用(self, monkeypatch):
+        monkeypatch.setattr(handlers, "chat", lambda *a, **k: "  重新起草的通知正文  ")
+        assert handlers._redraft_invite("通过") == "重新起草的通知正文"
+
+
+class TestHrReviewConsistency:
+    def test_结论与AI相反时重新起草(self, monkeypatch):
+        monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
+        monkeypatch.setattr(handlers, "save_interview", lambda *a: 42)
+        monkeypatch.setattr(handlers, "_redraft_invite", lambda v: f"NEW-{v}")
+        session = _session(report={"invite": "婉拒原文", "decision": "不通过", "total": 5.9})
+        new_history, _, _, invite, _, status = hr_review("通过（进入线下面试）", "", [], session, None)
+        assert invite == "NEW-通过"
+        assert "重新起草" in new_history[-1]["content"]  # 一致性提示在聊天记录消息里
+
+    def test_结论一致时保留AI原文(self, monkeypatch):
+        monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
+        monkeypatch.setattr(handlers, "save_interview", lambda *a: 42)
+        monkeypatch.setattr(handlers, "_redraft_invite", lambda v: pytest.fail("不应重新起草"))
+        session = _session(report={"invite": "原邀约", "decision": "通过", "total": 7.0})
+        _, _, _, invite, _, _ = hr_review("通过（进入线下面试）", "", [], session, None)
+        assert invite == "原邀约"
+
+
+class TestSubmitPendingConsistency:
+    def test_结论与AI相反时替换草稿(self, monkeypatch):
+        monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: None)
+        monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
+        monkeypatch.setattr(handlers, "get_interview", lambda i: {"report": "**筛选决策：不通过**"})
+        monkeypatch.setattr(handlers, "_redraft_invite", lambda v: "NEW-通过")
+        state = {"iid": 1, "candidate": "张三", "job": "AI岗"}
+        new_text, _, _, status = submit_pending("通过（进入线下面试）", "", "旧婉拒文本", state)
+        assert new_text == "NEW-通过" and "重新起草" in status
+
+    def test_结论一致时保留草稿(self, monkeypatch):
+        monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: None)
+        monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
+        monkeypatch.setattr(handlers, "get_interview", lambda i: {"report": "**筛选决策：通过**"})
+        monkeypatch.setattr(handlers, "_redraft_invite", lambda v: pytest.fail("不应重新起草"))
+        state = {"iid": 1, "candidate": "张三", "job": "AI岗"}
+        new_text, _, _, _ = submit_pending("通过（进入线下面试）", "", "原草稿", state)
+        assert new_text == "原草稿"

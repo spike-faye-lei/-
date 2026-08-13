@@ -300,13 +300,13 @@ def build_ui():
         send_btn.click(
             send_reply,
             inputs=[answer_input, chatbot, session_state, radar_plot],
-            outputs=[chatbot, session_state, radar_plot, status],
+            outputs=[chatbot, session_state, radar_plot, review_radio, status],
             show_progress="hidden",
         )
         answer_input.submit(
             send_reply,
             inputs=[answer_input, chatbot, session_state, radar_plot],
-            outputs=[chatbot, session_state, radar_plot, status],
+            outputs=[chatbot, session_state, radar_plot, review_radio, status],
             show_progress="hidden",
         )
         review_btn.click(
@@ -327,7 +327,7 @@ def build_ui():
         pending_load_btn.click(
             load_pending,
             inputs=[pending_dropdown],
-            outputs=[pending_detail, invite_input, pending_state, status],
+            outputs=[pending_detail, invite_input, pending_state, status, review_radio],
             show_progress="hidden",
         )
         pending_submit_btn.click(
