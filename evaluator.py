@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import font_manager
 
+from config import chat
+from job_profile import REVIEWER_NAMES, profile_summary
+from llm_utils import parse_llm_json, to_score
+
 # 中文字体配置：雷达图标签必须用中文字体，否则全是方块
 # 精确匹配优先（排除 SimSun-ExtG 这类生僻字库），按优先级取第一个可用字体
 _ZH_FONT_PRIORITY = ["Microsoft YaHei", "SimHei", "SimSun", "Noto Sans SC", "Noto Sans CJK SC"]
@@ -16,10 +20,6 @@ _zh_font = next((n for n in _ZH_FONT_PRIORITY if n in _available), None)
 if _zh_font:
     matplotlib.rcParams["font.family"] = _zh_font
 matplotlib.rcParams["axes.unicode_minus"] = False
-
-from config import chat
-from job_profile import REVIEWER_NAMES, profile_summary
-from llm_utils import parse_llm_json, to_score
 
 EVALUATOR_SYSTEM = """你是招聘评估系统的评审委员会负责人，组织技术考官与文化考官分别评审候选人。严格输出 JSON（不要其他内容）：
 {{

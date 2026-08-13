@@ -1,0 +1,10 @@
+# ruff 静态检查配置（本地：pip install ruff && ruff check .）
+target-version = "py312"
+line-length = 120
+
+# research/ 是行业调研参考资料（第三方代码摘录），不参与检查
+exclude = ["research"]
+
+[lint]
+# 默认规则集：E4/E7/E9（基础错误）+ F（pyflakes：未用导入/未定义名）
+select = ["E4", "E7", "E9", "F"]

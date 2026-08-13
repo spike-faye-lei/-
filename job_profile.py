@@ -1,6 +1,8 @@
 """岗位配置（rubric）：评估维度、权重、考官分组、评分规则
 演示时可切换岗位看报告变化；HR 审核意见会进入反馈校准闭环
 """
+from db import add_hr_feedback_row, load_hr_feedback
+
 # keywords：面试维度覆盖检查用（代码侧关键词归类招聘官提问，省一次 LLM 调用）
 # 归类规则：按维度顺序第一个命中关键词的维度胜出（技术维度排前，软性维度兜底）
 PROFILES = [
@@ -81,8 +83,6 @@ REVIEWER_NAMES = {"tech": "技术考官", "culture": "文化考官"}
 
 # HR 反馈校准闭环（Moka Eva 模式）：HR 审核意见会作为后续评估的校准依据
 # 持久化到 SQLite（db.hr_feedback 表），重启不丢
-from db import add_hr_feedback_row, load_hr_feedback
-
 HR_FEEDBACK = load_hr_feedback()
 
 
