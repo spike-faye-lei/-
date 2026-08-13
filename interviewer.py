@@ -2,7 +2,7 @@
 import re
 
 from config import chat, chat_stream
-from job_profile import profile_summary
+from job_profile import classify_dimension, profile_summary
 from resume_parser import format_resume_summary
 
 CHAT_ROUNDS = 2   # 前 2 轮：初聊（意向确认）
@@ -85,6 +85,7 @@ SYSTEM = """{persona}，正在主动与一名候选人沟通，推进完整招�
 当前阶段：{stage}（全部沟通共 {max} 轮，目前第 {round} 轮）
 当前追问难度：{difficulty}（{difficulty_hint}）
 面试风格：{tone}
+维度覆盖情况：已考察 [{covered}]；尚未考察 [{uncovered}]
 
 流程与规则：
 1. 每轮只发 1 条消息，简洁、专业、用中文，不闲聊
@@ -96,6 +97,7 @@ SYSTEM = """{persona}，正在主动与一名候选人沟通，推进完整招�
 7. 只能围绕候选人简历中真实存在的项目和技能提问，严禁编造简历中不存在的项目/技术来提问
 8. 重要：如果本轮是最后一轮（第 {max} 轮），必须收口给出结果——消息以「【结论】」开头：通过则表达认可并发出线下面试邀约（含具体时间和地点），不通过则礼貌婉拒；绝对不能再提问
 9. 永远不要说"我帮你评估"这类话，你就是招聘方
+10. 维度覆盖：优先围绕「尚未考察」的维度提问，保证每个评估维度都被考察到；已考察维度可深挖但不要重复问相同问题
 
 风格规则：
 {style_rules}"""
@@ -115,6 +117,14 @@ class InterviewSession:
         self.difficulty = 0  # 0=基础 1=进阶 2=深度
         self._good_streak = 0
         self._bad_streak = 0
+        # 维度覆盖跟踪：已考察的评估维度名集合
+        self.covered_dims = set()
+
+    def _mark_coverage(self, question: str) -> None:
+        """把招聘官提问归类到评估维度（关键词启发式），记录已覆盖维度"""
+        dim = classify_dimension(question, self.profile)
+        if dim:
+            self.covered_dims.add(dim)
 
     @property
     def stage(self) -> str:
@@ -145,6 +155,9 @@ class InterviewSession:
             self._bad_streak = 0
 
     def _build_messages(self):
+        dim_names = [d["name"] for d in self.profile["dimensions"]]
+        covered = "、".join(d for d in dim_names if d in self.covered_dims) or "（暂无）"
+        uncovered = "、".join(d for d in dim_names if d not in self.covered_dims) or "（已全覆盖）"
         messages = [
             {
                 "role": "system",
@@ -160,6 +173,8 @@ class InterviewSession:
                     tone=self.style["tone"],
                     chat=CHAT_ROUNDS,
                     followup=self.style["followup"],
+                    covered=covered,
+                    uncovered=uncovered,
                     style_rules="\n".join(f"- {r}" for r in self.style["rules"]),
                 ),
             }
@@ -173,6 +188,7 @@ def first_message(session: InterviewSession) -> str:
     reply = chat(session._build_messages(), temperature=0.7)
     session.history.append({"role": "assistant", "content": reply})
     session.round += 1
+    session._mark_coverage(reply)
     return reply
 
 
@@ -188,6 +204,7 @@ def stream_first_message(session: InterviewSession):
     reply = "".join(parts)
     session.history.append({"role": "assistant", "content": reply})
     session.round += 1
+    session._mark_coverage(reply)
     yield reply, True
 
 
@@ -212,6 +229,7 @@ def next_message(session: InterviewSession, answer: str) -> str:
     reply = chat(messages, temperature=0.3 if session.round + 1 >= MAX_ROUNDS else 0.7)
     session.history.append({"role": "assistant", "content": reply})
     session.round += 1
+    session._mark_coverage(reply)
     return reply
 
 
@@ -242,4 +260,5 @@ def stream_next_message(session: InterviewSession, answer: str):
     reply = "".join(parts)
     session.history.append({"role": "assistant", "content": reply})
     session.round += 1
+    session._mark_coverage(reply)
     yield reply, True

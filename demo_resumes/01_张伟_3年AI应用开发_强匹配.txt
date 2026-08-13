@@ -1,0 +1,8 @@
+张伟，男，29岁，硕士，华中科技大学计算机专业。
+工作经历：3年AI应用开发经验，其中2年专注RAG与大模型应用落地。
+技能：Python、FastAPI、LangChain、LlamaIndex、DeepSeek API、向量数据库（Milvus/Chroma）、Redis、MySQL、Docker。
+项目经验：
+1. 企业知识库问答平台（RAG + LangChain + Milvus）：负责整体架构与检索链路，混合检索（BM25+向量）召回率从68%提升到89%，回答准确率82%，服务3个事业部
+2. 智能客服工单系统（LLM + 知识库 + FastAPI）：多轮改写 + 重排，人工客服转接率降低35%，日均处理2万+工单
+3. 简历解析服务（LLM结构化提取 + Prompt工程）：非结构化简历转JSON，字段准确率93%
+求职意向：AI应用开发工程师，期望薪资25-35K，两周内到岗。

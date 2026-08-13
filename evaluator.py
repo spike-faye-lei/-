@@ -1,8 +1,6 @@
 """筛选决策报告：多考官分组评审（技术考官/文化考官）+ 证据链评分 + 加权总分 + 雷达图
 评分确定性：LLM 只输出各维度分数与证据，加权总分由代码计算
 """
-import json
-
 import matplotlib
 
 matplotlib.use("Agg")
@@ -21,6 +19,7 @@ matplotlib.rcParams["axes.unicode_minus"] = False
 
 from config import chat
 from job_profile import REVIEWER_NAMES, profile_summary
+from llm_utils import parse_llm_json, to_score
 
 EVALUATOR_SYSTEM = """你是招聘评估系统的评审委员会负责人，组织技术考官与文化考官分别评审候选人。严格输出 JSON（不要其他内容）：
 {{
@@ -47,29 +46,6 @@ EVALUATOR_SYSTEM = """你是招聘评估系统的评审委员会负责人，组�
 - 文化考官（culture）：按软性维度评分，考察沟通、动机、团队契合
 
 注意：评分必须引用对话或简历中的具体内容作为证据，禁止无依据打分；评分要公允，候选人紧张或话少不算技术缺陷，只看证据。"""
-
-
-def _parse_json(content: str) -> dict:
-    """容错解析 LLM 输出的 JSON"""
-    content = content.strip()
-    if content.startswith("```"):
-        content = content.split("\n", 1)[1]
-        if content.endswith("```"):
-            content = content[:-3]
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        start, end = content.find("{"), content.rfind("}")
-        return json.loads(content[start : end + 1])
-
-
-def _to_score(value) -> float:
-    """分数钳制到 [0, 10]，非法值按 0 处理（不信任 LLM 输出）"""
-    try:
-        s = float(value)
-    except (TypeError, ValueError):
-        return 0.0
-    return max(0.0, min(10.0, s))
 
 
 def radar_figure(
@@ -188,7 +164,7 @@ def evaluate(session, profile: dict):
         ],
         temperature=0.1,
     )
-    data = _parse_json(content)
+    data = parse_llm_json(content)
 
     # 按考官分组收集分数（代码计算加权总分，确定性）
     reviewers = data.get("reviewers", {})
@@ -202,7 +178,7 @@ def evaluate(session, profile: dict):
     for group in ("tech", "culture"):
         for d in reviewers.get(group, []):
             name = d.get("name", "")
-            score = _to_score(d.get("score", 0))
+            score = to_score(d.get("score", 0))
             if name not in weight_map:
                 unknown_dims.append(name)  # 配置外的维度：忽略并提示，不静默
                 continue
@@ -229,11 +205,14 @@ def evaluate(session, profile: dict):
             culture_weight += w
     total = round(weighted_sum / weight_total, 1) if weight_total else 0
     data["total"] = total
+    data["dimension_scores"] = dimension_scores  # 供横向对比/雷达图复用
     session.report = data  # 存给 HR 审核闸门用
     tech_score = round(tech_sum / tech_weight, 1) if tech_weight else 0
     culture_score = round(culture_sum / culture_weight, 1) if culture_weight else 0
 
-    decision = data.get("decision", "通过")
+    # 模型漏输出决策时默认「待复核」而不是「通过」（招聘场景宁保守不冒进）
+    decision = data.get("decision", "待复核")
+    data["decision"] = decision  # 归一化后写回 report，下游不再各自猜测默认值
     lines = [
         f"## 筛选决策报告（{profile['job']}）",
         "",
@@ -250,12 +229,13 @@ def evaluate(session, profile: dict):
         label = REVIEWER_NAMES.get(group, group)
         lines += [f"### {label}评分", "", "| 维度 | 得分 | 证据 |", "| --- | --- | --- |"]
         for d in reviewers.get(group, []):
-            name, score = d.get("name", "?"), d.get("score", 0)
-            bar = "█" * int(score) + "░" * (10 - int(score))
+            name, raw = d.get("name", "?"), d.get("score", 0)
+            score = int(to_score(raw))  # 进度条用钳制后的整数分（防模型输出 "abc"/None 时 int() 崩溃）
+            bar = "█" * score + "░" * (10 - score)
             evidence = d.get("evidence", "—")
             if len(evidence) > 55:
                 evidence = evidence[:55] + "…"
-            lines.append(f"| {name} | {score}/10 {bar} | {evidence} |")
+            lines.append(f"| {name} | {raw}/10 {bar} | {evidence} |")
         lines.append("")
 
     lines += ["**优势亮点：**"]
