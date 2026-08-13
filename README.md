@@ -3,18 +3,18 @@
 > 计算机科学与技术专业 · 2026 届本科在读
 > 毕设「SmartKitchen 智能厨房」+ 开源鸿蒙参赛项目 + AI 智能体 Demo，全部源码开源于此仓库（一仓多分支）。
 
-## 📦 项目一览
+##  项目一览
 
 | 项目 | 一句话介绍 | 分支 | 技术栈 |
 |---|---|---|---|
-| 🍳 **SmartKitchen 后端** | CLIP 迁移学习 + 知识蒸馏的食材识别（15 类 92.69%），营养分析 + 菜谱推荐 | `smartkitchen`（见下方 Gitee 仓库） | Python · FastAPI · PyTorch · CLIP · SQLite |
-| 📱 **SmartKitchen 鸿蒙端** | HarmonyOS NEXT 食材识别 APP：拍照识别、营养、菜谱、饮食记录、人脸识别 | `harmonyos-app` | ArkTS · HarmonyOS NEXT (API 24) |
-| 🤖 **AI 招聘官** | 多考官证据链评分 + AI 互聊面试 + 联网爬虫 + HR 审核闸门，全流程可演示 | `recruit-agent` | Python · Gradio · LangChain 风格 · DeepSeek API · matplotlib |
-| 🐾 **CountBot 定制版** | 人脸识别计数机器人（答辩演示项目） | `countbot` | Python · OpenCV |
+| **SmartKitchen 后端** | CLIP 迁移学习 + 知识蒸馏的食材识别（15 类 92.69%），营养分析 + 菜谱推荐 | `smartkitchen`（见下方 Gitee 仓库） | Python · FastAPI · PyTorch · CLIP · SQLite |
+| **SmartKitchen 鸿蒙端** | HarmonyOS NEXT 食材识别 APP：拍照识别、营养、菜谱、饮食记录、人脸识别 | `harmonyos-app` | ArkTS · HarmonyOS NEXT (API 24) |
+| **AI 招聘官** | 多考官证据链评分 + AI 互聊面试 + 联网爬虫 + HR 审核闸门，全流程可演示 | `recruit-agent` | Python · Gradio · LangChain 风格 · DeepSeek API · matplotlib |
+| **CountBot 定制版** | 人脸识别计数机器人（答辩演示项目） | `countbot` | Python · OpenCV |
 
 > 各分支内有各自项目的详细 README（功能说明、架构、启动步骤）。SmartKitchen 后端源码在 Gitee 同名仓库的 `smartkitchen` 分支（见文末链接）。
 
-## 🎯 核心亮点
+##  核心亮点
 
 **SmartKitchen（毕设 · 参赛）**
 - 食材识别：CLIP 视觉模型迁移学习 + 知识蒸馏（teacher→student CNN），15 类食材 **92.69%** 准确率，手机端可部署
@@ -30,7 +30,7 @@
 - 批量初筛 / 候选人对比 / JD 生成 / 面试题库生成
 - **68 个自动化测试**（pytest）全部通过
 
-## 🚀 快速开始
+##  快速开始
 
 每个项目分支的 README 里都有独立启动步骤，例如：
 
@@ -45,11 +45,11 @@ python app.py   # 浏览器打开 http://localhost:7860
 # SmartKitchen 鸿蒙端：用 DevEco Studio 打开 harmonyos-app 分支
 ```
 
-## 🛠 技术栈
+##  技术栈
 
 `Python` `FastAPI` `PyTorch` `CLIP` `LangChain 风格编排` `DeepSeek API` `Gradio` `matplotlib` `SQLite` `HarmonyOS NEXT (ArkTS)` `pytest`
 
-## 📫 联系
+##  联系
 
 - 邮箱：2250461965@qq.com
 - Gitee（SmartKitchen 后端）：https://gitee.com/H2250461965/hongmeng-c/tree/smartkitchen
