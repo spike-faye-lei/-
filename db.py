@@ -198,6 +198,13 @@ def list_interviews():
 
 
 def get_interview(iid):
+    """按 id 查面试记录；Gradio 下拉可能传 list/tuple，统一归一化（防 sqlite 绑定报错）"""
+    if isinstance(iid, (list, tuple)):
+        iid = iid[0] if iid else None
+    try:
+        iid = int(iid)
+    except (TypeError, ValueError):
+        return None
     with _conn() as conn:
         r = conn.execute("SELECT * FROM interviews WHERE id=?", (iid,)).fetchone()
         return dict(r) if r else None

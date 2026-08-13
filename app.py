@@ -49,7 +49,7 @@ COMPLIANCE = (
 )
 
 CSS = """
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* 注：不引入 Google Fonts（国内直连被墙会阻塞页面渲染），字体走系统栈 */
 
 /* ===== 大赛级简约设计 token（参考 Awwwards 获奖作品：留白/单一强调色/hairline） ===== */
 :root {
@@ -764,6 +764,20 @@ def load_queue_from_db():
     ]
 
 
+def history_to_markdown(history):
+    """聊天历史 → 可读的问答对话流 markdown（一键面试直播用，不依赖 Chatbot 组件渲染）"""
+    lines = []
+    for m in history or []:
+        role = "AI 招聘官" if m.get("role") == "assistant" else "候选人"
+        content = m.get("content", "").strip()
+        # 去掉消息内容里嵌入的角色前缀（【AI 招聘官】→ 名字 / 名字（候选人 AI）：），避免与行首标签重复
+        content = re.sub(r"^\*\*【[^】]+】\*\* → .*?\n\n", "", content)
+        content = re.sub(r"^\*\*[^*]*（候选人 AI）：\*\*\n\n", "", content)
+        lines.append(f"**{role}：** {content}")
+        lines.append("")
+    return "\n".join(lines) or "（暂无对话）"
+
+
 def queue_markdown(queue):
     """队列展示文本（批量初筛页实时可见）"""
     if not queue:
@@ -788,8 +802,10 @@ def run_queue_interviews(queue, profile_id, history, session_state, plot, progre
     对比报告在「候选人对比」页可回看，HR 在「AI 面试官」页待审核队列逐条审核。
     """
     def emit(h, s, p, status):
-        return h, s, p, status, queue_markdown(queue)
+        return history_to_markdown(h), s, p, status, queue_markdown(queue)
 
+    if not isinstance(history, list):
+        history = []  # 输入组件是 Markdown 时传字符串，Chatbot 时传列表——统一归一化
     if not queue:
         yield history, session_state, plot, "面试队列为空 —— 请先运行批量初筛并勾选候选人", queue_markdown(queue)
         return
@@ -854,11 +870,14 @@ def refresh_batches():
 
 
 def show_compare(batch_id):
-    """从库中取一批面试的结构化结果，生成横向对比报告"""
+    """从库中取一批面试的结构化结果，生成横向对比报告；未选批次时自动用最新批次"""
     if isinstance(batch_id, (list, tuple)):  # 新版 Gradio Dropdown 值可能是 list
         batch_id = batch_id[0] if batch_id else None
     if not batch_id:
-        return "请选择面试批次"
+        batches = list_batches()
+        if not batches:
+            return "暂无面试批次 —— 跑完一批面试（≥1 人完成报告）后自动存档"
+        batch_id = batches[0]["batch_id"]  # 自动用最新批次
     rows = get_batch(batch_id)
     if not rows:
         return "批次不存在或为空"
@@ -1089,10 +1108,9 @@ with gr.Blocks(title="AI 招聘官") as demo:
                         queue_interview_btn = gr.Button("一键面试队列（AI 招聘官自动面试）", elem_id="auto-btn", variant="primary")
                         screen_status = gr.Markdown("等待运行初筛……", elem_id="status-bar")
                 with gr.Column(scale=7, elem_id="right-col"):
-                    queue_chatbot = gr.Chatbot(
-                        label="一键面试直播（AI 招聘官 × 候选人 AI 实时对话）",
-                        height=400,
-                        avatar_images=(os.path.join(ASSETS, "avatar_user.svg"), os.path.join(ASSETS, "avatar_ai.svg")),
+                    queue_live = gr.Markdown(
+                        "一键面试开始后，这里实时显示 **AI 招聘官 × 候选人** 的完整问答对话……",
+                        elem_classes="panel",
                     )
                     screen_table = gr.Dataframe(
                         headers=["排名", "姓名", "总分", "AI 建议", "一句话点评", "各维度得分"],
@@ -1239,13 +1257,14 @@ with gr.Blocks(title="AI 招聘官") as demo:
     # 一键面试：对话直播在本页「一键面试直播」框，队列展示实时更新
     queue_interview_btn.click(
         run_queue_interviews,
-        inputs=[interview_queue, screen_profile, queue_chatbot, session_state, radar_plot],
-        outputs=[queue_chatbot, session_state, radar_plot, screen_status, queue_display],
+        inputs=[interview_queue, screen_profile, queue_live, session_state, radar_plot],
+        outputs=[queue_live, session_state, radar_plot, screen_status, queue_display],
     )
-    # 候选人对比页
-    demo.load(refresh_batches, outputs=[batch_dropdown, compare_output], show_progress="hidden")
-    batch_refresh_btn.click(refresh_batches, outputs=[batch_dropdown, compare_output], show_progress="hidden")
-    compare_btn.click(show_compare, inputs=[batch_dropdown], outputs=[compare_output], show_progress="hidden")
+    # 候选人对比页：页面加载即自动生成最新批次报告；手动生成时显示进度（LLM 需要十几秒）
+    demo.load(refresh_batches, outputs=[batch_dropdown], show_progress="hidden")
+    demo.load(show_compare, inputs=[batch_dropdown], outputs=[compare_output], show_progress="hidden")
+    batch_refresh_btn.click(refresh_batches, outputs=[batch_dropdown], show_progress="hidden")
+    compare_btn.click(show_compare, inputs=[batch_dropdown], outputs=[compare_output])
     # 招聘工具页
     jd_btn.click(run_jd_gen, inputs=[jd_role, jd_notes], outputs=[jd_output], show_progress="hidden")
     q_btn.click(run_question_gen, inputs=[q_profile, q_count], outputs=[q_output], show_progress="hidden")
