@@ -23,6 +23,16 @@ logger = logging.getLogger("recruit")
 
 init_db()  # 启动时初始化 SQLite
 
+# 国内直连无需 VPN：Gradio 前端会在挂载时注入 Google Fonts 样式表（fonts.googleapis.com），
+# 国内无 VPN 时该样式表阻塞渲染导致页面打不开。显式指定系统字体栈 + 关闭 analytics，
+# 让前端跳过默认字体的网络加载。
+os.environ.setdefault("GRADIO_ANALYTICS_ENABLED", "False")
+SYSTEM_FONTS = [
+    "system-ui", "-apple-system", "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "sans-serif",
+]
+SYSTEM_MONO = ["Consolas", "SF Mono", "Microsoft YaHei", "monospace"]
+
 
 def build_auth():
     """登录鉴权：.env 中同时设置 ADMIN_USERNAME / ADMIN_PASSWORD 才启用。
@@ -46,7 +56,7 @@ def build_auth():
 if __name__ == "__main__":
     demo = build_ui()
     demo.launch(
-        theme=gr.themes.Soft(),
+        theme=gr.themes.Soft(font=SYSTEM_FONTS, font_mono=SYSTEM_MONO),
         css=CSS,
         auth=build_auth(),
         auth_message="招聘数据仅限内部访问，请输入访问账号密码",
