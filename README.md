@@ -8,33 +8,33 @@
 
 基于 CLIP 多模态预训练模型与知识蒸馏的智能食材识别系统，面向 HarmonyOS 移动端部署。
 
-**🎯 核心指标：CLIP + Fruits 360 验证准确率 92.69%（15类食材）**  
-**📱 端侧部署：MobileNetV3-Small 蒸馏模型 90.83%（仅 6MB）**
+** 核心指标：CLIP + Fruits 360 验证准确率 92.69%（15类食材）**  
+** 端侧部署：MobileNetV3-Small 蒸馏模型 90.83%（仅 6MB）**
 
 ---
 
-## ✨ 特性
+##  特性
 
-- 🥕 **高精度食材识别** — CLIP ViT-B/32 迁移学习，15 类中国常见食材
-- 🍱 **整餐多食材分析** — 拍一桌菜，3x3 网格识别多种食材并汇总整餐营养
-- 🤖 **AI 营养师** — 接入 DeepSeek 大模型，结合饮食记录对话问答
-- 📊 **健康评分 + 家庭排行** — 五维评分（热量/蛋白/脂肪/碳水/多样性）+ 成员排行榜
-- 🗜️ **100 倍模型压缩** — 知识蒸馏 605MB → 6MB，准确率仅损失 1.86%
-- 🔗 **多模态融合** — 图像特征 + 营养文本特征联合分类
-- 👤 **人脸识别** — MediaPipe 面部特征点检测，家庭成员管理
-- 📱 **HarmonyOS 前端** — ArkTS + ArkUI，5-Tab 大厂风格 UI（Material 3）
-- 🍽️ **营养分析 + 菜谱推荐** — 基于 USDA / 中国食物成分表
-- 📟 **开发板支持** — 通晓 TX-SMART-R（RK2206）集成指南
+-  **高精度食材识别** — CLIP ViT-B/32 迁移学习，15 类中国常见食材
+-  **整餐多食材分析** — 拍一桌菜，3x3 网格识别多种食材并汇总整餐营养
+-  **AI 营养师** — 接入 DeepSeek 大模型，结合饮食记录对话问答
+-  **健康评分 + 家庭排行** — 五维评分（热量/蛋白/脂肪/碳水/多样性）+ 成员排行榜
+-  **100 倍模型压缩** — 知识蒸馏 605MB → 6MB，准确率仅损失 1.86%
+-  **多模态融合** — 图像特征 + 营养文本特征联合分类
+-  **人脸识别** — MediaPipe 面部特征点检测，家庭成员管理
+-  **HarmonyOS 前端** — ArkTS + ArkUI，5-Tab 大厂风格 UI（Material 3）
+-  **营养分析 + 菜谱推荐** — 基于 USDA / 中国食物成分表
+-  **开发板支持** — 通晓 TX-SMART-R（RK2206）集成指南
 
-## 📚 文档
+##  文档
 
-- [🚀 完整部署指南](docs/部署指南.md) — 从零跑通前后端 + AI 营养师 + 开发板
-- [📟 开发板指南](docs/开发板-通晓TX-SMART-R.md) — TX-SMART-R 烧录 / Hello World / 集成
-- [⚠️ 免责声明](DISCLAIMER.md) — 学习用途、数据来源、健康内容仅供参考
+- [ 完整部署指南](docs/部署指南.md) — 从零跑通前后端 + AI 营养师 + 开发板
+- [ 开发板指南](docs/开发板-通晓TX-SMART-R.md) — TX-SMART-R 烧录 / Hello World / 集成
+- [ 免责声明](DISCLAIMER.md) — 学习用途、数据来源、健康内容仅供参考
 
 ---
 
-## 📁 项目结构
+##  项目结构
 
 ```
 SmartKitchen/
@@ -56,7 +56,7 @@ SmartKitchen/
 
 ---
 
-## 🚀 快速开始
+##  快速开始
 
 ### 环境要求
 
@@ -99,7 +99,7 @@ python train_multimodal.py
 
 ---
 
-## 📊 实验对比
+##  实验对比
 
 | 序号 | 模型 | 验证准确率 | 模型大小 |
 |:---:|------|:---------:|:-------:|
@@ -114,7 +114,7 @@ python train_multimodal.py
 
 ---
 
-## 🗂️ 数据集
+##  数据集
 
 本项目的训练数据由两部分组成：
 
@@ -129,7 +129,7 @@ chicken_breast, egg, milk, tofu, broccoli, rice, noodles, bread
 
 ---
 
-## 🙏 致谢 / Acknowledgments
+##  致谢 / Acknowledgments
 
 本项目受益于以下优秀开源项目：
 
@@ -143,11 +143,11 @@ chicken_breast, egg, milk, tofu, broccoli, rice, noodles, bread
 | [MediaPipe](https://github.com/google/mediapipe) | 人脸特征点检测 | Apache 2.0 |
 | [CountBot](https://github.com/countbot-ai/CountBot) | 人脸识别模块参考 | MIT |
 
-感谢所有开源贡献者 ❤️
+感谢所有开源贡献者 
 
 ---
 
-## 📄 许可证
+##  许可证
 
 本项目代码采用 [MIT License](LICENSE)。
 
@@ -155,7 +155,7 @@ chicken_breast, egg, milk, tofu, broccoli, rice, noodles, bread
 
 ---
 
-## 👨‍💻 作者
+##  作者
 
-- 上海建桥学院 计算机科学与技术 2026届毕设
+- 计算机科学与技术专业 2026届毕设
 - 联系方式：GitHub Issues
