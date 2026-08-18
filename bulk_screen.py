@@ -42,6 +42,7 @@ def screen_resume(resume_text: str, profile: dict) -> dict:
     weight_map = {d["name"]: d["weight"] for d in profile["dimensions"]}
     raw = data.get("dimension_scores", {})
     scores = {}
+    evidence = {}  # 证据链保留：维度名 → 简历原文引用（评分卡展示用）
     weighted_sum = 0.0
     weight_total = 0
     for dim in profile["dimensions"]:
@@ -49,10 +50,13 @@ def screen_resume(resume_text: str, profile: dict) -> dict:
         item = raw.get(name, {})
         score = to_score(item.get("score", 0)) if isinstance(item, dict) else to_score(item)
         scores[name] = score
+        if isinstance(item, dict) and item.get("evidence"):
+            evidence[name] = item["evidence"]
         w = weight_map[name]
         weighted_sum += score * w
         weight_total += w
     data["dimension_scores"] = scores
+    data["evidence"] = evidence
     data["total"] = round(weighted_sum / weight_total, 1) if weight_total else 0
     return data
 

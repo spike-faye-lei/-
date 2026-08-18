@@ -1,0 +1,26 @@
+# AI 招聘官 —— 一键部署（网页 7860 + Webhook 7861）
+# 用法：docker compose up -d
+# 配置：编辑 environment 或使用 .env（docker compose 自动读取同目录 .env）
+services:
+  recruit-agent:
+    build: .
+    ports:
+      - "7860:7860"   # Gradio 网页
+      - "7861:7861"   # Webhook（钉钉/飞书回调）
+    environment:
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - DINGTALK_WEBHOOK=${DINGTALK_WEBHOOK:-}
+      - FEISHU_WEBHOOK=${FEISHU_WEBHOOK:-}
+      - WEWORK_WEBHOOK=${WEWORK_WEBHOOK:-}
+      - WEBHOOK_API_KEY=${WEBHOOK_API_KEY:-}
+      # 生产数据库（可选）：DB_TYPE=postgres + DATABASE_URL=postgresql://user:pass@db:5432/recruit
+      - DB_TYPE=${DB_TYPE:-sqlite}
+      - DATABASE_URL=${DATABASE_URL:-}
+    volumes:
+      - recruit-data:/app            # 数据库 + 简历文件持久化
+    restart: unless-stopped
+
+volumes:
+  recruit-data:

@@ -20,9 +20,35 @@ API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 BASE_URL = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1/chat/completions")
 MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
 
+# ---------- API 用量统计（成本控制：看板展示累计调用与估算成本） ----------
+# deepseek-chat 官方刊例价（元/百万 token）：输入 2 元，输出 8 元
+PRICE_IN_PER_M = 2.0
+PRICE_OUT_PER_M = 8.0
+_usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0}
+
+
+def _record_usage(messages, reply_text):
+    """估算并累计 token 用量（本地按字符数粗估，精确值以 API usage 字段为准）"""
+    in_chars = sum(len(str(m.get("content", ""))) for m in messages)
+    out_chars = len(reply_text or "")
+    _usage["calls"] += 1
+    _usage["input_tokens"] += int(in_chars * 1.2)  # 中文≈1.2 token/字符（粗估）
+    _usage["output_tokens"] += int(out_chars * 1.2)
+
+
+def get_api_usage():
+    """用量统计：调用次数 / 估算 token / 估算成本（元）"""
+    cost = _usage["input_tokens"] / 1e6 * PRICE_IN_PER_M + _usage["output_tokens"] / 1e6 * PRICE_OUT_PER_M
+    return {
+        "calls": _usage["calls"],
+        "input_tokens": _usage["input_tokens"],
+        "output_tokens": _usage["output_tokens"],
+        "estimated_cost_yuan": round(cost, 4),
+    }
+
 
 def chat(messages, temperature=0.7, max_tokens=2000, retries=3):
-    """调用 DeepSeek 对话接口，返回回复文本。网络抖动/限流自动重试（指数退避）。"""
+    """调用 DeepSeek 对话接口，返回回复文本。网络抖动/限流自动重试（指数退避，最多 retries 次）。"""
     import time
 
     import requests
@@ -47,7 +73,9 @@ def chat(messages, temperature=0.7, max_tokens=2000, retries=3):
                 timeout=120,
             )
             if resp.status_code == 200:
-                return resp.json()["choices"][0]["message"]["content"]
+                reply = resp.json()["choices"][0]["message"]["content"]
+                _record_usage(messages, reply)
+                return reply
             last_err = RuntimeError(f"API 调用失败 ({resp.status_code}): {resp.text[:300]}")
             # 限流/服务端错误可重试；4xx 业务错误（如鉴权失败）直接抛出
             if resp.status_code not in (429, 500, 502, 503, 504):
@@ -89,6 +117,7 @@ def chat_stream(messages, temperature=0.7, max_tokens=2000):
         if resp.status_code != 200:
             yield f"（错误：API 调用失败 {resp.status_code}：{resp.text[:200]}）"
             return
+        parts = []
         for line in resp.iter_lines(decode_unicode=True):
             if not line or not line.startswith("data:"):
                 continue
@@ -100,6 +129,9 @@ def chat_stream(messages, temperature=0.7, max_tokens=2000):
             except (json.JSONDecodeError, KeyError, IndexError):
                 continue
             if delta:
+                parts.append(delta)
                 yield delta
+        if parts:
+            _record_usage(messages, "".join(parts))
     except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
         yield f"（网络错误：{type(e).__name__}，流式响应中断）"

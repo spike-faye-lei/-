@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import font_manager
 
-from config import chat
+from config import MODEL, chat
 from job_profile import REVIEWER_NAMES, profile_summary
 from llm_utils import parse_llm_json, to_score
 
@@ -249,6 +249,8 @@ def evaluate(session, profile: dict):
         f"**下一步（待 HR 审核确认后发送）：** {data.get('invite', '—')}",
         "",
         f"**总评：** {data.get('comment', '—')}",
+        "",
+        f"> 评估快照：模型 `{MODEL}` · rubric `{profile.get('id', '?')}`（供事后复盘，可追溯评估时点的系统版本）",
     ]
     return "\n".join(lines), radar_figure(
         profile,

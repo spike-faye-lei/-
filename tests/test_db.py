@@ -185,3 +185,47 @@ class TestScreeningQueue:
     def test_未复核的进不了队列(self, isolated_db):
         isolated_db.save_screening("甲", "s", "j", {}, 8.0, "建议进入面试", resume_text="简历")  # hr_decision 为空
         assert isolated_db.list_screening_queue() == []
+
+
+class TestEnterpriseTables:
+    def test_岗位配置保存与读取(self, isolated_db):
+        jid = isolated_db.save_job_profile("AI 应用开发工程师", "JD文本", "ai-dev", {"min_years": 2})
+        assert jid == 1
+        p = isolated_db.get_job_profile(1)
+        assert p["title"] == "AI 应用开发工程师"
+        import json
+        assert json.loads(p["rules"]) == {"min_years": 2}
+        assert len(isolated_db.list_job_profiles()) == 1
+
+    def test_候选人状态机流转(self, isolated_db):
+        cid = isolated_db.add_candidate("张三", "简历文本", source="测试", parsed={"years": 3})
+        assert isolated_db.get_candidate(cid)["status"] == "新入库"
+        isolated_db.update_candidate(cid, status="已解析", match_score=0.7, screen_score=8.0)
+        r = isolated_db.get_candidate(cid)
+        assert r["status"] == "已解析" and r["match_score"] == 0.7 and r["screen_score"] == 8.0
+        isolated_db.update_candidate(cid, status="初筛通过")
+        assert isolated_db.get_candidate(cid)["status"] == "初筛通过"
+
+    def test_按姓名取最新记录(self, isolated_db):
+        isolated_db.add_candidate("张三", "旧简历")
+        cid = isolated_db.add_candidate("张三", "新简历")
+        assert isolated_db.get_candidate_by_name("张三")["id"] == cid
+        assert isolated_db.get_candidate_by_name("不存在") is None
+
+    def test_漏斗统计(self, isolated_db):
+        isolated_db.add_candidate("甲", "a")
+        isolated_db.add_candidate("乙", "b")
+        isolated_db.add_candidate("丙", "c")
+        isolated_db.update_candidate(1, status="已解析")
+        isolated_db.update_candidate(2, status="已解析")
+        isolated_db.update_candidate(3, status="初筛淘汰")
+        stats = dict(isolated_db.funnel_stats())
+        assert stats["已解析"] == 2 and stats["初筛淘汰"] == 1
+
+    def test_通知与Offer(self, isolated_db):
+        nid = isolated_db.save_notification(1, "张三", "面试邀约", "欢迎参加面试")
+        assert isolated_db.list_notifications()[0]["status"] == "已生成"
+        isolated_db.mark_notification_sent(nid)
+        assert isolated_db.list_notifications()[0]["status"] == "已发送"
+        isolated_db.save_offer(1, "张三", "AI 应用开发工程师", "25K")
+        assert isolated_db.list_offers()[0]["salary"] == "25K"

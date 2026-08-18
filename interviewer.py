@@ -120,6 +120,29 @@ class InterviewSession:
         # 维度覆盖跟踪：已考察的评估维度名集合
         self.covered_dims = set()
 
+    def to_state(self) -> dict:
+        """会话状态序列化（断点续面：每轮落盘，中断后可恢复）"""
+        return {
+            "round": self.round,
+            "difficulty": self.difficulty,
+            "good_streak": self._good_streak,
+            "bad_streak": self._bad_streak,
+            "covered_dims": sorted(self.covered_dims),
+            "history": self.history,
+        }
+
+    @classmethod
+    def from_state(cls, state: dict, resume: dict, profile: dict, style: str = "tech"):
+        """从落盘状态恢复会话（断点续面）"""
+        session = cls(resume, profile, style=style)
+        session.round = state.get("round", 0)
+        session.difficulty = state.get("difficulty", 0)
+        session._good_streak = state.get("good_streak", 0)
+        session._bad_streak = state.get("bad_streak", 0)
+        session.covered_dims = set(state.get("covered_dims", []))
+        session.history = state.get("history", [])
+        return session
+
     def _mark_coverage(self, question: str) -> None:
         """把招聘官提问归类到评估维度（关键词启发式），记录已覆盖维度"""
         dim = classify_dimension(question, self.profile)
@@ -210,10 +233,19 @@ def stream_first_message(session: InterviewSession):
 
 CLOSING_PROMPT = """你是「智聘科技」的 AI 招聘智能体。与候选人的沟通已全部结束，这是最后一步，必须给出最终筛选结果。
 【硬性要求】
-1. 输出必须以「【结论】」开头，且只能写"通过"或"不通过"
-2. 通过：发出线下面试邀约，写明具体时间和地点，欢迎语气
-3. 不通过：礼貌婉拒，感谢候选人参与
-4. 严禁提问、严禁寒暄、严禁输出其他任何内容"""
+1. 若候选人本轮有反问（如：公司技术栈/团队规模/加班情况/业务方向），先用 1-2 句**基于以下公司信息的模板化回答**回应，再给结论
+2. 输出必须以「【结论】」开头，且只能写"通过"或"不通过"
+3. 通过：发出线下面试邀约，写明具体时间和地点，欢迎语气
+4. 不通过：礼貌婉拒，感谢候选人参与
+5. 严禁提出新问题、严禁寒暄
+
+公司信息（回答候选人反问用）：
+- 技术栈：Python/FastAPI 为主，前端 Vue3，AI 能力基于大模型（DeepSeek）
+- 团队规模：研发团队 20 人左右，招聘岗位所在团队 5-8 人
+- 加班：弹性工作制，项目上线期偶有加班
+- 业务方向：企业级 AI 应用（智能招聘/客服/知识库产品线）
+- **降级策略**：候选人问到上述信息之外的问题（如具体业务细节、团队文化细节）时，
+  一律回答「这个细节终面时业务负责人会为你详细解答」，**严禁编造**公司信息。"""
 
 
 def next_message(session: InterviewSession, answer: str) -> str:

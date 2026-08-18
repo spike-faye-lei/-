@@ -55,6 +55,9 @@ def build_auth():
 
 if __name__ == "__main__":
     demo = build_ui()
+    # 外部系统接入入口：钉钉/飞书/招聘平台回调 → 简历自动入库（HR 无需打开网页）
+    from webhook import start_webhook_server
+    start_webhook_server()
     demo.launch(
         theme=gr.themes.Soft(font=SYSTEM_FONTS, font_mono=SYSTEM_MONO),
         css=CSS,

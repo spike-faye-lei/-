@@ -165,7 +165,7 @@ class TestSubmitPending:
         state = {"iid": 1, "candidate": "张三", "job": "AI岗"}
         _, new_state, pending, status = submit_pending("通过（进入线下面试）", "不错", "邀约文本", state)
         assert new_state["verdict"] == "通过" and pending is None
-        assert len(calls) == 2 and "审核完成" in status
+        assert len(calls) == 2 and "最终审批完成" in status
 
     def test_驳回路径(self, monkeypatch):
         monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: None)
@@ -177,18 +177,18 @@ class TestSubmitPending:
 
 class TestConfirmInvite:
     def test_无待发送通知(self):
-        _, _, _, _, state, status = confirm_invite("文本", [], None, None, None)
+        _, _, _, _, state, status = confirm_invite("文本", "邮件", [], None, None, None)
         assert state is None and "没有待发送" in status
 
     def test_空文本拦截(self):
-        _, _, _, _, state, status = confirm_invite("", [], None, None, {"iid": 1, "verdict": "通过", "candidate": "张三"})
+        _, _, _, _, state, status = confirm_invite("", "邮件", [], None, None, {"iid": 1, "verdict": "通过", "candidate": "张三"})
         assert state is not None and "文本为空" in status
 
     def test_确认发送回写存档(self, monkeypatch):
         sent = []
         monkeypatch.setattr(handlers, "set_invite", lambda iid, text: sent.append((iid, text)))
-        history, _, _, _, state, status = confirm_invite(" 欢迎来面试 ", [], None, None, {"iid": 7, "verdict": "通过", "candidate": "张三"})
-        assert sent == [(7, "欢迎来面试")] and state is None and "已确认发送" in status
+        history, _, _, _, state, status = confirm_invite(" 欢迎来面试 ", "企业微信", [], None, None, {"iid": 7, "verdict": "通过", "candidate": "张三"})
+        assert sent == [(7, "欢迎来面试")] and state is None and "发送日志已存档" in status and "企业微信" in status
 
 
 class TestHrReview:
@@ -203,7 +203,7 @@ class TestHrReview:
         _, session, _, invite, pending, status = hr_review(
             "通过（进入线下面试）", "不错", [], _session(report={"invite": "欢迎", "total": 8.0}), None
         )
-        assert len(saved) == 1 and pending == {"iid": 42, "verdict": "通过", "candidate": "张三"}
+        assert len(saved) == 1 and pending == {"iid": 42, "verdict": "通过", "candidate": "张三", "nid": None}
         assert session.report is None and "审核完成" in status
 
     def test_驳回路径(self, monkeypatch):
@@ -395,6 +395,11 @@ class TestHrReviewConsistency:
 
 
 class TestSubmitPendingConsistency:
+    @pytest.fixture(autouse=True)
+    def _mock_approval_trail(self, monkeypatch):
+        monkeypatch.setattr(handlers, "record_approval", lambda *a, **k: None)
+
+
     def test_结论与AI相反时替换草稿(self, monkeypatch):
         monkeypatch.setattr(handlers, "update_interview_hr", lambda *a: None)
         monkeypatch.setattr(handlers, "add_hr_feedback", lambda *a: None)
