@@ -11,6 +11,7 @@
 | **SmartKitchen 鸿蒙端** | HarmonyOS NEXT 食材识别 APP：拍照识别、营养、菜谱、饮食记录、人脸识别 | `harmonyos-app` | ArkTS · HarmonyOS NEXT (API 24) |
 | **AI 招聘官** | 多考官证据链评分 + AI 互聊面试 + 联网爬虫 + HR 审核闸门，全流程可演示 | `recruit-agent` | Python · Gradio · LangChain 风格 · DeepSeek API · matplotlib |
 | **CountBot 定制版** | 人脸识别计数机器人（答辩演示项目） | `countbot` | Python · OpenCV |
+| **天团控制台** | 本地 Ollama 多模型群聊指挥台：七分类路由 + 四步天团流水线，桌面 App 全离线 | `team-console` | Python · FastAPI · pywebview · Ollama |
 
 > 各分支内有各自项目的详细 README（功能说明、架构、启动步骤）。SmartKitchen 后端源码在 Gitee 同名仓库的 `smartkitchen` 分支（见文末链接）。
 
@@ -30,6 +31,12 @@
 - 批量初筛 / 候选人对比 / JD 生成 / 面试题库生成
 - **68 个自动化测试**（pytest）全部通过
 
+**天团控制台（本地模型编排）**
+- 像群聊一样指挥本地 Ollama 多模型：流式回复、思维链折叠、Codex 式活动时间线
+- 单模型对话七分类意图路由；**天团模式**四步流水线（产出 → 双审 → 兜底定稿）全程直播
+- 技能 / 角色 prompt 注入（agentskills.io 开放标准）、工具调用、四档权限梯度
+- 直连 Ollama，零外网模型调用；PyInstaller 打包桌面 App
+
 ##  快速开始
 
 每个项目分支的 README 里都有独立启动步骤，例如：
@@ -47,10 +54,10 @@ python app.py   # 浏览器打开 http://localhost:7860
 
 ##  技术栈
 
-`Python` `FastAPI` `PyTorch` `CLIP` `LangChain 风格编排` `DeepSeek API` `Gradio` `matplotlib` `SQLite` `HarmonyOS NEXT (ArkTS)` `pytest`
+`Python` `FastAPI` `PyTorch` `CLIP` `LangChain 风格编排` `DeepSeek API` `Gradio` `matplotlib` `SQLite` `HarmonyOS NEXT (ArkTS)` `Ollama` `pywebview` `pytest`
 
 ##  联系
 
 - 邮箱：2250461965@qq.com
 - Gitee（SmartKitchen 后端）：https://gitee.com/H2250461965/hongmeng-c/tree/smartkitchen
-- 本仓库各分支：countbot / harmonyos-app / recruit-agent
+- 本仓库各分支：countbot / harmonyos-app / recruit-agent / team-console
