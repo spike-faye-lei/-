@@ -1,0 +1,186 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Skill Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .purple-theme {
+            background-color: #6a0dad;
+            color: white;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .stats {
+            margin-top: 20px;
+        }
+        .search, .semantic-search, .audit, .routing {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="container">
+    <div class="header purple-theme">
+        <h1>DSH Skill Hub</h1>
+    </div>
+
+    <!-- Top Statistics Bar -->
+    <div class="stats">
+        <h2>Total Stats</h2>
+        <p>Total Skills: {{ totalSkills }}</p>
+        <ul>
+            <li v-for="(count, category) in categoryCounts" :key="category">{{ category }}: {{ count }}</li>
+        </ul>
+    </div>
+
+    <!-- Search Area -->
+    <div class="search">
+        <h2>Search Skills</h2>
+        <input type="text" v-model="keyword" placeholder="Enter keyword">
+        <select v-model="selectedCategory">
+            <option value="">All Categories</option>
+            <option v-for="(count, category) in categoryCounts" :key="category" :value="category">{{ category }}</option>
+        </select>
+        <button @click="searchSkills">Search</button>
+        <ul>
+            <li v-for="skill in skills" :key="skill.name">
+                <strong>{{ skill.name }}</strong>: {{ skill.description }} ({{ skill.type }})
+            </li>
+        </ul>
+    </div>
+
+    <!-- Semantic Search Area -->
+    <div class="semantic-search">
+        <h2>Semantic Search</h2>
+        <input type="text" v-model="semanticQuery" placeholder="Enter natural language query">
+        <button @click="performSemanticSearch">Search</button>
+        <ul>
+            <li v-for="(result, index) in semanticResults" :key="index">
+                <strong>{{ result.name }}</strong>: {{ result.score }} - {{ result.description }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Security Audit Area -->
+    <div class="audit">
+        <h2>Security Audit</h2>
+        <button @click="performAudit">Scan</button>
+        <ul>
+            <li v-for="(item, index) in auditResults" :key="index">
+                <strong>{{ item.name }}</strong>: {{ item.level }} - {{ item.score }} - Issues: {{ item.issues.join(', ') }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Intelligent Routing Area -->
+    <div class="routing">
+        <h2>Intelligent Routing</h2>
+        <input type="text" v-model="task" placeholder="Enter task">
+        <button @click="performRouting">Match</button>
+        <ul>
+            <li v-for="(match, index) in routingResults" :key="index">
+                <strong>{{ match.name }}</strong>: {{ match.reason }}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                totalSkills: 0,
+                categoryCounts: {},
+                keyword: '',
+                selectedCategory: '',
+                skills: [],
+                semanticQuery: '',
+                semanticResults: [],
+                auditResults: [],
+                task: '',
+                routingResults: []
+            };
+        },
+        created() {
+            this.fetchStats();
+        },
+        methods: {
+            fetchStats() {
+                fetch('http://127.0.0.1:8693/api/stats')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.totalSkills = data.total;
+                        this.categoryCounts = data.stats || {};
+                    });
+            },
+            searchSkills() {
+                const url = `http://127.0.0.1:8693/api/skills?q=${this.keyword}&category=${this.selectedCategory}`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.skills = data;
+                    });
+            },
+            performSemanticSearch() {
+                fetch('http://127.0.0.1:8693/api/search/semantic', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: this.semanticQuery })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.semanticResults = data.slice(0, 5);
+                });
+            },
+            performAudit() {
+                fetch('http://127.0.0.1:8693/api/audit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.auditResults = data;
+                });
+            },
+            performRouting() {
+                fetch('http://127.0.0.1:8693/api/match', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ task: this.task })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.routingResults = (data.matched || []);
+                });
+            }
+        }
+    });
+
+    app.mount('#app');
+</script>
+</body>
+</html>
