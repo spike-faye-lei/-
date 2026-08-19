@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📝 刷题计划生成器</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#e8d1ff; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.app { max-width:760px; margin:0 auto; padding:32px 16px; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.08); }
+h1 { font-size:24px; color:#1a1a2e; margin-bottom:6px; }
+.sub { color:#777; font-size:13px; margin-bottom:24px; }
+.input-row { display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+input[type=text], input[type=number] { flex:1; min-width:90px; padding:12px 14px; border:1px solid #dde; border-radius:10px; font-size:14px; outline:none; transition:box-shadow .3s ease; }
+input:focus { box-shadow:0 0 0 3px rgba(173,127,255,.2); }
+select { padding:12px 14px; border:1px solid #dde; border-radius:10px; font-size:14px; outline:none; }
+button { padding:12px 20px; border:none; border-radius:10px; background:#b886ff; color:#fff; font-size:14px; cursor:pointer; transition:background .3s ease; }
+button:hover { background:#a375f9; }
+button:disabled { background:#aaa; cursor:not-allowed; }
+.loading { color:#b886ff; font-size:14px; margin:12px 0; }
+.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,.06); margin-top:16px; }
+.card h2 { font-size:16px; color:#1a1a2e; margin-bottom:14px; }
+.err { background:#ffeaea; color:#c0392b; border-radius:8px; padding:12px 14px; font-size:14px; margin-top:12px; }
+ul { list-style:none; }
+li { padding:8px 10px; border-bottom:1px solid #f0f0f5; font-size:13px; color:#555; }
+.badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; margin-left:6px; }
+.badge.easy { background:#e8f5e9; color:#2e7d32; }
+.badge.mid { background:#fff8e6; color:#8a6d1a; }
+.badge.hard { background:#ffeaea; color:#c0392b; }
+pre { font-size:12px; white-space:pre-wrap; color:#333; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <h1>📝 刷题计划生成器</h1>
+  <div class="sub">输入目标 → AI 生成每日刷题计划 → 打卡 → 进度统计</div>
+
+  <div class="input-row">
+    <input type="number" v-model="days" placeholder="天数" min="1">
+    <input type="number" v-model="target_count" placeholder="目标题数" min="1">
+    <select v-model="level">
+      <option value="入门">入门</option>
+      <option value="进阶">进阶</option>
+      <option value="冲刺">冲刺</option>
+    </select>
+    <input type="text" v-model="topics" placeholder="主题，逗号分隔">
+    <button @click="generatePlan" :disabled="loading">生成计划</button>
+  </div>
+  <div class="loading" v-if="loading">生成中…</div>
+  <div class="err" v-if="error">{{ error }}</div>
+
+  <div class="card" v-if="plan && plan.length">
+    <h2>📅 刷题计划</h2>
+    <ul>
+      <li v-for="p in plan" :key="p.day">
+        第 {{ p.day }} 天：{{ p.count }} 题 · {{ p.topic }}
+        <span class="badge" :class="p.difficulty === '简单' ? 'easy' : p.difficulty === '中等' ? 'mid' : 'hard'">{{ p.difficulty }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="input-row">
+    <input type="number" v-model="checkin_day" placeholder="打卡天数" min="1">
+    <input type="number" v-model="solved_count" placeholder="已完成题数" min="0">
+    <button @click="checkin" :disabled="loading">✅ 打卡</button>
+  </div>
+
+  <div class="card">
+    <h2>📊 刷题进度</h2>
+    <pre v-if="progress">{{ progressText }}</pre>
+    <p v-else style="color:#999; font-size:13px;">生成计划并打卡后查看进度</p>
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() { return {
+    days: 10, target_count: 15, level: '入门', topics: '数组,动态规划,字符串',
+    plan: null, checkin_day: 1, solved_count: 1, progress: null,
+    loading: false, error: ''
+  }; },
+  mounted() { this.getProgress(); },
+  computed: {
+    progressText() {
+      if (!this.progress) return '';
+      const t = this.progress.by_topic || {};
+      const topics = Object.keys(t).map(k => `${k}: ${t[k]} 题`).join('，');
+      return `总计划: ${this.progress.total_planned} 题\n已刷: ${this.progress.total_solved} 题 (${this.progress.percent}%)\n完成天数: ${this.progress.days_done} 天\n按主题: ${topics || '—'}`;
+    }
+  },
+  methods: {
+    async generatePlan() {
+      this.loading = true; this.error = ''; this.plan = null;
+      try {
+        const r = await fetch('http://127.0.0.1:8692/api/plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            days: parseInt(this.days), target_count: parseInt(this.target_count),
+            level: this.level,
+            topics: this.topics.split(',').map(s => s.trim()).filter(Boolean)
+          })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.plan = d.plan;
+        this.getProgress();
+      } catch (e) { this.error = '生成计划失败：' + e.message; }
+      finally { this.loading = false; }
+    },
+    async checkin() {
+      this.loading = true; this.error = '';
+      try {
+        const r = await fetch('http://127.0.0.1:8692/api/checkin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ day: parseInt(this.checkin_day), solved_count: parseInt(this.solved_count) })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.getProgress();
+      } catch (e) { this.error = '打卡失败：' + e.message; }
+      finally { this.loading = false; }
+    },
+    async getProgress() {
+      try {
+        const r = await fetch('http://127.0.0.1:8692/api/progress');
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.progress = d;
+      } catch (e) { this.error = '获取进度失败：' + e.message; }
+    }
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

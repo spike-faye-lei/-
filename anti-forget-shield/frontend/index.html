@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛡️ 防遗忘盾牌</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#e8d1ff; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.app { max-width:760px; margin:0 auto; padding:32px 16px; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.08); }
+h1 { font-size:24px; color:#1a1a2e; margin-bottom:6px; }
+.sub { color:#777; font-size:13px; margin-bottom:24px; }
+.input-row { display:flex; gap:10px; margin-bottom:12px; }
+textarea { flex:1; padding:14px 16px; border:1px solid #dde; border-radius:10px; font-size:15px; outline:none; transition:box-shadow .3s ease; resize:none; min-height:60px; }
+select { padding:14px 16px; border:1px solid #dde; border-radius:10px; font-size:15px; outline:none; }
+button { padding:12px 20px; border:none; border-radius:10px; background:#b886ff; color:#fff; font-size:14px; cursor:pointer; transition:background .3s ease; margin-right:8px; }
+button:hover { background:#a375f9; }
+button:disabled { background:#aaa; cursor:not-allowed; }
+.loading { color:#b886ff; font-size:14px; margin:12px 0; }
+.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,.06); margin-top:16px; }
+.card h2 { font-size:16px; color:#1a1a2e; margin-bottom:14px; }
+.err { background:#ffeaea; color:#c0392b; border-radius:8px; padding:12px 14px; font-size:14px; margin-top:12px; }
+ul { list-style:none; }
+li { padding:10px 10px; border-bottom:1px solid #f0f0f5; font-size:13px; color:#555; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+li button { margin-left:auto; }
+.tag { padding:2px 8px; border-radius:10px; font-size:11px; }
+.tag.high { background:#ffeaea; color:#c0392b; }
+.tag.mid { background:#fff8e6; color:#8a6d1a; }
+.tag.low { background:#e8f5e9; color:#2e7d32; }
+.tag.due { background:#eef; color:#5a56d8; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <h1>🛡️ 防遗忘盾牌</h1>
+  <div class="sub">录入学习内容 → 艾宾浩斯复习计划 → 打卡推进 → 遗忘风险预警</div>
+
+  <div class="input-row">
+    <textarea v-model="content" placeholder="输入学习内容，例如：快速排序的时间复杂度"></textarea>
+  </div>
+  <div class="input-row">
+    <select v-model="difficulty">
+      <option value="1">难度 1（易）</option>
+      <option value="2">难度 2</option>
+      <option value="3" selected>难度 3（中）</option>
+      <option value="4">难度 4</option>
+      <option value="5">难度 5（难）</option>
+    </select>
+    <button @click="learn" :disabled="loading">{{ loading ? '生成中…' : '📥 录入' }}</button>
+  </div>
+  <div class="loading" v-if="loading">正在生成艾宾浩斯复习计划…</div>
+  <div class="err" v-if="error">{{ error }}</div>
+
+  <div class="card" v-if="plan">
+    <h2>🗓️ 复习计划</h2>
+    <ul>
+      <li v-for="(d, i) in plan" :key="i">第 {{ i + 1 }} 次复习：{{ d }}</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📚 学习内容</h2>
+    <ul v-if="items.length">
+      <li v-for="item in items" :key="item.item_id">
+        {{ item.content }}
+        <span class="tag" :class="item.status === '已完成' ? 'low' : 'due'">{{ item.status }}</span>
+        <span>复习 {{ item.review_count }}/5</span>
+        <span v-if="item.status !== '已完成'">下次 {{ item.next_review_date }}</span>
+        <button v-if="item.status !== '已完成'" @click="checkin(item.item_id)" :disabled="loading">✅ 打卡</button>
+      </li>
+    </ul>
+    <p v-else style="color:#999; font-size:13px;">还没有学习内容，先录入一条吧</p>
+  </div>
+
+  <div class="card">
+    <h2>⚠️ 遗忘风险</h2>
+    <ul v-if="risks.length">
+      <li v-for="r in risks" :key="r.item_id">
+        {{ r.content }}
+        <span class="tag" :class="r.risk === '高' ? 'high' : r.risk === '中' ? 'mid' : r.risk === '低' ? 'low' : 'due'">
+          {{ r.risk === '未到期' ? '未到期' : '风险' + r.risk }}
+        </span>
+        <span v-if="r.overdue_days > 0">逾期 {{ r.overdue_days }} 天</span>
+      </li>
+    </ul>
+    <p v-else style="color:#999; font-size:13px;">暂无风险项</p>
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() { return {
+    content: '', difficulty: '3', loading: false, error: '',
+    items: [], risks: [], plan: null
+  }; },
+  mounted() { this.loadAll(); },
+  methods: {
+    async loadAll() {
+      try {
+        const [i, r] = await Promise.all([
+          fetch('http://127.0.0.1:8691/api/items').then(x => x.json()),
+          fetch('http://127.0.0.1:8691/api/risk').then(x => x.json())
+        ]);
+        this.items = i.slice().reverse();
+        this.risks = r;
+      } catch (e) { this.error = '加载失败：' + e.message; }
+    },
+    async learn() {
+      if (!this.content.trim() || this.loading) return;
+      this.loading = true; this.error = ''; this.plan = null;
+      try {
+        const r = await fetch('http://127.0.0.1:8691/api/learn', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: this.content, difficulty: parseInt(this.difficulty) })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.plan = d.plan;
+        this.content = '';
+        this.loadAll();
+      } catch (e) { this.error = '录入失败：' + e.message; }
+      finally { this.loading = false; }
+    },
+    async checkin(itemId) {
+      this.loading = true; this.error = '';
+      try {
+        const r = await fetch('http://127.0.0.1:8691/api/checkin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ item_id: itemId })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.loadAll();
+      } catch (e) { this.error = '打卡失败：' + e.message; }
+      finally { this.loading = false; }
+    }
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

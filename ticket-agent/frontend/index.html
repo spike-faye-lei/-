@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工单 Agent — 说一句话生成工单</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#e8d1ff; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.app { max-width:760px; margin:0 auto; padding:32px 16px; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.08); }
+h1 { font-size:24px; color:#1a1a2e; margin-bottom:6px; }
+.sub { color:#777; font-size:13px; margin-bottom:24px; }
+.input-row { display:flex; gap:10px; margin-bottom:12px; }
+input[type=text] { flex:1; padding:14px 16px; border:1px solid #dde; border-radius:10px; font-size:15px; outline:none; transition:box-shadow .3s ease; }
+input[type=text]:focus { box-shadow:0 0 0 3px rgba(173,127,255,.2); }
+button { padding:14px 28px; border:none; border-radius:10px; background:#b886ff; color:#fff; font-size:15px; cursor:pointer; transition:background .3s ease; }
+button:hover { background:#a375f9; }
+button:disabled { background:#aaa; cursor:not-allowed; }
+.chips { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.chip { padding:6px 14px; border-radius:20px; background:#f3e5ff; color:#5a56d8; font-size:13px; cursor:pointer; border:1px solid #dde2ff; transition:background .3s ease; }
+.chip:hover { background:#ede9ff; }
+.loading { color:#b886ff; font-size:14px; margin:12px 0; }
+.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,.06); margin-top:16px; transition:box-shadow .3s ease; }
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,.1); }
+.card h2 { font-size:16px; color:#1a1a2e; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.badge { padding:3px 10px; border-radius:12px; font-size:12px; color:#fff; }
+.badge.reimburse { background:#e0564f; } .badge.leave { background:#3a9d6d; } .badge.purchase { background:#4f7de0; }
+.ticket-id { font-size:12px; color:#999; margin-bottom:12px; }
+table { width:100%; border-collapse:collapse; }
+td { padding:8px 10px; border-bottom:1px solid #f0f0f5; font-size:14px; }
+td:first-child { color:#888; width:110px; }
+.warning { background:#fff8e6; border:1px solid #ffe0a3; color:#8a6d1a; border-radius:8px; padding:10px 14px; font-size:13px; margin-top:12px; }
+.policy { background:#f7f8ff; border-radius:8px; padding:10px 14px; font-size:13px; color:#555; margin-top:12px; }
+.policy b { color:#b886ff; }
+.err { background:#ffeaea; color:#c0392b; border-radius:8px; padding:12px 14px; font-size:14px; margin-top:12px; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <h1>📋 工单 Agent</h1>
+  <div class="sub">说一句话，自动识别意图、检索政策、生成标准化工单</div>
+
+  <div class="chips">
+    <span class="chip" v-for="s in samples" :key="s" @click="text = s">{{ s }}</span>
+  </div>
+
+  <div class="input-row">
+    <input type="text" v-model="text" placeholder="例如：我要报销昨天的差旅费，打车花了80，住宿450"
+           @keyup.enter="generate" :disabled="loading">
+    <button @click="generate" :disabled="loading">{{ loading ? '生成中…' : '生成工单' }}</button>
+  </div>
+
+  <div class="loading" v-if="loading">正在识别意图 → 检索政策 → 生成工单…</div>
+  <div class="err" v-if="error">{{ error }}</div>
+
+  <div class="card" v-if="ticket">
+    <h2>🧾 {{ intentName }}工单 <span class="badge" :class="ticket.intent">{{ intentName }}</span></h2>
+    <div class="ticket-id">{{ ticket.ticket_id }} · 草稿</div>
+    <table>
+      <tr v-for="(v, k) in ticket.fields" :key="k">
+        <td>{{ fieldName(k) }}</td>
+        <td>{{ v === null || v === '' ? '—' : v }}</td>
+      </tr>
+    </table>
+    <div class="warning" v-if="ticket.warnings && ticket.warnings.length">
+      ⚠️ {{ ticket.warnings.join('；') }}
+    </div>
+    <div class="policy" v-if="ticket.policy_refs && ticket.policy_refs.length">
+      <b>📚 依据政策：</b>{{ ticket.policy_refs.join('、') }}
+    </div>
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() { return {
+    text: '', loading: false, error: '', ticket: null,
+    samples: [
+      '我要报销昨天的差旅费，打车花了80，住宿450',
+      '下周一请两天年假，去办点私事',
+      '需要采购5把人体工学椅，预算3000'
+    ]
+  }; },
+  computed: {
+    intentName() {
+      return { '报销': '报销', '请假': '请假', '采购': '采购' }[this.ticket?.intent] || '';
+    }
+  },
+  methods: {
+    fieldName(k) {
+      return { applicant:'申请人', amount:'金额', date:'日期', reason:'事由', invoice:'发票',
+               start_date:'开始日期', end_date:'结束日期', days:'天数',
+               item:'物品', quantity:'数量', budget:'预算' }[k] || k;
+    },
+    async generate() {
+      if (!this.text.trim() || this.loading) return;
+      this.loading = true; this.error = ''; this.ticket = null;
+      try {
+        const r = await fetch('http://127.0.0.1:8687/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: this.text })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.ticket = d;
+      } catch (e) {
+        this.error = '生成失败：' + e.message;
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

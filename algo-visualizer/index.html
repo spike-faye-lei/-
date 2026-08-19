@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算法可视化</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#0f1420; min-height:100vh; color:#e8eaf2; display:flex; flex-direction:column; align-items:center; padding:24px 16px; }
+h1 { font-size:22px; margin-bottom:6px; }
+.sub { color:#8a92a6; font-size:13px; margin-bottom:18px; }
+.controls { display:flex; gap:10px; align-items:center; margin-bottom:16px; flex-wrap:wrap; justify-content:center; }
+button { padding:10px 22px; border:none; border-radius:8px; background:linear-gradient(to right,#6c7bff,#8b7bff); color:#fff; font-size:14px; cursor:pointer; transition:all .25s ease; }
+button:hover:not(:disabled) { transform:translateY(-1px); filter:brightness(1.1); }
+button:disabled { background:#3a4266; cursor:not-allowed; }
+select, input[type=range] { padding:8px 12px; border-radius:8px; border:1px solid #2a3450; background:#171e30; color:#e8eaf2; font-size:13px; }
+canvas { border:1px solid #232c44; border-radius:8px; background:#171e30; max-width:100%; }
+.status { margin-top:12px; font-size:13px; color:#8a92a6; min-height:18px; }
+</style>
+</head>
+<body>
+<h1>📊 算法可视化</h1>
+<div class="sub">排序过程动画 · 步进控制 · 速度调节</div>
+<div class="controls">
+  <button id="genBtn">🎲 生成数组</button>
+  <button id="startBtn">▶ 开始</button>
+  <button id="pauseBtn">⏸ 暂停</button>
+  <button id="resetBtn">↺ 重置</button>
+  <select id="algoSel">
+    <option value="bubble">冒泡排序</option>
+    <option value="quick">快速排序</option>
+    <option value="merge">归并排序</option>
+  </select>
+  <input type="range" id="speed" min="1" max="100" value="40">
+</div>
+<canvas id="cv" width="860" height="480"></canvas>
+<div class="status" id="status">点击"生成数组"开始</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const genBtn = document.getElementById('genBtn');
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+const algoSel = document.getElementById('algoSel');
+const speedIn = document.getElementById('speed');
+const statusEl = document.getElementById('status');
+
+const N = 30;
+let bars = [];
+let paused = false;
+let running = false;
+let stopRequested = false;  // 天团评审修复：排序中可重置
+
+const COL_NORMAL = '#6c7bff', COL_CMP = '#ff5a5a', COL_DONE = '#4caf50';
+
+function gen() {
+  bars = Array.from({ length: N }, () => 20 + Math.floor(Math.random() * 400));
+  draw(bars, COL_NORMAL);
+  statusEl.textContent = '数组已生成（' + N + ' 个元素）';
+}
+
+function draw(arr, color, highlight = []) {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  if (!arr.length) return;
+  const bw = cv.width / arr.length;
+  for (let i = 0; i < arr.length; i++) {
+    ctx.fillStyle = highlight.includes(i) ? COL_CMP : color;
+    ctx.fillRect(i * bw, cv.height - arr[i], bw, arr[i]);
+  }
+}
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function step(arr, color, hl = []) {
+  draw(arr, color, hl);
+  await sleep(Math.max(1, 120 - speedIn.value * 1.2));
+  // 暂停检查
+  while (paused) { await sleep(50); }
+}
+
+// ---- 排序算法（全部 async，步进绘制）----
+async function bubble() {
+  for (let i = 0; i < bars.length - 1; i++) {
+    for (let j = 0; j < bars.length - i - 1; j++) {
+      if (bars[j] > bars[j + 1]) {
+        [bars[j], bars[j + 1]] = [bars[j + 1], bars[j]];
+        await step(bars, COL_NORMAL, [j, j + 1]);
+      }
+    }
+  }
+}
+
+async function quick(low, high) {
+  if (low >= high || stopRequested) return;
+  const pivot = bars[high];
+  let i = low - 1;
+  for (let j = low; j < high && !stopRequested; j++) {
+    if (bars[j] < pivot) {
+      i++;
+      [bars[i], bars[j]] = [bars[j], bars[i]];
+      await step(bars, COL_NORMAL, [i, j]);
+    }
+  }
+  [bars[i + 1], bars[high]] = [bars[high], bars[i + 1]];
+  await step(bars, COL_NORMAL, [i + 1, high]);
+  await Promise.all([quick(low, i), quick(i + 2, high)]); // 并行递归，动画不乱
+}
+
+async function merge(l, r) {
+  if (l >= r || stopRequested) return;
+  const m = (l + r) >> 1;
+  await Promise.all([merge(l, m), merge(m + 1, r)]); // 并行递归，动画不乱
+  // 归并
+  const left = bars.slice(l, m + 1), right = bars.slice(m + 1, r + 1);
+  let i = 0, j = 0, k = l;
+  while (i < left.length && j < right.length) {
+    if (left[i] <= right[j]) { bars[k] = left[i]; i++; }
+    else { bars[k] = right[j]; j++; }
+    await step(bars, COL_NORMAL, [k]);
+    k++;
+  }
+  while (i < left.length) { bars[k] = left[i]; i++; k++; await step(bars, COL_NORMAL, [k - 1]); }
+  while (j < right.length) { bars[k] = right[j]; j++; k++; await step(bars, COL_NORMAL, [k - 1]); }
+}
+
+// ---- 控制 ----
+genBtn.onclick = () => { if (running) return; gen(); };
+
+startBtn.onclick = async () => {
+  if (running) return;
+  running = true; paused = false; stopRequested = false;
+  statusEl.textContent = '排序中…';
+  const algo = algoSel.value;
+  if (algo === 'bubble') await bubble();
+  else if (algo === 'quick') await quick(0, bars.length - 1);
+  else await merge(0, bars.length - 1);
+  if (!stopRequested) draw(bars, COL_DONE);
+  running = false;
+  statusEl.textContent = stopRequested ? '↺ 已重置' : '✅ 排序完成';
+};
+
+pauseBtn.onclick = () => { paused = !paused; statusEl.textContent = paused ? '⏸ 已暂停（点击继续）' : '▶ 继续中…'; };
+
+resetBtn.onclick = () => { stopRequested = true; statusEl.textContent = '正在重置…'; setTimeout(() => { gen(); statusEl.textContent = '已重置'; }, 50); };
+
+gen();
+</script>
+</body>
+</html>

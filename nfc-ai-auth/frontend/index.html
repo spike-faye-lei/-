@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFC + AI 安全验证</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#0f1420; min-height:100vh; color:#e8eaf2; }
+.app { max-width:760px; margin:0 auto; padding:32px 16px; }
+h1 { font-size:22px; margin-bottom:6px; color:#fff; }
+.sub { color:#8a92a6; font-size:13px; margin-bottom:24px; }
+.card { background:#171e30; border-radius:12px; padding:20px; margin-bottom:16px; border:1px solid #232c44; }
+.card h2 { font-size:15px; margin-bottom:14px; color:#aeb6ff; }
+textarea { width:100%; min-height:70px; padding:12px; border-radius:8px; border:1px solid #2a3450;
+  background:#0f1420; color:#e8eaf2; font-size:14px; resize:vertical; outline:none; }
+textarea:focus { border-color:#6c7bff; }
+.row { display:flex; gap:10px; margin-top:10px; align-items:center; }
+button { padding:10px 22px; border:none; border-radius:8px; background:#6c7bff; color:#fff; font-size:14px; cursor:pointer; }
+button:disabled { background:#3a4266; cursor:not-allowed; }
+button.green { background:#2fa56e; } button.red { background:#d94f4f; }
+.tag-input { flex:1; padding:10px 12px; border-radius:8px; border:1px solid #2a3450; background:#0f1420; color:#e8eaf2; outline:none; }
+.badge { display:inline-block; padding:2px 10px; border-radius:10px; font-size:12px; margin-right:6px; }
+.badge.ok { background:#1d3a2c; color:#5cd48a; } .badge.no { background:#3a1d1d; color:#ff8080; }
+.result { margin-top:12px; padding:12px; border-radius:8px; font-size:13px; line-height:1.7; white-space:pre-wrap; }
+.result.ok { background:#15291f; border:1px solid #1d4a2f; color:#9fe8bd; }
+.result.no { background:#2a1517; border:1px solid #5c2226; color:#ffb3b3; }
+.result.info { background:#151b2e; border:1px solid #2a3450; color:#b9c2e8; }
+.tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.tag-chip { padding:6px 12px; border-radius:16px; background:#232c44; font-size:12px; cursor:pointer; }
+.tag-chip:hover { background:#2f3a5e; }
+.samples { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.sample { padding:6px 12px; border-radius:16px; background:#1c2440; font-size:12px; cursor:pointer; color:#9aa6d8; }
+.sample:hover { background:#26305a; }
+
+/* 天团美化增强（视觉师方案 + 代码师设计，审核映射修正） */
+.card { transition: all .3s ease; }
+.card:hover { border-color: #6c7bff; box-shadow: 0 4px 16px rgba(0,0,0,.35); transform: translateY(-1px); }
+button { background: linear-gradient(to right, #6c7bff, #8b7bff); transition: all .25s ease; }
+button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.1); }
+button:active:not(:disabled) { transform: translateY(1px); }
+.tag-chip { transition: all .25s ease; }
+.tag-chip:hover { background: #2f3a5e; border: 1px solid #6c7bff; }
+.sample { transition: all .25s ease; }
+.sample:hover { background: #26305a; transform: translateY(-1px); }
+textarea { transition: border-color .25s ease; }
+textarea:focus { border-color: #6c7bff; }
+@media (max-width: 560px) {
+  .row { flex-direction: column; }
+  .row button, .row .tag-input { width: 100%; }
+  textarea, button { font-size: 15px; }
+  .card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <h1>📡 NFC + AI 安全验证</h1>
+  <div class="sub">写卡前 AI 内容校验 · 读卡时挑战-响应认证 · 签名防篡改（模拟器演示）</div>
+
+  <div class="card">
+    <h2>✍️ 写卡（AI 内容校验）</h2>
+    <textarea v-model="writeContent" placeholder="要写入 NFC 标签的内容…"></textarea>
+    <div class="samples">
+      <span class="sample" v-for="s in writeSamples" :key="s" @click="writeContent = s">{{ s }}</span>
+    </div>
+    <div class="row">
+      <input class="tag-input" v-model="owner" placeholder="写入者（可选）">
+      <button @click="writeCard" :disabled="loading">{{ loading ? 'AI 审查中…' : '写入标签' }}</button>
+    </div>
+    <div class="result" v-if="writeResult" :class="writeResult.allowed ? 'ok' : 'no'">
+      {{ writeResult.allowed ? '✅ 允许写入' : '🚫 拒绝写入' }}（分类：{{ writeResult.category || '—' }}）
+      {{ writeResult.reasons ? '原因：' + writeResult.reasons.join('；') : '' }}
+      {{ writeResult.tag_id ? '标签 ID：' + writeResult.tag_id : '' }}
+      {{ writeResult.signed_data ? '已签名（HMAC-SHA256）' : '' }}
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔐 读卡（挑战-响应认证）</h2>
+    <div class="tags" v-if="tagList.length">
+      <span class="tag-chip" v-for="t in tagList" :key="t" @click="authTag(t)">📇 {{ t }}</span>
+    </div>
+    <div class="sub" v-else style="margin-top:6px">还没有写入任何标签，先写一张卡吧</div>
+    <div class="result" v-if="authResult" :class="authResult.ok ? 'ok' : 'no'">
+      {{ authResult.ok ? '✅ ' : '❌ ' }}{{ authResult.message }}
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📖 标签内容查看</h2>
+    <div class="row">
+      <input class="tag-input" v-model="readTagId" placeholder="输入标签 ID…">
+      <button @click="readTag">读取</button>
+    </div>
+    <div class="result info" v-if="readResult">{{ readResult }}</div>
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+const API = 'http://127.0.0.1:8688';
+createApp({
+  data() { return {
+    writeContent: '', owner: 'demo-user', loading: false,
+    writeResult: null, authResult: null, readResult: null, readTagId: '',
+    tagList: [],
+    writeSamples: [
+      '🎉 生日优惠券：全场8折，有效期至月底',
+      '名片：张三，前端工程师，zhang.san@example.com',
+      '转账到 6222021234567890，密码 123456'
+    ]
+  }; },
+  methods: {
+    async api(path, body) {
+      const r = await fetch(API + path, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined
+      });
+      return r.json();
+    },
+    async writeCard() {
+      if (!this.writeContent.trim() || this.loading) return;
+      this.loading = true; this.writeResult = null;
+      try {
+        const d = await this.api('/api/card/write-check', { content: this.writeContent, owner: this.owner });
+        this.writeResult = d;
+        if (d.allowed && d.tag_id) {
+          this.tagList.push(d.tag_id);
+          this.readTagId = d.tag_id;
+        }
+      } catch (e) { this.writeResult = { allowed: false, reasons: ['请求失败: ' + e.message] }; }
+      finally { this.loading = false; }
+    },
+    async authTag(tagId) {
+      this.authResult = null;
+      // 密钥不再硬编码：演示模式从后端响应头获取（真实场景密钥在设备端）
+      const chRes = await fetch(API + '/api/card/challenge');
+      const ch = await chRes.json();
+      const secret = chRes.headers.get('X-Demo-Secret') || '';
+      const resp = await this.api('/api/card/auth', { tag_id: tagId, challenge: ch.challenge, response: await this.hmacHex(secret, ch.challenge) });
+      this.authResult = resp;
+    },
+    async hmacHex(secret, message) {
+      const enc = new TextEncoder();
+      const key = await crypto.subtle.importKey('raw', enc.encode(secret),
+        { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+      const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+      return [...new Uint8Array(sig)].map(b => b.toString(16).padStart(2, '0')).join('');
+    },
+    async readTag() {
+      this.readResult = null;
+      const r = await fetch(API + '/api/card/' + this.readTagId);
+      const d = await r.json();
+      this.readResult = JSON.stringify(d, null, 2);
+    }
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

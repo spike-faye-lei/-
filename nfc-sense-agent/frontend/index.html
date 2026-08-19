@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFC 智能感知 Agent</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+body { background:#e8d1ff; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.app { max-width:760px; margin:0 auto; padding:32px 16px; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.08); }
+h1 { font-size:24px; color:#1a1a2e; margin-bottom:6px; }
+.sub { color:#777; font-size:13px; margin-bottom:24px; }
+.input-row { display:flex; gap:10px; margin-bottom:12px; }
+input[type=text] { flex:1; padding:14px 16px; border:1px solid #dde; border-radius:10px; font-size:15px; outline:none; transition:box-shadow .3s ease; }
+input[type=text]:focus { box-shadow:0 0 0 3px rgba(173,127,255,.2); }
+button { padding:12px 20px; border:none; border-radius:10px; background:#b886ff; color:#fff; font-size:14px; cursor:pointer; transition:background .3s ease; margin-right:8px; }
+button:hover { background:#a375f9; }
+button:disabled { background:#aaa; cursor:not-allowed; }
+.loading { color:#b886ff; font-size:14px; margin:12px 0; }
+.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,.06); margin-top:16px; }
+.card h2 { font-size:16px; color:#1a1a2e; margin-bottom:14px; }
+.err { background:#ffeaea; color:#c0392b; border-radius:8px; padding:12px 14px; font-size:14px; margin-top:12px; }
+ul { list-style:none; }
+li { padding:8px 10px; border-bottom:1px solid #f0f0f5; font-size:13px; color:#555; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <h1>📡 NFC 智能感知 Agent</h1>
+  <div class="sub">从刷卡模式里"读"出上下文：连续加班 / 异常频次 → Agent 推理 → 政策提醒</div>
+  <div class="input-row">
+    <input type="text" v-model="user" placeholder="用户ID" :disabled="loading">
+    <input type="text" v-model="device" placeholder="设备ID" :disabled="loading">
+    <button @click="swipe" :disabled="loading">{{ loading ? '处理中…' : '刷卡' }}</button>
+  </div>
+  <div class="input-row">
+    <button @click="analyze" :disabled="loading">🔍 分析模式</button>
+    <button @click="remind" :disabled="loading">💡 生成提醒</button>
+  </div>
+  <div class="loading" v-if="loading">正在处理…</div>
+  <div class="err" v-if="error">{{ error }}</div>
+
+  <div class="card">
+    <h2>📋 事件列表</h2>
+    <ul>
+      <li v-for="(e, i) in events" :key="i">{{ e.user }} 在 {{ e.device }} 刷卡 · {{ formatTime(e.time) }}</li>
+    </ul>
+  </div>
+
+  <div class="card" v-if="result">
+    <h2>🧠 Agent 输出</h2>
+    <pre style="font-size:12px; white-space:pre-wrap; color:#333;">{{ result }}</pre>
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() { return {
+    user: '', device: '', loading: false, error: '', events: [], result: ''
+  }; },
+  mounted() { this.loadEvents(); },
+  methods: {
+    formatTime(t) { return t ? String(t).replace('T', ' ').slice(0, 19) : ''; },
+    async loadEvents() {
+      try {
+        const r = await fetch('http://127.0.0.1:8690/api/events');
+        const d = await r.json();
+        this.events = (d.events || []).slice().reverse();
+      } catch (e) { this.error = '加载事件失败：' + e.message; }
+    },
+    async swipe() {
+      if (!this.user || !this.device || this.loading) return;
+      this.loading = true; this.error = '';
+      try {
+        const r = await fetch('http://127.0.0.1:8690/api/nfc_event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user: this.user, device: this.device, time: new Date().toISOString() })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.events.unshift(d);
+      } catch (e) { this.error = '刷卡失败：' + e.message; }
+      finally { this.loading = false; }
+    },
+    async analyze() {
+      this.loading = true; this.error = '';
+      try {
+        const r = await fetch('http://127.0.0.1:8690/api/analyze', { method: 'POST' });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.result = '模式分析：\n' + JSON.stringify(d, null, 2);
+      } catch (e) { this.error = '分析失败：' + e.message; }
+      finally { this.loading = false; }
+    },
+    async remind() {
+      this.loading = true; this.error = '';
+      try {
+        const r = await fetch('http://127.0.0.1:8690/api/remind', { method: 'POST' });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || '请求失败');
+        this.result = 'Agent 提醒：\n' + JSON.stringify(d.reminders, null, 2);
+      } catch (e) { this.error = '提醒失败：' + e.message; }
+      finally { this.loading = false; }
+    }
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
