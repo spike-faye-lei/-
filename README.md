@@ -16,9 +16,31 @@
 - **四档权限梯度**：只读 / 计划 / 询问 / 自动，贯穿聊天与天团模式
 - **全离线前端**：原生 JS，无 CDN 依赖
 
+## 安装 Ollama
+
+Windows（winget）：
+
+```bash
+winget install Ollama.Ollama
+```
+
+或官网下载安装包：https://ollama.com/download
+
+安装后拉取模型（天团模式需要 5 个，单模型对话 1 个就够）：
+
+```bash
+ollama pull qwen2.5-coder:14b      # 代码师
+ollama pull deepseek-r1:14b        # 推理师
+ollama pull deepseek-coder-v2:16b  # 算法王
+ollama pull qwen3:14b              # 主审
+ollama pull qwen3:4b               # 路由（自动路由用，拉不到也能按关键词兜底）
+```
+
+Ollama 不在线时后端会自动拉起 `ollama serve`（最多等 30 秒）。
+
 ## 快速开始
 
-依赖：Python 3.10+，本机已安装 [Ollama](https://ollama.com) 并拉好模型。
+依赖：Python 3.10+，本机已安装 Ollama 并拉好模型（见上）。
 
 ```bash
 pip install -r requirements.txt
@@ -27,17 +49,25 @@ py app.py                 # 桌面 App（pywebview 原生窗口）
 py backend/main.py        # 纯后端，浏览器开 http://127.0.0.1:8777
 ```
 
-Ollama 不在线时后端会自动拉起 `ollama serve`（最多等 30 秒）。
+## 使用说明
 
-推荐模型配置（Ollama 拉取）：
+**单模型对话**：输入栏选择模型（🤖自动路由 或指定模型）→ 输入消息 → 发送。生成中可随时点「停止」。
 
-```bash
-ollama pull qwen2.5-coder:14b   # 代码师
-ollama pull deepseek-r1:14b     # 推理师
-ollama pull deepseek-coder-v2:16b  # 算法王
-ollama pull qwen3:14b           # 主审
-ollama pull qwen3:4b            # 路由
-```
+**带技能 / 扮角色**：发消息前在输入栏勾选技能、选择角色，会注入 `--- 技能 [名] 方法论 ---` / `--- 角色 [名] ---` prompt，聊天和天团模式都生效。技能库在左栏「技能」页搜索勾选。
+
+**🤝 天团模式**：输入任务 → 点「天团模式」→ 四个人依次在群里发言：代码师产出初稿 → 推理师审查挑刺 → 算法王代码复审 → 主审合并意见定稿 → 落盘 `outputs/team-<id>/04-final.txt`。右侧时间线实时显示 1/4 步进度。
+
+**工具调用**：模型可请求 `[LS:]` `[READ:]` `[SEARCH:]` `[WRITE:]` `[RUN:]`（支持中文方括号）。WRITE 用 `<<< >>>` 包裹内容。
+
+**权限四档**（输入栏右侧选择，持久化到本机）：
+| 档位 | 行为 |
+|---|---|
+| 只读 readonly | 仅 LS/READ/SEARCH，WRITE/RUN 禁用 |
+| 计划 plan | 读写不执行，只输出方案给你确认 |
+| 询问 ask（默认） | 读类自动执行；WRITE/RUN 弹批准卡片，逐次批准 |
+| 全自动 yolo | 所有工具自动执行 |
+
+**会话管理**：左栏会话列表，点选切换、可删除；多轮上下文自动带入。
 
 ## 界面布局
 
