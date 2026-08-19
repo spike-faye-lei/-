@@ -1,0 +1,25 @@
+# 构建产物
+build/
+dist/
+*.spec.bak
+
+# 运行时数据
+tasks.db
+backend/tasks.db
+outputs/
+exe_run.log
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.pylibs/
+.whl/
+*.whl
+
+# 本机配置/临时
+.pj.json
+.pipfix.log
+.pipinstall.log
+.piplog2.txt
+.build.log
