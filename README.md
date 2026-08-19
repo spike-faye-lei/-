@@ -4,7 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.5-red)](https://pytorch.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green)](https://fastapi.tiangolo.com)
 [![HarmonyOS](https://img.shields.io/badge/HarmonyOS-NEXT-orange)](https://developer.huawei.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey)](LICENSE)
 
 基于 CLIP 多模态预训练模型与知识蒸馏的智能食材识别系统，面向 HarmonyOS 移动端部署。
 
@@ -149,9 +149,11 @@ chicken_breast, egg, milk, tofu, broccoli, rice, noodles, bread
 
 ##  许可证
 
-本项目代码采用 [MIT License](LICENSE)。
+本项目代码采用 [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](LICENSE)。
 
-项目中使用到的第三方模型和数据集遵循各自的原始许可证。
+> ⚠️ **商业使用警告：本仓库代码禁止任何第三方商用。** 未经作者书面授权，任何个人或组织不得将本代码用于商业用途（包括但不限于售卖、SaaS 部署、商业产品集成、有偿服务）。作者保留全部商业权利及追究侵权责任的权利。
+
+项目中使用到的第三方模型和数据集（CLIP、DINOv2、Food ViT、MobileNetV3 等）遵循各自的原始许可证。
 
 ---
 
