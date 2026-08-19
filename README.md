@@ -12,6 +12,8 @@
 | **AI 招聘官** | 多考官证据链评分 + AI 互聊面试 + 联网爬虫 + HR 审核闸门，全流程可演示 | `recruit-agent` | Python · Gradio · LangChain 风格 · DeepSeek API · matplotlib |
 | **CountBot 定制版** | 人脸识别计数机器人（答辩演示项目） | `countbot` | Python · OpenCV |
 | **天团控制台** | 本地 Ollama 多模型群聊指挥台：七分类路由 + 四步天团流水线，桌面 App 全离线 | `team-console` | Python · FastAPI · pywebview · Ollama |
+| **AI 项目集 2026（Demo）** | 天团交付的 6 个可演示小项目：工单 Agent / NFC 安全验证 / NFC 智能感知 / 防遗忘盾牌 / 刷题计划 / 算法可视化 | `ai-projects-2026-demo` | Python · FastAPI · Vue3 · DeepSeek API |
+| **AI 项目集 2026（WIP）** | 天团交付的 7 个探索性原型：Agent 调试器 / 数据清洗 Copilot / Skill Hub / 文件瘦身 / 记忆索引 / 录制回放 / Skill 评测 | `ai-projects-2026-wip` | Python · FastAPI · SQLite · pandas |
 
 > 各分支内有各自项目的详细 README（功能说明、架构、启动步骤）。SmartKitchen 后端源码在 Gitee 同名仓库的 `smartkitchen` 分支（见文末链接）。
 
@@ -60,4 +62,4 @@ python app.py   # 浏览器打开 http://localhost:7860
 
 - 邮箱：2250461965@qq.com
 - Gitee（SmartKitchen 后端）：https://gitee.com/H2250461965/hongmeng-c/tree/smartkitchen
-- 本仓库各分支：countbot / harmonyos-app / recruit-agent / team-console
+- 本仓库各分支：countbot / harmonyos-app / recruit-agent / team-console / ai-projects-2026-demo / ai-projects-2026-wip
